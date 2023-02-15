@@ -1,0 +1,19 @@
+######################
+## Teatro Mediglia, via Roma 56
+## 
+######################
+
+OWN VERSION 1.0    
+
+ 
+"SALA"                     #1   DIMM
+"segna passo"              31   ON_OFF
+"palco (servizio)"         64   ON_OFF
+"accesso al palco"         62   ON_OFF
+"Camerino Femmine"         68   ON_OFF
+"Camerino Maschi"          69   ON_OFF
+"Corridi uscita sicurezza" 32   ON_OFF
+
+"atrio lato serranda"   12   ON_OFF
+"atrio lato sala"       14   ON_OFF
+

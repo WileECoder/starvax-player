@@ -1,0 +1,37 @@
+QDockWidget > QWidget {
+    border: 1px solid rgb(180,180,230);
+}
+
+QDockWidget::title#dockPlaylistContainer_A {
+    text-align: left;
+    background: rgb(220, 190, 200);
+    padding-left: 20px;
+}
+
+QDockWidget#dockPlaylistContainer_A {
+    color: rgb(200,20,0);
+    font:  bold 15px "Arial";
+}
+
+QDockWidget::title#dockPlaylistContainer_B {
+    text-align: left;
+    background: rgb(180, 180, 210);
+    padding-left: 20px;
+}
+
+QDockWidget#dockPlaylistContainer_B {
+    color: rgb(0,0,255);
+    font:  bold 15px "Arial";
+}
+
+QAbstractItemView:focus {
+   border: 2px solid rgb( 0, 100, 0)
+}
+
+QTextBrowser#scriptEdit:focus {
+   border: 2px solid rgb( 0, 100, 0)
+}
+
+QPlainTextEdit#sequencerEdit:focus {
+   border: 2px solid rgb( 0, 100, 0)
+}

@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>HardCodedIcons/manualOnly.png</file>
+        <file>HardCodedIcons/automatic.png</file>
+        <file>HardCodedIcons/subtitle_off.png</file>
+        <file>HardCodedIcons/subtitle_on.png</file>
+        <file>HardCodedIcons/fadeIn_off.png</file>
+        <file>HardCodedIcons/fadeIn_trigger.png</file>
+        <file>HardCodedIcons/repeat_off.png</file>
+        <file>HardCodedIcons/repeat_on.png</file>
+        <file>HardCodedIcons/vlc.png</file>
+    </qresource>
+</RCC>

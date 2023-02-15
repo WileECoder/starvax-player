@@ -1,0 +1,42 @@
+repeat   ["forever"|times]
+end
+playlist ["A"|"B"; "play"|"pause"|"stop"|"rewind"|"fadeout"|"volume"; _label]
+light    ["trigger"|"stop"; _preset]
+sequence ["pause"|"stop";time]
+hall     ["on"|"off";_zone;_level]
+
+picture ["A"|"B"; "play"|"pause"|"stop"|"rewind"|"fadeout"; _label]
+
+
+Language features:
+* line oriented: at any given time, one line is being executed (if the script is being executed).
+* comments: Line wide; start with '#' char
+
+Parser:
+* stack of 'end' terminated commands (so far only 'repeat')
+* each parsed line has:
+   - a position in a sequence of commands;
+   - the line in source code
+
+Runtime:
+* each logical line may have runtime data. A QMap from logical line (integer) to runtime data (QVariant)
+  is built during parse phase
+* every time GUI switches from edit mode to run mode, the script is re-parsed. There is no other way to parse (TBD)
+  - in case of syntax errors, a visual feedback is returned and no script is available
+* an instruction pointer points to:
+  - next instruction to be executed, when sequence is not playing
+  - instruction currently being executed, when sequence is playing
+  
+  Current instruction can be set by user (GUI) or by automation
+* on "start sequence command", the next instruction to be executed is fired and a timer is armed:
+  it's timeout is 0 sec, except for 'sequence pause' operation (that has a non NULL timeout).
+  In case of 'sequence stop' the timer is not triggered.
+
+Execution:
+* on external command "start sequence", 
+
+Show file:
+* there is one script per show. Different routines are separated by 'a sequence stop' line and comments
+* the full content of the script is copied in show file
+
+

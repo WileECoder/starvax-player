@@ -1,0 +1,16 @@
+HOW to build Starvax Me.Te.Or. player on Ubuntu 18.04
+
+The following instructions should work for almost any debian based linux distro.
+
+* Install QtCreator (with Qt libraries). 
+
+* Install build essentials
+sudo apt-get install build-essential
+
+* Install USB lib version 1.x
+sudo apt-get install libusb-1.0-0-dev
+
+* Install required libraries for multimedia
+sudo apt-get install libpulse-dev
+
+

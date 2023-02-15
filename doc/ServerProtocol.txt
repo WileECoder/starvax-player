@@ -1,0 +1,58 @@
+
+
+REQ:
+      OPCODE      : quint8 1-250  never 0
+      NUM OF ARGS : quint8 0-250
+      ARG_1       : null terminated string. Never contains 0xFF
+      ...
+      ARG_N       : null terminated string. Never contains 0xFF
+      END_OF_MSG  :  quint16 0xFFFF
+      
+
+RES:
+      RESULT      : quint8 1-250  never 0
+      OPCODE      : quint8 1-250  never 0
+      NUM OF ARGS : quint8 0-250
+      ARG_1       : null terminated string. Never contains 0xFF
+      ...
+      ARG_N       : null terminated string. Never contains 0xFF
+      END_OF_MSG  :  quint16 0xFFFF
+
+
+
+Messages are accumulated until 0xFFFF.
+When final tag is found, message is parsed.
+If a packet does not end in 0xFFFF, it is accumulated in a buffer. Next packet will be appended.
+If a packet has more than one 0xFFFF, it is split in messages and each message is analysed.
+
+REQUEST OP-CODES
+const quint8 CONNECT = 1u;
+const quint8 SET_CREDENTIALS = 2u;               1) password
+const quint8 DISCONNECT = 3u;
+const quint8 GET_SHOW_TITLE = 10u;
+const quint8 GET_TRACK_LIST = 11u;               1) line ("A","B","A_B")
+const quint8 GET_LIGHT_LIST = 12u;
+const quint8 GET_SEQUENCE_ENTRIES_LIST = 13u;    each entry has TAG$name [time]
+const quint8 GET_OPEN_WEB_NET_LIST = 14u;        each entry has where;where;trim   where trim is YES|NO translated
+const quint8 SET_ACTIVE_MEDIA = 20u;             1) line ("A","B","A_B");  2) media label
+const quint8 PLAY_MEDIA = 21u;                   1) line ("A","B","A_B")
+const quint8 PAUSE_MEDIA = 22u;                  1) line ("A","B","A_B")
+const quint8 STOP_MEDIA = 23u;                   1) line ("A","B","A_B") 
+const quint8 REWIND_MEDIA = 24u;                 1) line ("A","B","A_B")
+const quint8 CONTROL_LIGHT_PRESET = 30u;         1) preset name  2) "START" or "DONT_START"
+const quint8 SET_ACTIVE_SEQUENCE_ENTRY = 40u;    1) entry index (0 based)
+const quint8 CONTROL_SEQUENCE = 41u;             1) action ("PLAY" or "PAUSE")
+const quint8 CONTROL_OPEN_WEB_NET = 50u;
+
+REPLY OP-CODES
+const quint8 COMMAND_ACK = 0u;
+const quint8 COMMAND_NOT_ENOUGH_ARGS = 1u;
+const quint8 COMMAND_MEDIA_NOT_FOUND = 2u;
+const quint8 COMMAND_LIGHTSET_NOT_FOUND = 3u;
+const quint8 COMMAND_INVALID_ARGUMENT = 4u;
+const quint8 COMMAND_UNSUPPORTED = 5u;
+const quint8 COMMAND_NOT_GRANTED = 6u;
+const quint8 COMMAND_WRONG_PASSWORD = 7u;
+const quint8 COMMAND_MISSING_PASSWORD = 8u;
+const quint8 CONNECTION_BUSY = 0xf0u;
+

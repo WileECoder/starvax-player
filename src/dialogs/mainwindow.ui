@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1065</width>
+    <height>627</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string notr="true">Me.te.or. Player</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <property name="leftMargin">
+     <number>5</number>
+    </property>
+    <property name="topMargin">
+     <number>5</number>
+    </property>
+    <property name="rightMargin">
+     <number>5</number>
+    </property>
+    <property name="bottomMargin">
+     <number>5</number>
+    </property>
+    <property name="spacing">
+     <number>4</number>
+    </property>
+    <item row="0" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="spacing">
+       <number>2</number>
+      </property>
+      <item>
+       <widget class="QWidget" name="scriptArea" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1065</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <addaction name="action_Open_script"/>
+    <addaction name="action_Open_music_line_A"/>
+    <addaction name="action_Open_music_line_B"/>
+    <addaction name="action_Open_Show"/>
+    <addaction name="separator"/>
+    <addaction name="action_Save_Show"/>
+    <addaction name="action_Save_Show_As"/>
+   </widget>
+   <widget class="QMenu" name="menu_Script">
+    <property name="title">
+     <string>&amp;Script</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuMeteorShow">
+    <property name="title">
+     <string>S&amp;how</string>
+    </property>
+    <addaction name="action_Dark_Mode"/>
+    <addaction name="action_Options"/>
+   </widget>
+   <widget class="QMenu" name="menu_Music">
+    <property name="title">
+     <string>&amp;Media</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuAbout">
+    <property name="title">
+     <string>&amp;About</string>
+    </property>
+    <addaction name="actionAbout_MeTeOr_Player"/>
+    <addaction name="actionAbout_mmedia_library"/>
+    <addaction name="actionAbout_Qt"/>
+   </widget>
+   <widget class="QMenu" name="menu_Language">
+    <property name="title">
+     <string>&amp;Language</string>
+    </property>
+    <addaction name="actionLocale"/>
+   </widget>
+   <widget class="QMenu" name="menu_Ligth">
+    <property name="title">
+     <string>&amp;Light</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_Sequence">
+    <property name="title">
+     <string>&amp;Sequence</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_Server">
+    <property name="title">
+     <string>S&amp;erver</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="action_view_playlist_line_A"/>
+    <addaction name="action_view_playlist_line_B"/>
+    <addaction name="action_view_light_preset"/>
+    <addaction name="action_view_open_web_net"/>
+    <addaction name="action_view_sequencer"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menu_Script"/>
+   <addaction name="menuMeteorShow"/>
+   <addaction name="menu_Music"/>
+   <addaction name="menu_Ligth"/>
+   <addaction name="menu_Sequence"/>
+   <addaction name="menu_Server"/>
+   <addaction name="menu_Language"/>
+   <addaction name="menuView"/>
+   <addaction name="menuAbout"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QToolBar" name="script_toolbar">
+   <property name="minimumSize">
+    <size>
+     <width>50</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="windowTitle">
+    <string>script</string>
+   </property>
+   <property name="movable">
+    <bool>true</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="action_Open_script"/>
+  </widget>
+  <widget class="QToolBar" name="script_anim_toolbar">
+   <property name="minimumSize">
+    <size>
+     <width>205</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="windowTitle">
+    <string>script_animation</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QToolBar" name="show_toolbar">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>150</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="windowTitle">
+    <string>show</string>
+   </property>
+   <property name="movable">
+    <bool>true</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="action_Open_Show"/>
+   <addaction name="action_Save_Show"/>
+   <addaction name="action_Dark_Mode"/>
+   <addaction name="actionCloseCurtain"/>
+   <addaction name="actionOpenCurtain"/>
+  </widget>
+  <widget class="QToolBar" name="music_toolbar">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="windowTitle">
+    <string>music</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="action_Open_music_line_A"/>
+   <addaction name="action_Open_music_line_B"/>
+  </widget>
+  <widget class="QDockWidget" name="dockPlaylistContainer_A">
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="windowTitle">
+    <string>Playlist LINE A</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockPlaylist_A">
+    <layout class="QHBoxLayout" name="horLayout">
+     <property name="spacing">
+      <number>3</number>
+     </property>
+     <property name="leftMargin">
+      <number>3</number>
+     </property>
+     <property name="topMargin">
+      <number>3</number>
+     </property>
+     <property name="rightMargin">
+      <number>3</number>
+     </property>
+     <property name="bottomMargin">
+      <number>3</number>
+     </property>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="dockPlaylistContainer_B">
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="windowTitle">
+    <string>[TOP] Playlist LINE B</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockPlaylist_B">
+    <layout class="QHBoxLayout" name="horLayout2">
+     <property name="spacing">
+      <number>1</number>
+     </property>
+     <property name="leftMargin">
+      <number>1</number>
+     </property>
+     <property name="topMargin">
+      <number>1</number>
+     </property>
+     <property name="rightMargin">
+      <number>1</number>
+     </property>
+     <property name="bottomMargin">
+      <number>1</number>
+     </property>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="dockLightContainer">
+   <property name="windowTitle">
+    <string>Light Control</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockLightPanel">
+    <layout class="QVBoxLayout" name="verticalLayout_4">
+     <property name="spacing">
+      <number>1</number>
+     </property>
+     <property name="leftMargin">
+      <number>1</number>
+     </property>
+     <property name="topMargin">
+      <number>1</number>
+     </property>
+     <property name="rightMargin">
+      <number>1</number>
+     </property>
+     <property name="bottomMargin">
+      <number>1</number>
+     </property>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QToolBar" name="connectionToolbar">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>55</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>150</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QDockWidget" name="dockOpenWebNetContainer">
+   <property name="windowTitle">
+    <string notr="true">Open Web Net[*]</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockOwnPanel">
+    <layout class="QGridLayout" name="gridLayout_3"/>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="dockSequencerContainer">
+   <property name="windowTitle">
+    <string>Sequencer</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockSequencer"/>
+  </widget>
+  <action name="action_Open_script">
+   <property name="text">
+    <string>&amp;open script</string>
+   </property>
+   <property name="iconText">
+    <string>o</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="action_Open_music_line_A">
+   <property name="text">
+    <string>open music line &amp;A</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M</string>
+   </property>
+  </action>
+  <action name="action_Open_Show">
+   <property name="text">
+    <string>&amp;Open Show</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+O</string>
+   </property>
+  </action>
+  <action name="action_Save_Show">
+   <property name="text">
+    <string>&amp;Save Show</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionPlay_Pause">
+   <property name="text">
+    <string>Play/Pause</string>
+   </property>
+   <property name="shortcut">
+    <string>Space</string>
+   </property>
+  </action>
+  <action name="actionAbout_MeTeOr_Player">
+   <property name="text">
+    <string>&amp;About Me.Te.Or. Player</string>
+   </property>
+  </action>
+  <action name="actionLocale">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>locale</string>
+   </property>
+  </action>
+  <action name="action_Dark_Mode">
+   <property name="text">
+    <string>&amp;Dark Mode</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="action_Save_Show_As">
+   <property name="text">
+    <string>Save Show &amp;As</string>
+   </property>
+  </action>
+  <action name="actionOpenCurtain">
+   <property name="text">
+    <string>openCurtain</string>
+   </property>
+   <property name="toolTip">
+    <string>open curtain</string>
+   </property>
+  </action>
+  <action name="actionCloseCurtain">
+   <property name="text">
+    <string>closeCurtain</string>
+   </property>
+   <property name="toolTip">
+    <string>close the curtain</string>
+   </property>
+  </action>
+  <action name="action_load_last_show">
+   <property name="text">
+    <string>&amp;load last show</string>
+   </property>
+  </action>
+  <action name="action_Trigger_Light_transition">
+   <property name="text">
+    <string>&amp;Trigger transition</string>
+   </property>
+   <property name="toolTip">
+    <string>Trigger light transition</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">Ctrl+Space</string>
+   </property>
+  </action>
+  <action name="action_sequence_play">
+   <property name="text">
+    <string>&amp;play</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
+   </property>
+  </action>
+  <action name="action_sequence_pause">
+   <property name="text">
+    <string>p&amp;ause</string>
+   </property>
+   <property name="shortcut">
+    <string>F6</string>
+   </property>
+  </action>
+  <action name="action_Options">
+   <property name="text">
+    <string>&amp;Options ...</string>
+   </property>
+  </action>
+  <action name="action_Open_music_line_B">
+   <property name="text">
+    <string>open music line &amp;B</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">Ctrl+Shift+M</string>
+   </property>
+  </action>
+  <action name="action_view_playlist_line_A">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>playlist line A</string>
+   </property>
+   <property name="toolTip">
+    <string>view playlist line A</string>
+   </property>
+  </action>
+  <action name="action_view_playlist_line_B">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>playlist line B</string>
+   </property>
+  </action>
+  <action name="action_view_light_preset">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>light preset</string>
+   </property>
+  </action>
+  <action name="action_view_open_web_net">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>open web net</string>
+   </property>
+  </action>
+  <action name="action_view_sequencer">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>sequencer</string>
+   </property>
+  </action>
+  <action name="actionAbout_mmedia_library">
+   <property name="text">
+    <string>About multimedia library</string>
+   </property>
+  </action>
+  <action name="actionAbout_Qt">
+   <property name="icon">
+    <iconset theme=":/qt-project.org/qmessagebox/images/qtlogo-64.png">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>About Qt</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>

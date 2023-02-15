@@ -1,0 +1,22 @@
+# introduction (5 stages)
+repeat 5
+  # dawn
+   playlist A play "Atto 1 - introduzione"
+   light    trigger "alba nel bosco"
+   sequence pause 3.5 
+   light    stop 
+
+   # back to dark 
+   playlist A fadeout
+   light    trigger "buio"
+   sequence pause 3 
+   playlist A volume
+end
+
+sequence  stop
+
+hall on "sala" 
+hall off  "sala" 
+
+repeat forever
+end

@@ -1,0 +1,63 @@
+scenario 1
+------------
+- user opens a show file, with a list of media.
+  A list of alternative paths is empty.
+- from the first, a number of media are found in declared position.
+- then, one item cannot be found in declared position
+
+-- system asks user for an alternative path.
+      (Even if user is seraching for a path, files should be visible as well)
+
+case 1: => User selects a path where the target file is present
+         - item is added to the show
+         - replacement is added to a list of messages that will be shown at the end of loading process
+         - the path of the new item is added to a list of alternative paths
+         - show is flagged as "changed"
+
+case 2: => User dismisses the request to provide a new path
+         - item is missing, so it is not part of the project anymore
+         - this is added to a list of messages that will be shown at the end of loading process
+         - show is flagged as "changed"
+
+scenario 2
+-----------
+-* start from scenario 1, case 1
+- after the first missing item has been replaced, system parses the next item in show file
+
+case 1: => the item is present in path declared in show file
+         - file is loaded; proceed with next file
+
+case 2: => the item is NOT present in path declared in show file, but it is
+           present in one of the alternative paths. The search is performed from newest path
+           to oldest path
+         - item is added to the show
+         - replacement is added to a list of messages that will be shown at the end of loading process
+           (in this case, no user action is required)
+
+case 3: => the item is NOT present either in path declared in show file and in any of
+           the paths of alternative paths list.
+         - system asks user for another alternative path.
+
+
+scenario 3
+-----------
+-* start from scenario 1, case 3
+
+case 1: => user selects a new path where item is present
+         - path is added as first in the queue of alternative paths
+
+case 2: => User dismisses the request to provide a new path
+         - item is missing, so it is not part of the project anymore
+         - this is added to a list of messages that will be shown at the end of loading process
+
+scenario 4
+-----------
+-* from any scenario, at the end of show file parse
+
+case 1: => there are messages related to missing media
+         - recap messages in a message box that only has OK button.
+         - show is loaded with changes
+
+case 2: => there is no message about missing files
+         - show is loaded without any message or dialog box
+
