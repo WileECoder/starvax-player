@@ -2,37 +2,32 @@
 
 #include <QFileInfo>
 
-// #include <QLayout>
-// #include <QPicture>
-// #include <QPixmap>
-// #include <QWidget>
-// #include <QApplication>
-// #include <QDir>
+#include <QFileInfo>
 
 #include "Fader.h"
 #include "testableAssert.h"
 #include "StatusDisplay.h"
 #include "SdlEngine.h"
-
-#include <QDebug>
-
+#include "FullScreenMediaWidget_IF.h"
 
 // shortcut for data encoded as UTF8
-#define qtu( i ) ((i).toUtf8().constData())
+//#define qtu( i ) ((i).toUtf8().constData())
 
-/** @class MediaEngine
- *
- * This file implements playback operations for a media with
- * specific plugin. In this specific implementation, Qt multimedia
- * module is used.
- */
 
 namespace {
 NullMediaSource NullObject;
 QStringList subtitleExtention = QStringList() << "srt" << "ass" << "ssa" << "sub" << "lrc";
+QStringList imageExtention = QStringList() << "png" << "bmp" << "jpg" << "jpeg" << "gif" << "tif" << "tiff";
 
 const qint32 DEFAULT_TICK_ms = 100;
 const qint32 DEFAULT_STEP_ms = 1000;
+
+// TBD: can we detect the file format not using file extention?
+bool checkForImageFormat( const QString & extention)
+{
+   return imageExtention.contains( extention, Qt::CaseInsensitive);
+}
+
 }
 
 /**
@@ -40,15 +35,19 @@ const qint32 DEFAULT_STEP_ms = 1000;
  */
 MediaEngineMdkSdl::MediaEngineMdkSdl( SdlEngine & sdlEngine,
                                       Fader & fader,
+                                      FullScreenMediaWidget_IF & displayWidget,
                                       StatusDisplay & logger,
                                       QObject *parent) :
    IF_MediaEngineInterface(parent),
    m_sdlEngine(sdlEngine),
    m_fader(fader),
+   m_displayWidget( displayWidget),
    m_logger( logger),
+   m_canvas(nullptr),
    m_tickMs(DEFAULT_TICK_ms),
    m_stepMs(DEFAULT_STEP_ms),
-   m_fadeInFlag(false)
+   m_fadeInFlag(false),
+   m_imageFileFlag( false)
 {
    m_playerId = m_sdlEngine.addPlayer();
 
@@ -66,9 +65,9 @@ MediaEngineMdkSdl::~MediaEngineMdkSdl()
 
 }
 
-void MediaEngineMdkSdl::setWidgetForRender( QWidget * /*canvas*/)
+void MediaEngineMdkSdl::setWidgetForRender( QWidget * canvas)
 {
-   /* TBD may not be needed. SDL manages screen internally */
+   /* TODO useless ??? */
 }
 
 
@@ -83,18 +82,27 @@ void MediaEngineMdkSdl::checkPlatform()
 void MediaEngineMdkSdl::setCurrentSource( const AbstractMediaSource *source, bool dontStopFlag)
 {
    m_sdlEngine.load( m_playerId, source->fileName());
+
+   m_imageFileFlag = checkForImageFormat( QFileInfo(source->fileName()).suffix());
 }
 
 
 void MediaEngineMdkSdl::play()
 {
-   if (m_fadeInFlag)
+   if (m_imageFileFlag)
    {
-      m_fader.fadeInTo( volume());
-      m_fadeInFlag = false;
+      m_displayWidget.showPicture();
    }
+   else
+   {
+      if (m_fadeInFlag)
+      {
+         m_fader.fadeInTo( volume());
+         m_fadeInFlag = false;
+      }
 
-   m_sdlEngine.play( m_playerId);
+      m_sdlEngine.play( m_playerId);
+   }
 }
 
 void MediaEngineMdkSdl::pause()
@@ -109,7 +117,14 @@ void MediaEngineMdkSdl::togglePlayPause()
 
 void MediaEngineMdkSdl::stop()
 {
-   m_sdlEngine.stop( m_playerId);
+   if (m_imageFileFlag)
+   {
+      m_displayWidget.showPicture();
+   }
+   else
+   {
+      m_sdlEngine.stop( m_playerId);
+   }
 }
 
 /** bring track back at beginning */

@@ -65,6 +65,7 @@ private:
    void rewind_internal( int id);
 
    void updateWindowVisibility(int id);
+   void checkForDisplays();
 
 private:
    struct PlayerSet {
@@ -72,6 +73,7 @@ private:
       SDL_Window  * window;
       Uint32 winId;
       bool audioOnly;
+      bool hasVideo;
    };
 
    QVector<PlayerSet *> m_players;
@@ -86,6 +88,8 @@ private:
    /* wait for a player-set to be created */
    QSemaphore m_waitPlayerSetCreated;
    QMutex m_locker;
+
+   int m_numberOfDisplays;
 
 };
 

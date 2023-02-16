@@ -90,7 +90,8 @@ IF_MediaEngineInterface *PlaylistFunctionFactory::buildMediaEngine( Fader & aFad
                                                                     StatusDisplay & logger )
 {
    lSdlEngine.launch(); /* can be called more than once. Only the first call has effect */
-   IF_MediaEngineInterface *engine = new MediaEngineMdkSdl( lSdlEngine, aFader, logger, this);
+   IF_MediaEngineInterface *engine = new MediaEngineMdkSdl( lSdlEngine, aFader,
+                                                            displayWidget, logger, this);
    return engine;
 }
 
@@ -101,8 +102,8 @@ MediaAutomation *PlaylistFunctionFactory::buildAutomation( MediaListModel *model
                                                                 StatusDisplay & msgDisplay )
 {
    MediaAutomation *automation = new MediaAutomation( engine, model, controller, fader,
-                                                                defaultVolume, msgDisplay,
-                                                                this);
+                                                      defaultVolume, msgDisplay,
+                                                      this);
    return automation;
 }
 

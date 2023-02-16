@@ -23,15 +23,13 @@ const Uint32 sdl_event_rewind = SDL_USEREVENT+25;
 
 }  // namespace
 
-// TODO remove
-//#define  LOCKING
-#undef  LOCKING
 
 SdlWorkerThread::SdlWorkerThread(QSemaphore& waitready, QObject *parent) :
    QObject(parent),
    m_reservedPlayersCount(0),
    m_context(nullptr),
-   m_waitReady(waitready)
+   m_waitReady(waitready),
+   m_numberOfDisplays(0xFFFF)
 {
 }
 
@@ -70,18 +68,18 @@ void SdlWorkerThread::load(int id, const QString& full_path)
    m_players[id]->player->prepare( 0, [this, id](int64_t /*time*/, bool*) {
       /* read media length and video availability and propagate these info */
       const mdk::MediaInfo & info = m_players[id]->player->mediaInfo();
+
       emit durationChanged( id, info.duration);
       emit videoAvailable( id, info.video.size() > 0);
+
+      /* MDK bug: 'mediaInfo' can not be called at any time. Sometimes results are wrong. */
+      m_players[id]->hasVideo = (info.video.size() > 0);
       return true;
    });
 }
 
 void SdlWorkerThread::play(int id)
 {
-#ifdef LOCKING
-   QMutexLocker locker( & m_locker);
-#endif
-
    /* create event for thread context */
    SDL_Event e;
    e.type = sdl_event_play;
@@ -91,10 +89,6 @@ void SdlWorkerThread::play(int id)
 
 void SdlWorkerThread::pause(int id)
 {
-#ifdef LOCKING
-   QMutexLocker locker( & m_locker);
-#endif
-
    /* create event for thread context */
    SDL_Event e;
    e.type = sdl_event_pause;
@@ -104,10 +98,6 @@ void SdlWorkerThread::pause(int id)
 
 void SdlWorkerThread::stop(int id)
 {
-#ifdef LOCKING
-   QMutexLocker locker( & m_locker);
-#endif
-
    /* create event for thread context */
    SDL_Event e;
    e.type = sdl_event_stop;
@@ -131,10 +121,6 @@ void SdlWorkerThread::togglePlayPause(int id)
 
 void SdlWorkerThread::rewind(int id)
 {
-#ifdef LOCKING
-   QMutexLocker locker( & m_locker);
-#endif
-
    /* create event for thread context */
    SDL_Event e;
    e.type = sdl_event_rewind;
@@ -204,8 +190,8 @@ void SdlWorkerThread::setMuted(int id, bool mute)
 void SdlWorkerThread::updateWindowVisibility( int id)
 {
    /* no video track available or audio-only requested by user */
-   bool audioOnly = (m_players.at(id)->player->mediaInfo().video.size() == 0) ||
-         (m_players.at(id)->audioOnly);
+   bool audioOnly = (m_players.at(id)->hasVideo == false) || (m_players.at(id)->audioOnly);
+
 
    if (audioOnly)
    {
@@ -217,6 +203,29 @@ void SdlWorkerThread::updateWindowVisibility( int id)
       SDL_ShowWindow( m_players.at(id)->window);
       SDL_RaiseWindow( m_players.at(id)->window);
    }
+}
+
+void SdlWorkerThread::checkForDisplays()
+{
+   int numDisplay = SDL_GetNumVideoDisplays();
+
+   if ((numDisplay != m_numberOfDisplays) &&
+       (numDisplay >= 1))
+   {
+      SDL_Rect bounds;
+      m_numberOfDisplays = numDisplay;
+
+      int res = SDL_GetDisplayBounds( m_numberOfDisplays - 1, & bounds);
+      T_ASSERT( res == 0);
+
+      /* put all windows in last display */
+      for (PlayerSet * instance : m_players)
+      {
+         SDL_SetWindowPosition( instance->window, bounds.x, bounds.y);
+         SDL_SetWindowSize( instance->window, bounds.w, bounds.h);
+      }
+   }
+
 }
 
 void SdlWorkerThread::setAudioOnly(int id, bool audioOnly)
@@ -253,10 +262,6 @@ void SdlWorkerThread::process()
    while (true) {
       SDL_WaitEvent( &event);
 
-#ifdef LOCKING
-      m_locker.lock();
-#endif
-
       switch (event.type) {
       case SDL_QUIT:
          break;
@@ -290,6 +295,7 @@ void SdlWorkerThread::process()
          break;
 
       case sdl_event_play:
+         checkForDisplays();
          play_internal( event.user.code);
          break;
       case sdl_event_pause:
@@ -322,9 +328,6 @@ void SdlWorkerThread::process()
          break;
       }
 
-#ifdef LOCKING
-      m_locker.unlock();
-#endif
    }
 
    T_ASSERT(false);
@@ -338,7 +341,7 @@ void SdlWorkerThread::addPlayer_internal( int32_t win_index)
    int player_index = m_players.length();
 
    SDL_DisplayMode dispMode;
-   SDL_GetCurrentDisplayMode(0, & dispMode);
+   SDL_GetCurrentDisplayMode(SDL_GetNumVideoDisplays() - 1, & dispMode);
    aPlayerSet->player->setVideoSurfaceSize(dispMode.w, dispMode.h);
 
    aPlayerSet->window =
@@ -352,6 +355,7 @@ void SdlWorkerThread::addPlayer_internal( int32_t win_index)
    aPlayerSet->winId = SDL_GetWindowID( aPlayerSet->window);
 
    aPlayerSet->audioOnly = false;
+   aPlayerSet->hasVideo = false;
 
    /* only create one context */
    if (m_context == nullptr) {
@@ -360,6 +364,11 @@ void SdlWorkerThread::addPlayer_internal( int32_t win_index)
 
    aPlayerSet->player->onStateChanged([this, player_index](mdk::State s){
       emit playerStateChanged( player_index, s);
+
+      if (s == mdk::State::Stopped)
+      {
+         SDL_HideWindow( m_players.at(player_index)->window);
+      }
    });
 
    aPlayerSet->player->onMediaStatusChanged([this, player_index](mdk::MediaStatus s){
@@ -373,9 +382,6 @@ void SdlWorkerThread::addPlayer_internal( int32_t win_index)
 
 
    aPlayerSet->player->setRenderCallback([player_index](void*){
-#ifdef LOCKING
-      QMutexLocker locker( & m_locker);
-#endif
       SDL_Event e;
       e.type = SDL_EVENT_UPDATE_FIRST + (Uint32)player_index;
       SDL_PushEvent(&e);
@@ -387,6 +393,9 @@ void SdlWorkerThread::addPlayer_internal( int32_t win_index)
 
    m_players.append( aPlayerSet);
    m_playerLookup.insert( aPlayerSet->winId, aPlayerSet);
+
+   /* update new window according to desktops */
+   checkForDisplays();
 }
 
 

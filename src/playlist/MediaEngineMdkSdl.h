@@ -9,7 +9,6 @@
 #include <QTimer>
 
 class Fader;
-class VideoWidget;
 class FullScreenMediaWidget_IF;
 class ApplicationSettings;
 class StatusDisplay;
@@ -23,8 +22,9 @@ class MediaEngineMdkSdl : public IF_MediaEngineInterface
 {
    Q_OBJECT
 public:
-   explicit MediaEngineMdkSdl( SdlEngine & sdlEngine, Fader & fader, StatusDisplay & logger,
-                         QObject *parent = nullptr);
+   explicit MediaEngineMdkSdl(SdlEngine & sdlEngine, Fader & fader,
+                              FullScreenMediaWidget_IF &displayWidget, StatusDisplay & logger,
+                              QObject *parent = nullptr);
    ~MediaEngineMdkSdl() override;
 
    /** used to bind a "screen" widget to media engine implementation */
@@ -70,14 +70,17 @@ private slots:
 private:
    SdlEngine & m_sdlEngine;
    Fader & m_fader;
+   FullScreenMediaWidget_IF & m_displayWidget;
    StatusDisplay & m_logger;
    QTimer m_tickTimer;
+   QWidget * m_canvas;  /* only used for still picture */
 
    SdlEngine::PlayerId m_playerId;
    bool m_videoTrackAvailable;  /* current media has a video track */
    qint32 m_tickMs;
    qint32 m_stepMs;  /* use for jump forward or backward */
    bool m_fadeInFlag;
+   bool m_imageFileFlag;
 };
 
 
