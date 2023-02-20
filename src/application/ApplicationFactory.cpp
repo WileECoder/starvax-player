@@ -27,7 +27,7 @@
 #include "MediaAutomation.h"
 #include "PicturePlaybar.h"
 #include "FullScreenMediaWidget.h"
-#include "VideoWidget.h"
+#include "QMDKWindow.h"
 #include "StillPictureWidget.h"
 #include "PlaylistConstants.h"
 
@@ -133,35 +133,31 @@ ApplicationFactory::ApplicationFactory()
    playlistFactory = new PlaylistFunctionFactory( this);
 
    StillPictureWidget * pictureWidget_A = new StillPictureWidget( nullptr);  // parented to desktop
-   VideoWidget * videoWidget_A = new VideoWidget( nullptr);  // parented to desktop
+   QMDKWindow * videoWidget_A = new QMDKWindow( nullptr);  // parented to desktop
 
    FullScreenMediaWidget * mediaWidget_A = new FullScreenMediaWidget( videoWidget_A,
                                                                       pictureWidget_A,
-                                                                      m_mainWindow, false);
+                                                                      m_mainWindow);
 
    StillPictureWidget * pictureWidget_B = new StillPictureWidget( nullptr);
-   VideoWidget * videoWidget_B = new VideoWidget( nullptr);  // parented to desktop
+   QMDKWindow * videoWidget_B = new QMDKWindow( nullptr);  // parented to desktop
 
    FullScreenMediaWidget * mediaWidget_B = new FullScreenMediaWidget( videoWidget_B,
                                                                       pictureWidget_B,
-                                                                      m_mainWindow, true);
+                                                                      m_mainWindow);
 
    ExponentialFader *expFader_A = new ExponentialFader( this);
    MediaListModel *playlistModel_A = playlistFactory->buildModel("PA");
    IF_MediaEngineInterface * mediaEngine_A = playlistFactory->buildMediaEngine( *expFader_A,
                                                                                 *mediaWidget_A,
-                                                                                *applicationSettings,
                                                                                 *statusDisplay );
-   mediaEngine_A->setWidgetForRender( videoWidget_A);
    mediaEngine_A->setVolume( applicationSettings->defaultVolumeLineA());
 
    ExponentialFader *expFader_B = new ExponentialFader( this);
    MediaListModel *playlistModel_B = playlistFactory->buildModel("PB");
    IF_MediaEngineInterface * mediaEngine_B = playlistFactory->buildMediaEngine( *expFader_B,
                                                                                 *mediaWidget_B,
-                                                                                *applicationSettings,
                                                                                 *statusDisplay );
-   mediaEngine_B->setWidgetForRender( videoWidget_B);
    mediaEngine_B->setVolume( applicationSettings->defaultVolumeLineB());
 
    /* This is enough for one media engine */
@@ -252,30 +248,10 @@ ApplicationFactory::ApplicationFactory()
 
    /* TODO make a calss for connection between media engine and display widgets */
    connect( pictureWidget_A, & StillPictureWidget::hideRequest,
-            mediaEngine_A, & IF_MediaEngineInterface::pause);
-   connect( videoWidget_A, & VideoWidget::toggleAudioOnlyRequest,
-            mediaEngine_A, & IF_MediaEngineInterface::toggleAudioOnly);
-   connect( videoWidget_A, & VideoWidget::stopRequest,
             mediaEngine_A, & IF_MediaEngineInterface::stop);
-   connect( videoWidget_A, & VideoWidget::togglePlayPauseRequest,
-            mediaEngine_A, & IF_MediaEngineInterface::togglePlayPause);
-   connect( videoWidget_A, & VideoWidget::stepBackwardRequest,
-            mediaEngine_A, & IF_MediaEngineInterface::stepBackward);
-   connect( videoWidget_A, & VideoWidget::stepForewardRequest,
-            mediaEngine_A, & IF_MediaEngineInterface::stepForward);
 
    connect( pictureWidget_B, & StillPictureWidget::hideRequest,
-            mediaEngine_B, & IF_MediaEngineInterface::pause);
-   connect( videoWidget_B, & VideoWidget::toggleAudioOnlyRequest,
-            mediaEngine_B, & IF_MediaEngineInterface::toggleAudioOnly);
-   connect( videoWidget_B, & VideoWidget::stopRequest,
             mediaEngine_B, & IF_MediaEngineInterface::stop);
-   connect( videoWidget_B, & VideoWidget::togglePlayPauseRequest,
-            mediaEngine_B, & IF_MediaEngineInterface::togglePlayPause);
-   connect( videoWidget_B, & VideoWidget::stepBackwardRequest,
-            mediaEngine_B, & IF_MediaEngineInterface::stepBackward);
-   connect( videoWidget_B, & VideoWidget::stepForewardRequest,
-            mediaEngine_B, & IF_MediaEngineInterface::stepForward);
 
    /* build media Actions. Use SHIFT modifier for lINE B */
    QList<QAction *> playlistActionsLineA =

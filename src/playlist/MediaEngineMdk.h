@@ -4,26 +4,28 @@
 #include "IF_MediaEngineInterface.h"
 #include "AbstractMediaSource.h"
 
-#include "SdlEngine.h"
-
 #include <QTimer>
+#include <mdk/Player.h>
 
 class Fader;
 class FullScreenMediaWidget_IF;
 class ApplicationSettings;
 class StatusDisplay;
+class QPixmap;
 
 
 /** this class will aggregate specific objects for plugin used
  *  in implementation. As it is not easily testable, implementation
  *  should be simple and with as few logic as possible.
  */
+// TODO the name is now wrong !!! remove SDL!
 class MediaEngineMdkSdl : public IF_MediaEngineInterface
 {
    Q_OBJECT
 public:
-   explicit MediaEngineMdkSdl(SdlEngine & sdlEngine, Fader & fader,
-                              FullScreenMediaWidget_IF &displayWidget, StatusDisplay & logger,
+   explicit MediaEngineMdkSdl(Fader & fader,
+                              FullScreenMediaWidget_IF & displayWidget,
+                              StatusDisplay & logger,
                               QObject *parent = nullptr);
    ~MediaEngineMdkSdl() override;
 
@@ -38,9 +40,7 @@ public slots:
    void togglePlayPause() override;
    void stop() override;
    void rewind() override;
-   void setStepSizeMs( int stepMs) override  {
-      m_stepMs = stepMs;
-   }
+   void setStepSizeMs( int stepMs);
    void stepForward() override;
    void stepBackward() override;
    void singleFrameForward() override;
@@ -51,36 +51,35 @@ public slots:
    void onUserPositionRequested( qint64 positionMs) override;
    void setMuted(bool isMuted) override;
    void setAudioOnly(bool audioOnly) override;
-   void toggleAudioOnly() override;
    void enableFadeIn( bool enabled) override;
    void setLoopPlayback( bool enabled) override;
    void enableSubtitles() override;
    void disableSubtitles() override;
 
 private slots:
-   /* any instance of a player has changed its state */
-   void onGlobalMediaStateChanged( int playerId, MediaObject::AvMediaState newState);
-   void onGlobalPlayerStateChanged( int playerId, MediaObject::AvPlayerState newState);
-   void onGlobalDurationChanged( int playerId, int64_t duration_ms);
-   void onGlobalVideoAvailable( int playerId, bool available);
-
    void onTimerTick();
+   void onMediaStatusChanged( mdk::MediaStatus newStatus);
+   void onPlayerStateChanged( mdk::State newState);
+   void onDurationChanged( int64_t duration_ms);
+   void onVideoAvailable( bool available);
+   void onStopAllRequest();
+   void onAudioOnlyRequest();
 
 
 private:
-   SdlEngine & m_sdlEngine;
    Fader & m_fader;
-   FullScreenMediaWidget_IF & m_displayWidget;
    StatusDisplay & m_logger;
    QTimer m_tickTimer;
-   QWidget * m_canvas;  /* only used for still picture */
-
-   SdlEngine::PlayerId m_playerId;
+   FullScreenMediaWidget_IF & m_displayWidget;
+   mdk::Player m_player;
    bool m_videoTrackAvailable;  /* current media has a video track */
+   bool m_audioOnlyRequest;  /* user has requested to hide video */
    qint32 m_tickMs;
-   qint32 m_stepMs;  /* use for jump forward or backward */
+   int m_stepSizeMs;
    bool m_fadeInFlag;
    bool m_imageFileFlag;
+   QPixmap * m_pixmap;
+   QString m_currentMediaPath;
 };
 
 

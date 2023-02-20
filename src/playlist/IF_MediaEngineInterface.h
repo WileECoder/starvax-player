@@ -80,7 +80,6 @@ public slots:
    virtual void onUserPositionRequested( qint64 positionMs) = 0;
    virtual void setMuted( bool muted) = 0;
    virtual void setAudioOnly( bool audioOnly) = 0;
-   virtual void toggleAudioOnly() = 0;
    virtual void enableFadeIn( bool enabled) = 0;
    /** enable repetition of the same track endlessly */
    virtual void setLoopPlayback( bool enabled) = 0;

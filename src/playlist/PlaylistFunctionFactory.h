@@ -41,9 +41,9 @@ public:
     *    to handle such value
     * @return
     */
-   IF_MediaEngineInterface * buildMediaEngine(Fader & aFader,
+   IF_MediaEngineInterface * buildMediaEngine( Fader & aFader,
                                                FullScreenMediaWidget_IF & displayWidget,
-                                               const ApplicationSettings & appSettings, StatusDisplay & logger);
+                                               StatusDisplay & logger);
    MediaAutomation * buildAutomation(MediaListModel *model, IF_MediaEngineInterface *engine,
                                           ActionListController *controller, Fader *fader,
                                           int defaultVolume, StatusDisplay & msgDisplay);

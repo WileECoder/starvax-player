@@ -17,11 +17,6 @@ set(STARVAX_SOURCES
    src/playlist/MediaEngineMdkSdl.h
    src/playlist/MediaListModel.cpp
    src/playlist/MediaListModel.h
-   src/playlist/SdlEngine.h
-   src/playlist/SdlEngineImp.h
-   src/playlist/SdlEngineImp.cpp
-   src/playlist/SdlWorkerThread.h
-   src/playlist/SdlWorkerThread.cpp
    src/playlist/MediaSourceFactory.cpp
    src/playlist/MediaSourceFactory.h
    src/playlist/PictureSource.cpp

@@ -4,8 +4,8 @@
 #include <QFontDatabase>
 
 #include "Action.h"
+#include "QMDKWindow.h"
 #include "MediaEngineMdkSdl.h"
-#include "SdlEngineImp.h"
 #include "MediaListModel.h"
 #include "MediaSourceFactory.h"
 #include "MediaAutomation.h"
@@ -15,9 +15,6 @@
 #include "MediaToolbar.h"
 
 namespace  {
-
-/* this class must be instanced only once */
-SdlEngineImp lSdlEngine;
 
 struct ActionDescriptor
 {
@@ -84,14 +81,12 @@ MediaListModel *PlaylistFunctionFactory::buildModel( const QString & modelTag)
    return model;
 }
 
+// TODO remove unused parameters. FullScreenMediaWidget_IF may be removed at all?
 IF_MediaEngineInterface *PlaylistFunctionFactory::buildMediaEngine( Fader & aFader,
                                                                     FullScreenMediaWidget_IF & displayWidget,
-                                                                    const ApplicationSettings & appSettings,
                                                                     StatusDisplay & logger )
 {
-   lSdlEngine.launch(); /* can be called more than once. Only the first call has effect */
-   IF_MediaEngineInterface *engine = new MediaEngineMdkSdl( lSdlEngine, aFader,
-                                                            displayWidget, logger, this);
+   IF_MediaEngineInterface *engine = new MediaEngineMdkSdl( aFader, displayWidget, logger, this);
    return engine;
 }
 
