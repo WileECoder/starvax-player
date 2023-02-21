@@ -22,7 +22,7 @@ FullScreenMediaWidget::FullScreenMediaWidget( QMDKWindow * videoWindow,
    m_videoWindow->setFlags( m_videoWindow->flags() |
                             Qt::SplashScreen );
    m_pictureWidget->setWindowFlags( m_pictureWidget->windowFlags() |
-                                    Qt::SplashScreen );
+                                    Qt::SplashScreen | Qt::WindowStaysOnTopHint);
 
    hideAll();
 }
@@ -49,9 +49,11 @@ void FullScreenMediaWidget::hidePicture()
    m_pictureWidget->setVisible( false);
 }
 
-void FullScreenMediaWidget::togglePictureVisibility()
+bool FullScreenMediaWidget::togglePictureVisibility()
 {
    m_pictureWidget->isVisible() ? m_pictureWidget->hide() : smartShow( m_pictureWidget);
+
+   return m_pictureWidget->isVisible();
 }
 
 void FullScreenMediaWidget::hideVideo()

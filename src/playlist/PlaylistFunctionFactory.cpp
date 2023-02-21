@@ -5,7 +5,7 @@
 
 #include "Action.h"
 #include "QMDKWindow.h"
-#include "MediaEngineMdkSdl.h"
+#include "MediaEngineMdk.h"
 #include "MediaListModel.h"
 #include "MediaSourceFactory.h"
 #include "MediaAutomation.h"
@@ -86,7 +86,7 @@ IF_MediaEngineInterface *PlaylistFunctionFactory::buildMediaEngine( Fader & aFad
                                                                     FullScreenMediaWidget_IF & displayWidget,
                                                                     StatusDisplay & logger )
 {
-   IF_MediaEngineInterface *engine = new MediaEngineMdkSdl( aFader, displayWidget, logger, this);
+   IF_MediaEngineInterface *engine = new MediaEngineMdk( aFader, displayWidget, logger, this);
    return engine;
 }
 

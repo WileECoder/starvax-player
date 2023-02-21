@@ -1,4 +1,4 @@
-#include "MediaEngineMdkSdl.h"
+#include "MediaEngineMdk.h"
 
 #include <QFileInfo>
 #include <QPixmap>
@@ -10,9 +10,7 @@
 #include "FullScreenMediaWidget_IF.h"
 #include "supported_files.h"
 
-// shortcut for data encoded as UTF8
-//#define qtu( i ) ((i).toUtf8().constData())
-
+#include <qdebug.h>
 
 namespace {
 NullMediaSource NullObject;
@@ -32,10 +30,10 @@ bool checkForImageFormat( const QString & extention)
 /**
  * setup all media objects connections and make internal connections
  */
-MediaEngineMdkSdl::MediaEngineMdkSdl( Fader & fader,
-                                      FullScreenMediaWidget_IF &displayWidget,
-                                      StatusDisplay & logger,
-                                      QObject *parent) :
+MediaEngineMdk::MediaEngineMdk( Fader & fader,
+                                FullScreenMediaWidget_IF &displayWidget,
+                                StatusDisplay & logger,
+                                QObject *parent) :
    IF_MediaEngineInterface( parent),
    m_fader( fader),
    m_logger( logger),
@@ -51,9 +49,12 @@ MediaEngineMdkSdl::MediaEngineMdkSdl( Fader & fader,
    qRegisterMetaType<mdk::MediaStatus>("mdk::MediaStatus");
    qRegisterMetaType<mdk::State>("mdk::State");
    qRegisterMetaType<int64_t>("int64_t");
+   qRegisterMetaType<MediaObject::AvPlayerState>("MediaObject::AvPlayerState");
 
-   connect( & m_tickTimer, & QTimer::timeout, this, & MediaEngineMdkSdl::onTimerTick);
-   connect( & m_fader, & Fader::changeVolume, this, & MediaEngineMdkSdl::setVolume);
+   connect( & m_tickTimer, & QTimer::timeout, this, & MediaEngineMdk::onTimerTick);
+   connect( & m_fader, & Fader::changeVolume, this, & MediaEngineMdk::setVolume);
+   connect( this, & MediaEngineMdk::int_mediaStatusChanged, this, & MediaEngineMdk::onMediaStatusChanged);
+   connect( this, & MediaEngineMdk::int_playerStateChanged, this, & MediaEngineMdk::onPlayerStateChanged);
 
    m_player.setDecoders(mdk::MediaType::Video, {
                         #if (_WIN32+0)
@@ -70,29 +71,29 @@ MediaEngineMdkSdl::MediaEngineMdkSdl( Fader & fader,
                            "FFmpeg"});
 
    m_player.onStateChanged([this](mdk::State s){
-      onPlayerStateChanged( s);
+      emit int_playerStateChanged( s);
    });
 
    m_player.onMediaStatusChanged([this](mdk::MediaStatus s){
-      onMediaStatusChanged( s);
+      emit int_mediaStatusChanged( s);
       return true;
    });
 
    m_displayWidget.attachPlayer( m_player);
 }
 
-MediaEngineMdkSdl::~MediaEngineMdkSdl()
+MediaEngineMdk::~MediaEngineMdk()
 {
 
 }
 
-void MediaEngineMdkSdl::setWidgetForRender( QWidget * canvas)
+void MediaEngineMdk::setWidgetForRender( QWidget * /*canvas*/)
 {
    /* TODO useless ??? */
 }
 
 
-void MediaEngineMdkSdl::checkPlatform()
+void MediaEngineMdk::checkPlatform()
 {
 #if defined(Q_OS_WIN)
 #elif defined(Q_OS_UNIX)
@@ -100,7 +101,7 @@ void MediaEngineMdkSdl::checkPlatform()
 }
 
 
-void MediaEngineMdkSdl::setCurrentSource( const AbstractMediaSource *source, bool dontStopFlag)
+void MediaEngineMdk::setCurrentSource( const AbstractMediaSource *source, bool dontStopFlag)
 {
    if (dontStopFlag == false)  /* default case */
    {
@@ -125,6 +126,7 @@ void MediaEngineMdkSdl::setCurrentSource( const AbstractMediaSource *source, boo
             }
 
             m_pixmap = new QPixmap( filePath);
+            m_displayWidget.setPixmap( *m_pixmap);
          }
          else
          {
@@ -146,6 +148,7 @@ void MediaEngineMdkSdl::setCurrentSource( const AbstractMediaSource *source, boo
 
          m_currentMediaPath = filePath;
          emit currentMediaChanged( *source);
+         emit tick(0);
       }
    }
    else
@@ -158,13 +161,14 @@ void MediaEngineMdkSdl::setCurrentSource( const AbstractMediaSource *source, boo
 }
 
 
-void MediaEngineMdkSdl::play()
+void MediaEngineMdk::play()
 {
    if (m_imageFileFlag)
    {
       T_ASSERT( m_pixmap);
       m_displayWidget.setPixmap( *m_pixmap);
       m_displayWidget.showPicture();
+      emit pictureShowChanged(true);
    }
    else
    {
@@ -183,19 +187,25 @@ void MediaEngineMdkSdl::play()
    }
 }
 
-void MediaEngineMdkSdl::pause()
+void MediaEngineMdk::pause()
 {
-   if (m_imageFileFlag == false)
+   if (m_imageFileFlag)
+   {
+      m_displayWidget.hidePicture();
+      emit pictureShowChanged(false);
+   }
+   else
    {
       m_player.set( mdk::State::Paused);
    }
 }
 
-void MediaEngineMdkSdl::togglePlayPause()
+void MediaEngineMdk::togglePlayPause()
 {
    if (m_imageFileFlag)
    {
-      m_displayWidget.togglePictureVisibility();
+      bool nowVisible = m_displayWidget.togglePictureVisibility();
+      emit pictureShowChanged(nowVisible);
    }
    else
    {
@@ -210,60 +220,66 @@ void MediaEngineMdkSdl::togglePlayPause()
    }
 }
 
-void MediaEngineMdkSdl::stop()
+void MediaEngineMdk::stop()
 {
    m_displayWidget.hideAll();
    m_player.set(mdk::State::Stopped);
+   emit pictureShowChanged(false);
+   emit tick(0);
 }
 
 /** bring track back at beginning */
-void MediaEngineMdkSdl::rewind()
+void MediaEngineMdk::rewind()
 {
    m_player.seek(0);
 }
 
 // TODO connect with settings
-void MediaEngineMdkSdl::setStepSizeMs(int stepMs)
+void MediaEngineMdk::setStepSizeMs(int stepMs)
 {
    m_stepSizeMs = stepMs;
 }
 
-void MediaEngineMdkSdl::stepForward()
+void MediaEngineMdk::stepForward()
 {
    m_player.seek( m_player.position() + m_stepSizeMs);
 }
 
-void MediaEngineMdkSdl::stepBackward()
+void MediaEngineMdk::stepBackward()
 {
    m_player.seek( m_player.position() - m_stepSizeMs);
 }
 
 
-void MediaEngineMdkSdl::singleFrameForward()
+void MediaEngineMdk::singleFrameForward()
 {
    m_player.seek( 1, mdk::SeekFlag::FromNow | mdk::SeekFlag::Frame );
+   qDebug() << m_player.position();
+   emit tick( m_player.position());
 }
 
-void MediaEngineMdkSdl::singleFrameBackward()
+void MediaEngineMdk::singleFrameBackward()
 {
    m_player.seek( -1, mdk::SeekFlag::FromNow | mdk::SeekFlag::Frame );
+   qDebug() << m_player.position();
+   emit tick( m_player.position());
 }
 
-void MediaEngineMdkSdl::onUserPositionRequested( qint64 positionMs)
+void MediaEngineMdk::onUserPositionRequested( qint64 positionMs)
 {
    m_player.seek( positionMs);
 
-   /* fix GUI in case position is seeked before playback */
+   /* fix GUI in case position is sought before playback */
    emit tick( positionMs);
 }
 
-void MediaEngineMdkSdl::setMuted(bool isMuted)
+void MediaEngineMdk::setMuted(bool isMuted)
 {
    m_player.setMute( isMuted);
    emit muteStatus( isMuted);
 }
 
-void MediaEngineMdkSdl::setAudioOnly( bool audioOnly)
+void MediaEngineMdk::setAudioOnly( bool audioOnly)
 {
    m_audioOnlyRequest = audioOnly;
    emit audioOnlyChanged( audioOnly);
@@ -279,17 +295,17 @@ void MediaEngineMdkSdl::setAudioOnly( bool audioOnly)
 }
 
 
-void MediaEngineMdkSdl::enableFadeIn(bool enabled)
+void MediaEngineMdk::enableFadeIn(bool enabled)
 {
    m_fadeInFlag = enabled;
 }
 
-void MediaEngineMdkSdl::setLoopPlayback(bool enabled)
+void MediaEngineMdk::setLoopPlayback(bool enabled)
 {
    m_player.setLoop( enabled ? 0x1FFFFFFF : 0);
 }
 
-void MediaEngineMdkSdl::setVolume(int vol)
+void MediaEngineMdk::setVolume(int vol)
 {
    m_player.setVolume( (float)vol / 100.f);
 
@@ -300,38 +316,38 @@ void MediaEngineMdkSdl::setVolume(int vol)
    emit volumeChanged( vol);
 }
 
-int MediaEngineMdkSdl::volume()
+int MediaEngineMdk::volume()
 {
    return (int)(m_player.volume() * 100.f);
 }
 
 
-void MediaEngineMdkSdl::setTickInterval( qint32 tick_ms )
+void MediaEngineMdk::setTickInterval( qint32 tick_ms )
 {
    m_tickMs = tick_ms;
 }
 
 
-void MediaEngineMdkSdl::enableSubtitles()
+void MediaEngineMdk::enableSubtitles()
 {
 
 }
 
 
-void MediaEngineMdkSdl::disableSubtitles()
+void MediaEngineMdk::disableSubtitles()
 {
 
 }
 
 
-void MediaEngineMdkSdl::onTimerTick()
+void MediaEngineMdk::onTimerTick()
 {
    int64_t pos = m_player.position();
    emit tick(pos);
 }
 
 
-void MediaEngineMdkSdl::onMediaStatusChanged(mdk::MediaStatus newStatus)
+void MediaEngineMdk::onMediaStatusChanged(mdk::MediaStatus newStatus)
 {
    if (newStatus & (mdk::Loading))
    {
@@ -352,7 +368,7 @@ void MediaEngineMdkSdl::onMediaStatusChanged(mdk::MediaStatus newStatus)
 }
 
 
-void MediaEngineMdkSdl::onPlayerStateChanged(mdk::State newState)
+void MediaEngineMdk::onPlayerStateChanged(mdk::State newState)
 {
    static const QMap< mdk::State, MediaObject::AvPlayerState> PLAYER_TABLE =
    {
@@ -377,23 +393,24 @@ void MediaEngineMdkSdl::onPlayerStateChanged(mdk::State newState)
 }
 
 
-void MediaEngineMdkSdl::onDurationChanged(int64_t duration_ms)
+void MediaEngineMdk::onDurationChanged(int64_t duration_ms)
 {
+   qDebug() << "duration " << duration_ms;
    emit totalTimeChanged( duration_ms);
 }
 
-void MediaEngineMdkSdl::onVideoAvailable(bool /*available*/)
+void MediaEngineMdk::onVideoAvailable(bool /*available*/)
 {
    // TODO needed?
 }
 
-void MediaEngineMdkSdl::onStopAllRequest()
+void MediaEngineMdk::onStopAllRequest()
 {
    m_player.set(mdk::State::Stopped);   // TODO must stop all instances!
    m_displayWidget.hideAll();
 }
 
-void MediaEngineMdkSdl::onAudioOnlyRequest()
+void MediaEngineMdk::onAudioOnlyRequest()
 {
    emit audioOnlyChanged( true);
 }

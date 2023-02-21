@@ -10,6 +10,8 @@
 #include <QFontDatabase>
 #include <QCommonStyle>
 
+#include <QDebug>
+
 #define TICK_INTERVAL_MS  100
 
 #define PLAY_BUTTON_ICON_PATH   IconPath("track_play.png")
@@ -23,7 +25,8 @@ AudioVideoPlayBar::AudioVideoPlayBar(IF_MediaEngineInterface &engine, MediaPosit
                            QWidget *parent) :
    QWidget(parent),
    ui(new Ui::AudioVideoPlaybar),
-   m_engine(engine)
+   m_engine(engine),
+   m_currentTimeMs(0)
 {
    ui->setupUi(this);
    ui->seekBarLayout->addWidget( &seekbar);
@@ -111,6 +114,8 @@ void  AudioVideoPlayBar::updateTime(qint64 timeMs )
                          .arg(min, 3, 10, QChar(' '))
                          .arg(sec, 2, 10, QChar('0'))
                          .arg(dec, 1, 10));
+
+   m_currentTimeMs = timeMs;
 }
 
 /**
@@ -145,18 +150,23 @@ void AudioVideoPlayBar::onAvSateChanged(MediaObject::AvMediaState newState)
    switch (newState)
    {
    case MediaObject::LoadingState:
+      qDebug() << "LOADING";
       ui->lcdTime->setText("LOADING...");
       break;
 
    case MediaObject::LoadedState:
-      ui->lcdTime->setText("00:00.0");
+      qDebug() << "LOADED";
+      // rewrite current time
+      updateTime(m_currentTimeMs);
       break;
 
    case MediaObject::BufferingState:
+      qDebug() << "BUFFERING";
       ui->lcdTime->setText("BUFFERING...");
       break;
 
    case MediaObject::ErrorState:
+      qDebug() << "MEDIA ERROR";
       ui->lcdTime->setText("MEDIA ERROR");
       break;
    }

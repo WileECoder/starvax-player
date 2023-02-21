@@ -64,7 +64,6 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS
    REQUIRED)
 
 find_package(mdk REQUIRED)
-find_package(sdl REQUIRED)
 find_package(usb REQUIRED)
 
 
@@ -101,7 +100,6 @@ target_link_libraries(starvax_player PRIVATE
    Qt${QT_VERSION_MAJOR}::OpenGL
    Qt${QT_VERSION_MAJOR}::Network
    ${MDK_LIBRARY}
-   ${SDL2_LIBRARY}
    ${USB_LIBRARY}
    )
 

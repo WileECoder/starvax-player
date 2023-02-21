@@ -1,5 +1,5 @@
-#ifndef MEDIAENGINE_MDKSDL_H
-#define MEDIAENGINE_MDKSDL_H
+#ifndef MEDIAENGINE_MDK_H
+#define MEDIAENGINE_MDK_H
 
 #include "IF_MediaEngineInterface.h"
 #include "AbstractMediaSource.h"
@@ -19,15 +19,15 @@ class QPixmap;
  *  should be simple and with as few logic as possible.
  */
 // TODO the name is now wrong !!! remove SDL!
-class MediaEngineMdkSdl : public IF_MediaEngineInterface
+class MediaEngineMdk : public IF_MediaEngineInterface
 {
    Q_OBJECT
 public:
-   explicit MediaEngineMdkSdl(Fader & fader,
-                              FullScreenMediaWidget_IF & displayWidget,
-                              StatusDisplay & logger,
-                              QObject *parent = nullptr);
-   ~MediaEngineMdkSdl() override;
+   explicit MediaEngineMdk(Fader & fader,
+                           FullScreenMediaWidget_IF & displayWidget,
+                           StatusDisplay & logger,
+                           QObject *parent = nullptr);
+   ~MediaEngineMdk() override;
 
    /** used to bind a "screen" widget to media engine implementation */
    void setWidgetForRender(QWidget * canvas) override;
@@ -40,7 +40,7 @@ public slots:
    void togglePlayPause() override;
    void stop() override;
    void rewind() override;
-   void setStepSizeMs( int stepMs);
+   void setStepSizeMs( int stepMs) override;
    void stepForward() override;
    void stepBackward() override;
    void singleFrameForward() override;
@@ -55,6 +55,11 @@ public slots:
    void setLoopPlayback( bool enabled) override;
    void enableSubtitles() override;
    void disableSubtitles() override;
+
+/* internal signals */
+signals:
+   void int_mediaStatusChanged( mdk::MediaStatus newStatus);
+   void int_playerStateChanged( mdk::State newState);
 
 private slots:
    void onTimerTick();
@@ -83,4 +88,4 @@ private:
 };
 
 
-#endif // MEDIAENGINE_MDKSDL_H
+#endif // MEDIAENGINE_MDK_H

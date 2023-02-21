@@ -29,8 +29,9 @@ public:
    /** request to hide still image widget */
    virtual void hidePicture() = 0;
 
-   /** request to toggle visibility for still image widget */
-   virtual void togglePictureVisibility() = 0;
+   /** request to toggle visibility for still image widget
+    *  @return TRUE if picture is visible after being toggled */
+   virtual bool togglePictureVisibility() = 0;
 
    /** request to hide video widget */
    virtual void hideVideo() = 0;

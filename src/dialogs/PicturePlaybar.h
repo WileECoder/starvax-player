@@ -20,11 +20,11 @@ class PicturePlaybar : public QWidget
 public:
    explicit PicturePlaybar(IF_MediaEngineInterface * engine, MediaAutomation &automation,
                            QWidget *parent = nullptr);
-   ~PicturePlaybar();
+   ~PicturePlaybar() override;
 
    /**
     * @brief set the Widget on which a thumbnail of current picture will
-    *   be displayed in upper roght corner
+    *   be displayed in upper right corner
     * @param container
     */
    void setThumbnailContainer( QAbstractScrollArea * container);
@@ -35,7 +35,7 @@ public slots:
 
    // QWidget interface
 protected:
-   virtual void paintEvent(QPaintEvent * event);
+   virtual void paintEvent(QPaintEvent * event) override;
 
 private slots:
    void onCurrentMediaChanged(const AbstractMediaSource & picture);

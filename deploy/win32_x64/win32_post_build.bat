@@ -15,7 +15,6 @@ if not exist "%DEST_DIR_RES%" mkdir "%DEST_DIR_RES%"
 rem resource files
 xcopy "%SRC_DIR_RES%"  "%DEST_DIR_RES%"   /E /Y
 rem runtime DLLs
-copy "%SRC_DIR_LIB%\\SDL2\\lib\\x64\\*.dll"  "%DEST_DIR%"   /Y
 copy "%SRC_DIR_LIB%\\mdk-sdk\\lib\\x64\\*.dll"  "%DEST_DIR%"   /Y
 copy "%SRC_DIR_LIB%\\usb\\lib\\dll\\*.dll"  "%DEST_DIR%"   /Y
 

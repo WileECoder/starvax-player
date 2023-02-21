@@ -26,6 +26,7 @@ public:
 private:
    Ui::AudioVideoPlaybar *ui;
    IF_MediaEngineInterface & m_engine;
+   qint64 m_currentTimeMs;
 
 public slots:
    void play();

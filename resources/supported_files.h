@@ -14,7 +14,7 @@
 /***********************************************/
 
 /** still image formats */
-const QStringList PICTURE_SUPPORTED_FORMATS = (QStringList()<<"png"<<"jpg"<<"jpeg"<<"gif"<<"svg"<<"tif");
+const QStringList PICTURE_SUPPORTED_FORMATS = (QStringList()<<"png"<<"jpg"<<"jpeg"<<"gif"<<"svg");
 
 /***  supported file extentions for media tracks  ***/
 const QStringList MEDIA_TRACKS_SUPPORTED_FORMATS  =

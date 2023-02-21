@@ -20,7 +20,7 @@ public:
                 PicturePlaybar & picturePlaybar,
                 MediaListModel & mediaList,
                 QWidget *parent = nullptr);
-   ~PlaylistBar();
+   ~PlaylistBar() override;
 
 public slots:
    void onActiveRowChanged(int row);

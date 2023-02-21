@@ -44,7 +44,7 @@ public:
    /** request to hide still image widget */
    void hidePicture() override;
 
-   void togglePictureVisibility();
+   bool togglePictureVisibility() override;
 
    /** request to hide video widget */
    void hideVideo() override;
@@ -53,7 +53,7 @@ public:
    void hideAll() override;
 
    /** attach specific video player */
-   void attachPlayer( mdk::Player & player);
+   void attachPlayer( mdk::Player & player) override;
 
 private:
    QMDKWindow * m_videoWindow;
