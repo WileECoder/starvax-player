@@ -11,6 +11,7 @@
 #include "supported_files.h"
 
 #include <qdebug.h>
+#include <string>
 
 namespace {
 NullMediaSource NullObject;
@@ -44,7 +45,8 @@ MediaEngineMdk::MediaEngineMdk( Fader & fader,
    m_stepSizeMs( DEFAULT_STEP_ms),
    m_fadeInFlag( false),
    m_imageFileFlag( false),
-   m_pixmap( nullptr)
+   m_pixmap( nullptr),
+   m_requestedState( MediaObject::StoppedState)
 {
    qRegisterMetaType<mdk::MediaStatus>("mdk::MediaStatus");
    qRegisterMetaType<mdk::State>("mdk::State");
@@ -55,6 +57,7 @@ MediaEngineMdk::MediaEngineMdk( Fader & fader,
    connect( & m_fader, & Fader::changeVolume, this, & MediaEngineMdk::setVolume);
    connect( this, & MediaEngineMdk::int_mediaStatusChanged, this, & MediaEngineMdk::onMediaStatusChanged);
    connect( this, & MediaEngineMdk::int_playerStateChanged, this, & MediaEngineMdk::onPlayerStateChanged);
+   connect( this, & MediaEngineMdk::int_videoAvailableChanged, this, & MediaEngineMdk::onVideoAvailable);
 
    m_player.setDecoders(mdk::MediaType::Video, {
                         #if (_WIN32+0)
@@ -79,17 +82,13 @@ MediaEngineMdk::MediaEngineMdk( Fader & fader,
       return true;
    });
 
+
    m_displayWidget.attachPlayer( m_player);
 }
 
 MediaEngineMdk::~MediaEngineMdk()
 {
 
-}
-
-void MediaEngineMdk::setWidgetForRender( QWidget * /*canvas*/)
-{
-   /* TODO useless ??? */
 }
 
 
@@ -105,8 +104,9 @@ void MediaEngineMdk::setCurrentSource( const AbstractMediaSource *source, bool d
 {
    if (dontStopFlag == false)  /* default case */
    {
+      int_stop();
       disableSubtitles();
-      stop();
+      m_videoTrackAvailable = false;
    }
 
    if (source != nullptr)
@@ -138,10 +138,10 @@ void MediaEngineMdk::setCurrentSource( const AbstractMediaSource *source, bool d
                const mdk::MediaInfo & info = m_player.mediaInfo();
 
                onDurationChanged( info.duration);
-               onVideoAvailable( info.video.size() > 0);
 
                /* MDK bug: 'mediaInfo' can not be called at any time. Sometimes results are wrong. */
                m_videoTrackAvailable = (info.video.size() > 0);
+               emit int_videoAvailableChanged( m_videoTrackAvailable);
                return true;
             });
          }
@@ -163,6 +163,8 @@ void MediaEngineMdk::setCurrentSource( const AbstractMediaSource *source, bool d
 
 void MediaEngineMdk::play()
 {
+   m_requestedState = MediaObject::PausedState;
+
    if (m_imageFileFlag)
    {
       T_ASSERT( m_pixmap);
@@ -189,6 +191,8 @@ void MediaEngineMdk::play()
 
 void MediaEngineMdk::pause()
 {
+   m_requestedState = MediaObject::PausedState;
+
    if (m_imageFileFlag)
    {
       m_displayWidget.hidePicture();
@@ -220,7 +224,15 @@ void MediaEngineMdk::togglePlayPause()
    }
 }
 
+
 void MediaEngineMdk::stop()
+{
+   m_requestedState = MediaObject::StoppedState;
+   int_stop();
+}
+
+
+void MediaEngineMdk::int_stop()
 {
    m_displayWidget.hideAll();
    m_player.set(mdk::State::Stopped);
@@ -228,13 +240,14 @@ void MediaEngineMdk::stop()
    emit tick(0);
 }
 
+
 /** bring track back at beginning */
 void MediaEngineMdk::rewind()
 {
    m_player.seek(0);
+   emit tick(0);
 }
 
-// TODO connect with settings
 void MediaEngineMdk::setStepSizeMs(int stepMs)
 {
    m_stepSizeMs = stepMs;
@@ -254,20 +267,25 @@ void MediaEngineMdk::stepBackward()
 void MediaEngineMdk::singleFrameForward()
 {
    m_player.seek( 1, mdk::SeekFlag::FromNow | mdk::SeekFlag::Frame );
-   qDebug() << m_player.position();
    emit tick( m_player.position());
 }
 
 void MediaEngineMdk::singleFrameBackward()
 {
    m_player.seek( -1, mdk::SeekFlag::FromNow | mdk::SeekFlag::Frame );
-   qDebug() << m_player.position();
    emit tick( m_player.position());
 }
 
 void MediaEngineMdk::onUserPositionRequested( qint64 positionMs)
 {
-   m_player.seek( positionMs);
+   if (m_player.state() == mdk::State::Stopped)
+   {
+      m_player.prepare( positionMs);
+   }
+   else
+   {
+      m_player.seek( positionMs);
+   }
 
    /* fix GUI in case position is sought before playback */
    emit tick( positionMs);
@@ -292,6 +310,11 @@ void MediaEngineMdk::setAudioOnly( bool audioOnly)
    {
       m_displayWidget.showVideo();
    }
+}
+
+void MediaEngineMdk::showOnTop(bool onTop)
+{
+   m_displayWidget.setOnTop( onTop);
 }
 
 
@@ -330,13 +353,19 @@ void MediaEngineMdk::setTickInterval( qint32 tick_ms )
 
 void MediaEngineMdk::enableSubtitles()
 {
+   // TODO
 
+   static const QStringList subtitleExtention = QStringList() << "srt" << "ass" << "ssa" << "sub" << "lrc";
+   QString sub_path = m_currentMediaPath + ".ass";
+
+   m_player.setMedia(sub_path.toLatin1().constData(), mdk::MediaType::Subtitle);
+   m_player.setActiveTracks( mdk::MediaType::Subtitle, {0});
 }
 
 
 void MediaEngineMdk::disableSubtitles()
 {
-
+   m_player.setMedia( nullptr, mdk::MediaType::Subtitle);
 }
 
 
@@ -382,33 +411,49 @@ void MediaEngineMdk::onPlayerStateChanged(mdk::State newState)
    MediaObject::AvPlayerState playerState = PLAYER_TABLE.value( newState, MediaObject::StoppedState);
    emit AvPlayerStateChanged( playerState);
 
-   if (playerState == MediaObject::PlayingState)
+   switch (playerState)
    {
+   case  MediaObject::PlayingState :
       m_tickTimer.start( m_tickMs);
-   }
-   else
-   {
+      break;
+   case MediaObject::PausedState :
       m_tickTimer.stop();
+      break;
+   case MediaObject::StoppedState :
+      m_tickTimer.stop();
+
+      if (m_requestedState != MediaObject::StoppedState)
+      {
+         /* guess: stop for end-of-file reached. */
+         emit finished();
+      }
+
+      break;
    }
 }
 
 
 void MediaEngineMdk::onDurationChanged(int64_t duration_ms)
 {
-   qDebug() << "duration " << duration_ms;
    emit totalTimeChanged( duration_ms);
 }
 
-void MediaEngineMdk::onVideoAvailable(bool /*available*/)
+void MediaEngineMdk::onVideoAvailable(bool available)
 {
-   // TODO needed?
+   m_videoTrackAvailable = available;
+
+   /* It may happen that 'play' is issued just after 'setCurrentSource',
+    * before media is loaded. In this case, video widget must be shown now.
+    * Do not use "m_player.state()" due to the playing/pause glitch that happens
+    * when loading a file */
+   if (m_videoTrackAvailable &&
+       (m_requestedState == MediaObject::PlayingState) &&
+       (m_audioOnlyRequest == false))
+   {
+      m_displayWidget.showVideo();
+   }
 }
 
-void MediaEngineMdk::onStopAllRequest()
-{
-   m_player.set(mdk::State::Stopped);   // TODO must stop all instances!
-   m_displayWidget.hideAll();
-}
 
 void MediaEngineMdk::onAudioOnlyRequest()
 {

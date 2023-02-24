@@ -13,11 +13,11 @@
 #include "SetCredentialsCommand.h"
 #include "DisconnectCommand.h"
 #include "GetShowPathCommand.h"
-#include "SetActiveTrackCommand.h"
-#include "GetTrackListCommand.h"
+#include "SetActiveMediaCommand.h"
+#include "GetMediaListCommand.h"
 #include "GetLightsetListCommand.h"
-#include "PlayTrackCommand.h"
-#include "PauseTrackCommand.h"
+#include "PlayMediaCommand.h"
+#include "PauseMediaCommand.h"
 #include "StopMediaCommand.h"
 #include "RewindMediaCommand.h"
 #include "SelectLightTransitionCommand.h"
@@ -132,9 +132,9 @@ QList<Server::Command_IF *> Factory::buildPlaylistCommands(
 
    commands << new Server::SetActiveTrackCommand( avAutomation_A, avAutomation_B,
                                                   mediaList_A, mediaList_B, cmdReply)
-            << new Server::GetTrackListCommand( mediaList_A, mediaList_B, cmdReply)
-            << new Server::PlayTrackCommand( mediaEngine_A, mediaEngine_B, cmdReply)
-            << new Server::PauseTrackCommand( mediaEngine_A, mediaEngine_B, cmdReply)
+            << new Server::GetMediaListCommand( mediaList_A, mediaList_B, cmdReply)
+            << new Server::PlayMediaCommand( mediaEngine_A, mediaEngine_B, cmdReply)
+            << new Server::PauseMediaCommand( mediaEngine_A, mediaEngine_B, cmdReply)
             << new Server::StopMediaCommand( mediaEngine_A, mediaEngine_B, cmdReply)
             << new Server::RewindMediaCommand( mediaEngine_A, mediaEngine_B, cmdReply);
 
@@ -148,7 +148,7 @@ QList<Server::Command_IF *> Factory::buildLightsetCommands(
 {
    QList<Server::Command_IF *> commands;
 
-   // TODO missing "fire current transition"
+   // TBD missing "fire current transition"
    commands << new Server::GetLightsetListCommand( lightModel, cmdReply)
             << new Server::SelectLightTransitionCommand( lightEngine, lightModel, cmdReply);
 

@@ -1,4 +1,4 @@
-#include "PlayTrackCommand.h"
+#include "PlayMediaCommand.h"
 
 #include <QStringList>
 #include "IF_MediaEngineInterface.h"
@@ -6,7 +6,7 @@
 #include "CommandReply_IF.h"
 
 
-Server::PlayTrackCommand::PlayTrackCommand( IF_MediaEngineInterface & mediaEngine_A,
+Server::PlayMediaCommand::PlayMediaCommand( IF_MediaEngineInterface & mediaEngine_A,
                                             IF_MediaEngineInterface & mediaEngine_B,
                                             CommandReply_IF & replySink) :
    m_mediaEngine_A( mediaEngine_A),
@@ -16,7 +16,7 @@ Server::PlayTrackCommand::PlayTrackCommand( IF_MediaEngineInterface & mediaEngin
 }
 
 
-bool Server::PlayTrackCommand::execute(const QStringList & parameters)
+bool Server::PlayMediaCommand::execute(const QStringList & parameters)
 {
    if (parameters.size() >= 1)
    {

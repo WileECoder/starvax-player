@@ -16,6 +16,8 @@
 #include "LightEngine.h"
 #include "lightControlGuiFactory.h"
 
+#include "mdk/global.h"
+
 
 
 MainWindow::MainWindow( FileInport &fileInport,
@@ -651,6 +653,8 @@ void MainWindow::on_actionAbout_Qt_triggered()
 
 void MainWindow::on_actionAbout_mmedia_library_triggered()
 {
-   // TODO
+   QMessageBox::about( this, tr("About Multimedia engine"),
+                       QString("<b><a href=\"https://github.com/wang-bin/mdk-sdk\">MTK SDK by Wang Bin</a></b>. \n"
+                               "Version %1.%2.%3").arg(MDK_MAJOR).arg(MDK_MINOR).arg(MDK_MICRO));
 }
 

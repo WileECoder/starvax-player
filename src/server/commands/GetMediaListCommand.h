@@ -1,5 +1,5 @@
-#ifndef GETTRACKLISTCOMMAND_H
-#define GETTRACKLISTCOMMAND_H
+#ifndef GETMEDIALISTCOMMAND_H
+#define GETMEDIALISTCOMMAND_H
 
 #include "Command_IF.h"
 class MediaListModel;
@@ -9,21 +9,21 @@ namespace Server {
 class CommandReply_IF;
 
 /**
- * @brief The GetActiveTrackCommand returns all the
- *   tracks in current show for a given line (A or B)
+ * @brief The GetMediaListCommand returns all the
+ *   media files in current show for a given line (A or B)
  */
-class GetTrackListCommand : public Command_IF
+class GetMediaListCommand : public Command_IF
 {
 public:
-   GetTrackListCommand( MediaListModel & mediaModel_A,
+   GetMediaListCommand( MediaListModel & mediaModel_A,
                         MediaListModel & mediaModel_B,
                         CommandReply_IF & replySink);
-   ~GetTrackListCommand() override {}
+   ~GetMediaListCommand() override {}
 
    // Command_IF interface
 public:
    quint8 operativeCode() const override{
-      return GET_TRACK_LIST;
+      return GET_MEDIA_LIST;
    }
 
    /**
@@ -45,4 +45,4 @@ private:
 
 }  // namespace Server
 
-#endif // GETTRACKLISTCOMMAND_H
+#endif // GETMEDIALISTCOMMAND_H

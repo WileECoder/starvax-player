@@ -45,11 +45,6 @@ public:
    IF_MediaEngineInterface( QObject *parent) : QObject(parent) {}
    virtual ~IF_MediaEngineInterface() override {}
 
-   /** set the video Widget
-    * @note we assume that QVideoWidget is more stable than the platform
-    * engine that this class is designed to abstract. */
-   virtual void setWidgetForRender( QWidget * canvas) = 0;
-
 public slots:
    /** to be called on startup; check availability of any resource
     * needed for media capability on local machine (codecs, DLLs, HW, ...) */
@@ -80,6 +75,7 @@ public slots:
    virtual void onUserPositionRequested( qint64 positionMs) = 0;
    virtual void setMuted( bool muted) = 0;
    virtual void setAudioOnly( bool audioOnly) = 0;
+   virtual void showOnTop( bool onTop) = 0;
    virtual void enableFadeIn( bool enabled) = 0;
    /** enable repetition of the same track endlessly */
    virtual void setLoopPlayback( bool enabled) = 0;

@@ -88,9 +88,18 @@ include_directories(
    resources
    )
 
+if(WIN32)
+add_executable(starvax_player  WIN32
+    ${STARVAX_SOURCES}
+)
+endif()
+
+
+if (UNIX)
 add_executable(starvax_player
     ${STARVAX_SOURCES}
 )
+endif()
 
 
 target_link_libraries(starvax_player PRIVATE

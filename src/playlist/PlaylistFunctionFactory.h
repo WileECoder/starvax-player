@@ -43,7 +43,8 @@ public:
     */
    IF_MediaEngineInterface * buildMediaEngine( Fader & aFader,
                                                FullScreenMediaWidget_IF & displayWidget,
-                                               StatusDisplay & logger);
+                                               StatusDisplay & logger,
+                                               ApplicationSettings * settings);
    MediaAutomation * buildAutomation(MediaListModel *model, IF_MediaEngineInterface *engine,
                                           ActionListController *controller, Fader *fader,
                                           int defaultVolume, StatusDisplay & msgDisplay);

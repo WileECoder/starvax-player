@@ -14,7 +14,7 @@ const quint8 SET_CREDENTIALS = 2u;
 const quint8 DISCONNECT = 3u;
 
 const quint8 GET_SHOW_TITLE = 10u;
-const quint8 GET_TRACK_LIST = 11u;
+const quint8 GET_MEDIA_LIST = 11u;
 const quint8 GET_LIGHT_LIST = 12u;
 const quint8 GET_SEQUENCE_ENTRIES_LIST = 13u;
 const quint8 GET_OPEN_WEB_NET_LIST = 14u;

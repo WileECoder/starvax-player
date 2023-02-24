@@ -52,6 +52,9 @@ public:
    /** request to hide both video and picture widget */
    void hideAll() override;
 
+   /** set or unset this window as 'Always on top'. This affects both picture and video */
+   void setOnTop( bool onTop) override;
+
    /** attach specific video player */
    void attachPlayer( mdk::Player & player) override;
 

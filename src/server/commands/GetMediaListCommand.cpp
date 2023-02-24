@@ -1,10 +1,10 @@
-#include "GetTrackListCommand.h"
+#include "GetMediaListCommand.h"
 #include "MediaListModel.h"
 #include "CommandReply_IF.h"
 #include "modelViewRules.h"
 
 
-Server::GetTrackListCommand::GetTrackListCommand( MediaListModel & mediaModel_A,
+Server::GetMediaListCommand::GetMediaListCommand( MediaListModel & mediaModel_A,
                                                   MediaListModel & mediaModel_B,
                                                   CommandReply_IF & replySink) :
    m_mediaModel_A( mediaModel_A),
@@ -14,7 +14,7 @@ Server::GetTrackListCommand::GetTrackListCommand( MediaListModel & mediaModel_A,
 }
 
 
-bool Server::GetTrackListCommand::execute(const QStringList & parameters)
+bool Server::GetMediaListCommand::execute(const QStringList & parameters)
 {
    bool result = false;
 
@@ -39,12 +39,12 @@ bool Server::GetTrackListCommand::execute(const QStringList & parameters)
          trackList << model->index(i).data( modelViewRules::StringId).toString();
       }
 
-      m_replySink.sendReplay( Server::COMMAND_ACK, GET_TRACK_LIST,
+      m_replySink.sendReplay( Server::COMMAND_ACK, GET_MEDIA_LIST,
                               trackList);
    }
    else
    {
-      m_replySink.sendReplay( Server::COMMAND_INVALID_ARGUMENT, GET_TRACK_LIST,
+      m_replySink.sendReplay( Server::COMMAND_INVALID_ARGUMENT, GET_MEDIA_LIST,
                               "Media line must be 'A' or 'B'");
    }
 
@@ -52,7 +52,7 @@ bool Server::GetTrackListCommand::execute(const QStringList & parameters)
    return result;
 }
 
-char Server::GetTrackListCommand::selectModelTag(const QStringList & parameters)
+char Server::GetMediaListCommand::selectModelTag(const QStringList & parameters)
 {
    char tag = ' ';
 
@@ -73,7 +73,7 @@ char Server::GetTrackListCommand::selectModelTag(const QStringList & parameters)
    return tag;
 }
 
-MediaListModel * Server::GetTrackListCommand::selectModel( char modelTag)
+MediaListModel * Server::GetMediaListCommand::selectModel( char modelTag)
 {
    MediaListModel * model = nullptr;
 

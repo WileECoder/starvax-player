@@ -16,12 +16,10 @@ void Server::NetworkCommandReply::sendReplay( quint8 replyCode, quint8 requestCo
    sendReplay( replyCode, requestCode, QStringList(message));
 }
 
-// TODO replace 'message' with 'item'
+
 void Server::NetworkCommandReply::sendReplay( quint8 replyCode, quint8 requestCode,
                                               const QStringList & messageList)
 {
-   // TODO this module has 2 different reasons to change:
-   // formatting and network access
    if (m_device != nullptr)
    {
       QByteArray content;
@@ -40,8 +38,8 @@ void Server::NetworkCommandReply::sendReplay( quint8 replyCode, quint8 requestCo
       }
 
       // termination
-      content += static_cast<unsigned char>(0xFF);
-      content += static_cast<unsigned char>(0xFF);
+      content += static_cast<char>(-1);
+      content += static_cast<char>(-1);
 
       m_device->write( content);
    }

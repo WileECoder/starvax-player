@@ -1,6 +1,7 @@
 #include <QBoxLayout>
 #include <QCommonStyle>
 #include <QAction>
+#include <QCheckBox>
 
 #include "PlaylistGuiFactory.h"
 #include "IF_MediaEngineInterface.h"
@@ -168,6 +169,22 @@ void PlaylistGuiFactory::buildPlaylistPanel( IF_MediaEngineInterface *engine,
    connect( deactivateButton, & QPushButton::clicked, playlistView, & ActionListView::deActivate);
    toolbar->layout()->addWidget( deactivateButton);
    deactivateButton->setMaximumSize(iconSize);
+
+   QCheckBox *onTopButton = new QCheckBox(QString(), toolbar);
+   onTopButton->setToolTip(tr("video on top"));
+   onTopButton->setStyleSheet(
+                          "QCheckBox::indicator {"
+                          "width: 26px;"
+                          "height: 26px; }"
+                          "QCheckBox::indicator:unchecked {"
+                          "    image: url( :/images/HardCodedIcons/onTop_off.png); }"
+                          "QCheckBox::indicator:checked {"
+                          "    image: url( :/images/HardCodedIcons/onTop_on.png); }" );
+   onTopButton->setCheckable( true);
+   onTopButton->setChecked( false);
+   connect( onTopButton, & QPushButton::clicked, engine, & IF_MediaEngineInterface::showOnTop);
+   toolbar->layout()->addWidget( onTopButton);
+   onTopButton->setMaximumSize(iconSize);
 
    toolbar->layout()->addItem( new QSpacerItem( 1,1, QSizePolicy::Expanding));
 

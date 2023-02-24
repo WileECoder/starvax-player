@@ -133,14 +133,14 @@ ApplicationFactory::ApplicationFactory()
    playlistFactory = new PlaylistFunctionFactory( this);
 
    StillPictureWidget * pictureWidget_A = new StillPictureWidget( nullptr);  // parented to desktop
-   QMDKWindow * videoWidget_A = new QMDKWindow( nullptr);  // parented to desktop
+   QMDKWindow * videoWidget_A = new QMDKWindow( m_mainWindow, nullptr);  // parented to desktop
 
    FullScreenMediaWidget * mediaWidget_A = new FullScreenMediaWidget( videoWidget_A,
                                                                       pictureWidget_A,
                                                                       m_mainWindow);
 
    StillPictureWidget * pictureWidget_B = new StillPictureWidget( nullptr);
-   QMDKWindow * videoWidget_B = new QMDKWindow( nullptr);  // parented to desktop
+   QMDKWindow * videoWidget_B = new QMDKWindow( m_mainWindow, nullptr);  // parented to desktop
 
    FullScreenMediaWidget * mediaWidget_B = new FullScreenMediaWidget( videoWidget_B,
                                                                       pictureWidget_B,
@@ -150,14 +150,16 @@ ApplicationFactory::ApplicationFactory()
    MediaListModel *playlistModel_A = playlistFactory->buildModel("PA");
    IF_MediaEngineInterface * mediaEngine_A = playlistFactory->buildMediaEngine( *expFader_A,
                                                                                 *mediaWidget_A,
-                                                                                *statusDisplay );
+                                                                                *statusDisplay,
+                                                                                applicationSettings);
    mediaEngine_A->setVolume( applicationSettings->defaultVolumeLineA());
 
    ExponentialFader *expFader_B = new ExponentialFader( this);
    MediaListModel *playlistModel_B = playlistFactory->buildModel("PB");
    IF_MediaEngineInterface * mediaEngine_B = playlistFactory->buildMediaEngine( *expFader_B,
                                                                                 *mediaWidget_B,
-                                                                                *statusDisplay );
+                                                                                *statusDisplay,
+                                                                                applicationSettings);
    mediaEngine_B->setVolume( applicationSettings->defaultVolumeLineB());
 
    /* This is enough for one media engine */
@@ -246,7 +248,7 @@ ApplicationFactory::ApplicationFactory()
    connect( mediaActionController_A, & ActionListController::activeRowChanged,
             playlistBar_A, & PlaylistBar::onActiveRowChanged);
 
-   /* TODO make a calss for connection between media engine and display widgets */
+   /* TBD make a calss for connection between media engine and display widgets */
    connect( pictureWidget_A, & StillPictureWidget::hideRequest,
             mediaEngine_A, & IF_MediaEngineInterface::stop);
 

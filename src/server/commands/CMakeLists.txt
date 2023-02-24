@@ -11,18 +11,18 @@ set(STARVAX_SOURCES
    src/server/commands/GetOwnListCommand.h
    src/server/commands/GetShowPathCommand.cpp
    src/server/commands/GetShowPathCommand.h
-   src/server/commands/GetTrackListCommand.cpp
-   src/server/commands/GetTrackListCommand.h
-   src/server/commands/PauseTrackCommand.cpp
-   src/server/commands/PauseTrackCommand.h
-   src/server/commands/PlayTrackCommand.cpp
-   src/server/commands/PlayTrackCommand.h
+   src/server/commands/GetMediaListCommand.cpp
+   src/server/commands/GetMediaListCommand.h
+   src/server/commands/PauseMediaCommand.cpp
+   src/server/commands/PauseMediaCommand.h
+   src/server/commands/PlayMediaCommand.cpp
+   src/server/commands/PlayMediaCommand.h
    src/server/commands/RewindMediaCommand.cpp
    src/server/commands/RewindMediaCommand.h
    src/server/commands/SelectLightTransitionCommand.cpp
    src/server/commands/SelectLightTransitionCommand.h
-   src/server/commands/SetActiveTrackCommand.cpp
-   src/server/commands/SetActiveTrackCommand.h
+   src/server/commands/SetActiveMediaCommand.cpp
+   src/server/commands/SetActiveMediaCommand.h
    src/server/commands/SetCredentialsCommand.cpp
    src/server/commands/SetCredentialsCommand.h
    src/server/commands/StopMediaCommand.cpp

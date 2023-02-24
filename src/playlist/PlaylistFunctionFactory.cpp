@@ -10,6 +10,7 @@
 #include "MediaSourceFactory.h"
 #include "MediaAutomation.h"
 #include "ApplicationIcon.h"
+#include "ApplicationSettings.h"
 #include "testableAssert.h"
 
 #include "MediaToolbar.h"
@@ -81,20 +82,24 @@ MediaListModel *PlaylistFunctionFactory::buildModel( const QString & modelTag)
    return model;
 }
 
-// TODO remove unused parameters. FullScreenMediaWidget_IF may be removed at all?
-IF_MediaEngineInterface *PlaylistFunctionFactory::buildMediaEngine( Fader & aFader,
+
+IF_MediaEngineInterface *PlaylistFunctionFactory::buildMediaEngine(Fader & aFader,
                                                                     FullScreenMediaWidget_IF & displayWidget,
-                                                                    StatusDisplay & logger )
+                                                                    StatusDisplay & logger,
+                                                                   ApplicationSettings *settings)
 {
    IF_MediaEngineInterface *engine = new MediaEngineMdk( aFader, displayWidget, logger, this);
+   engine->setStepSizeMs( settings->playbackStep());
+   connect( settings, & ApplicationSettings::playbackStepChanged, engine, & IF_MediaEngineInterface::setStepSizeMs);
+
    return engine;
 }
 
 MediaAutomation *PlaylistFunctionFactory::buildAutomation( MediaListModel *model,
-                                                                IF_MediaEngineInterface *engine,
-                                                                ActionListController *controller,
-                                                                Fader *fader, int defaultVolume,
-                                                                StatusDisplay & msgDisplay )
+                                                           IF_MediaEngineInterface *engine,
+                                                           ActionListController *controller,
+                                                           Fader *fader, int defaultVolume,
+                                                           StatusDisplay & msgDisplay )
 {
    MediaAutomation *automation = new MediaAutomation( engine, model, controller, fader,
                                                       defaultVolume, msgDisplay,
@@ -184,8 +189,6 @@ QList<QAction *> PlaylistFunctionFactory::buildActionList( IF_MediaEngineInterfa
 
    MediaToolbar *mediaTools = new MediaToolbar( playAction, pauseAction,
                                                 rewindAction, stopAction, this);
-   connect( mediaEngine, & IF_MediaEngineInterface::AvPlayerStateChanged,   // TODO: remove if "MediaToolbar::onMediaStateChanged" is useless
-            mediaTools, & MediaToolbar::onMediaStateChanged );
 
    connect( mediaEngine, & IF_MediaEngineInterface::pictureShowChanged,
             mediaTools, & MediaToolbar::onPictureShowChanged );

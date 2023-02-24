@@ -10,12 +10,14 @@
 #include <QKeyEvent>
 #include <QStringList>
 #include <QScreen>
+#include <QWidget>
 
 #include "testableAssert.h"
 
 using namespace MDK_NS;
-QMDKWindow::QMDKWindow(QWindow *parent) :
+QMDKWindow::QMDKWindow(QWidget* mainWindow, QWindow *parent) :
    QOpenGLWindow(NoPartialUpdate, parent),
+   m_mainWindow(mainWindow),
    m_player(nullptr)
 {
    hide();
@@ -62,17 +64,8 @@ void QMDKWindow::paintGL()
 }
 
 
-void QMDKWindow::keyPressEvent(QKeyEvent *e)
-{
-   switch (e->key()) {
-   // TODO ...
-   default:
-      break;
-   }
-}
-
-
 void QMDKWindow::focusInEvent(QFocusEvent*)
 {
-   // TODO return focus to owner.
+   // return focus to owner, so we don't need to handle keystrokes here.
+   m_mainWindow->topLevelWidget()->activateWindow();
 }

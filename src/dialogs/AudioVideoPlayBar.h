@@ -46,7 +46,6 @@ private slots:
    void on_fadeInCheckbox_clicked(bool checked);
    void on_subtitleCheckBox_clicked(bool checked);
    void on_repeatCheckBox_clicked(bool checked);
-   void on_frameBackwordButton_clicked();
    void on_frameForwardButton_clicked();
    void on_secondaryButtons_clicked(bool checked);
 

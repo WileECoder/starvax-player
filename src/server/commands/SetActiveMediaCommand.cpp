@@ -1,4 +1,4 @@
-#include "SetActiveTrackCommand.h"
+#include "SetActiveMediaCommand.h"
 #include <QStringList>
 
 #include "MediaAutomation.h"

@@ -18,7 +18,6 @@ class QPixmap;
  *  in implementation. As it is not easily testable, implementation
  *  should be simple and with as few logic as possible.
  */
-// TODO the name is now wrong !!! remove SDL!
 class MediaEngineMdk : public IF_MediaEngineInterface
 {
    Q_OBJECT
@@ -29,8 +28,6 @@ public:
                            QObject *parent = nullptr);
    ~MediaEngineMdk() override;
 
-   /** used to bind a "screen" widget to media engine implementation */
-   void setWidgetForRender(QWidget * canvas) override;
 
 public slots:
    void checkPlatform() override;
@@ -51,6 +48,7 @@ public slots:
    void onUserPositionRequested( qint64 positionMs) override;
    void setMuted(bool isMuted) override;
    void setAudioOnly(bool audioOnly) override;
+   void showOnTop( bool onTop) override;
    void enableFadeIn( bool enabled) override;
    void setLoopPlayback( bool enabled) override;
    void enableSubtitles() override;
@@ -60,6 +58,7 @@ public slots:
 signals:
    void int_mediaStatusChanged( mdk::MediaStatus newStatus);
    void int_playerStateChanged( mdk::State newState);
+   void int_videoAvailableChanged( bool available);
 
 private slots:
    void onTimerTick();
@@ -67,9 +66,10 @@ private slots:
    void onPlayerStateChanged( mdk::State newState);
    void onDurationChanged( int64_t duration_ms);
    void onVideoAvailable( bool available);
-   void onStopAllRequest();
    void onAudioOnlyRequest();
 
+private:
+   void int_stop();
 
 private:
    Fader & m_fader;
@@ -85,6 +85,8 @@ private:
    bool m_imageFileFlag;
    QPixmap * m_pixmap;
    QString m_currentMediaPath;
+   /* requested by GUI or user, not returned by player */
+   MediaObject::AvPlayerState m_requestedState;
 };
 
 

@@ -67,7 +67,6 @@ AudioVideoPlayBar::AudioVideoPlayBar(IF_MediaEngineInterface &engine, MediaPosit
 
    QCommonStyle style;
    ui->frameForwardButton->setIcon(style.standardIcon(QStyle::SP_MediaSeekForward));
-   ui->frameBackwordButton->setIcon(style.standardIcon(QStyle::SP_MediaSeekBackward));
 
    engine.setTickInterval( TICK_INTERVAL_MS);
 
@@ -150,23 +149,19 @@ void AudioVideoPlayBar::onAvSateChanged(MediaObject::AvMediaState newState)
    switch (newState)
    {
    case MediaObject::LoadingState:
-      qDebug() << "LOADING";
       ui->lcdTime->setText("LOADING...");
       break;
 
    case MediaObject::LoadedState:
-      qDebug() << "LOADED";
-      // rewrite current time
+      // rewrite current time. This does NOT happen at time 0 only.
       updateTime(m_currentTimeMs);
       break;
 
    case MediaObject::BufferingState:
-      qDebug() << "BUFFERING";
       ui->lcdTime->setText("BUFFERING...");
       break;
 
    case MediaObject::ErrorState:
-      qDebug() << "MEDIA ERROR";
       ui->lcdTime->setText("MEDIA ERROR");
       break;
    }
@@ -230,7 +225,6 @@ void AudioVideoPlayBar::showButtons()
    ui->repeatCheckBox->setVisible( true);
    ui->fadeInCheckbox->setVisible( true);
    ui->frameForwardButton->setVisible( true);
-   ui->frameBackwordButton->setVisible( true);
    ui->secondaryButtons->setVisible( true);
 }
 
@@ -245,7 +239,6 @@ void AudioVideoPlayBar::hideButtons()
    ui->repeatCheckBox->setVisible( false);
    ui->fadeInCheckbox->setVisible( false);
    ui->frameForwardButton->setVisible( false);
-   ui->frameBackwordButton->setVisible( false);
    ui->secondaryButtons->setVisible( false);
 }
 
@@ -298,10 +291,6 @@ void AudioVideoPlayBar::on_repeatCheckBox_clicked( bool checked)
    m_engine.setLoopPlayback( checked);
 }
 
-void AudioVideoPlayBar::on_frameBackwordButton_clicked()
-{
-   m_engine.singleFrameBackward();
-}
 
 void AudioVideoPlayBar::on_frameForwardButton_clicked()
 {
@@ -314,5 +303,5 @@ void AudioVideoPlayBar::on_secondaryButtons_clicked(bool checked)
    ui->repeatCheckBox->setVisible( checked);
    ui->fadeInCheckbox->setVisible( checked);
    ui->frameForwardButton->setVisible( checked);
-   ui->frameBackwordButton->setVisible( checked);
 }
+

@@ -23,19 +23,14 @@ public:
       m_pauseAction(pauseAction),
       m_rewindAction( rewindAction),
       m_stopAction( stopAction),
-//      m_audioVideoState( MediaObject::StoppedState),
       m_isPictureLoaded( false),
       m_isPictureVisible( false)
    {
    }
 
-   virtual ~MediaToolbar() {}
+   virtual ~MediaToolbar() override {}
 
 public slots:
-   void onMediaStateChanged( MediaObject::AvPlayerState /*newState*/)
-   {
-//      m_audioVideoState = newState;
-   }
 
    void onPictureShowChanged( bool isShown)
    {
@@ -56,7 +51,6 @@ private:
    QAction *m_rewindAction;
    QAction *m_stopAction;
 
-//TODO ??   MediaObject::AVState m_audioVideoState;
    bool m_isPictureLoaded;
    bool m_isPictureVisible;
 };

@@ -8,6 +8,7 @@
         <file>HardCodedIcons/fadeIn_trigger.png</file>
         <file>HardCodedIcons/repeat_off.png</file>
         <file>HardCodedIcons/repeat_on.png</file>
-        <file>HardCodedIcons/vlc.png</file>
+        <file>HardCodedIcons/onTop_off.png</file>
+        <file>HardCodedIcons/onTop_on.png</file>
     </qresource>
 </RCC>

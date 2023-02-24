@@ -16,7 +16,7 @@ class QMDKWindow : public QOpenGLWindow
 {
    Q_OBJECT
 public:
-   QMDKWindow(QWindow *parent = Q_NULLPTR);
+   QMDKWindow( QWidget * mainWindow, QWindow *parent = Q_NULLPTR);
    ~QMDKWindow() override;
 
    /** attach specific video player.
@@ -28,13 +28,13 @@ public:
 protected:
    void resizeGL(int w, int h) override;
    void paintGL() override;
-   void keyPressEvent(QKeyEvent *) override;
 
    // QWindow interface
 protected:
    void focusInEvent(QFocusEvent*) override;
 
 private:
+   QWidget* m_mainWindow;
    mdk::Player * m_player;
 };
 

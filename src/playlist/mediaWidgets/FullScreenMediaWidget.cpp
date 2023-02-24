@@ -18,11 +18,10 @@ FullScreenMediaWidget::FullScreenMediaWidget( QMDKWindow * videoWindow,
    m_pictureWidget( pictureWidget),
    m_owner( owner)
 {
-   /* this is the overlay layer */
    m_videoWindow->setFlags( m_videoWindow->flags() |
                             Qt::SplashScreen );
    m_pictureWidget->setWindowFlags( m_pictureWidget->windowFlags() |
-                                    Qt::SplashScreen | Qt::WindowStaysOnTopHint);
+                                    Qt::SplashScreen);
 
    hideAll();
 }
@@ -65,6 +64,27 @@ void FullScreenMediaWidget::hideAll()
 {
    hideVideo();
    hidePicture();
+}
+
+
+void FullScreenMediaWidget::setOnTop(bool onTop)
+{
+   bool pictVisible = m_pictureWidget->isVisible();
+   bool videoVisible = m_videoWindow->isVisible();
+
+   if (onTop == true)
+   {
+      m_videoWindow->setFlags( m_videoWindow->flags() | Qt::WindowStaysOnTopHint);
+      m_pictureWidget->setWindowFlags( m_pictureWidget->windowFlags() | Qt::WindowStaysOnTopHint);
+   }
+   else
+   {
+      m_videoWindow->setFlags( m_videoWindow->flags() & ( ~ Qt::WindowStaysOnTopHint));
+      m_pictureWidget->setWindowFlags( m_pictureWidget->windowFlags() & ( ~ Qt::WindowStaysOnTopHint));
+   }
+
+   m_videoWindow->setVisible( videoVisible);
+   m_pictureWidget->setVisible( pictVisible);
 }
 
 void FullScreenMediaWidget::attachPlayer(mdk::Player &player)

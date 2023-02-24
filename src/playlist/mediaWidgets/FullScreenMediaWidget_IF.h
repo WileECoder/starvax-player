@@ -39,6 +39,9 @@ public:
    /** request to hide both video and picture widget */
    virtual void hideAll() = 0;
 
+   /** set or unset this window as 'Always on top'. This affects both picture and video */
+   virtual void setOnTop( bool onTop) = 0;
+
    /** attach specific video player */
    virtual void attachPlayer( mdk::Player & player) = 0;
 };

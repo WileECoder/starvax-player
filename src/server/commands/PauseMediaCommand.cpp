@@ -1,4 +1,4 @@
-#include "PauseTrackCommand.h"
+#include "PauseMediaCommand.h"
 
 #include <QStringList>
 #include "IF_MediaEngineInterface.h"
@@ -6,7 +6,7 @@
 #include "CommandReply_IF.h"
 
 
-Server::PauseTrackCommand::PauseTrackCommand( IF_MediaEngineInterface & mediaEngine_A,
+Server::PauseMediaCommand::PauseMediaCommand( IF_MediaEngineInterface & mediaEngine_A,
                                               IF_MediaEngineInterface & mediaEngine_B,
                                               CommandReply_IF & replySink) :
    m_mediaEngine_A( mediaEngine_A),
@@ -16,7 +16,7 @@ Server::PauseTrackCommand::PauseTrackCommand( IF_MediaEngineInterface & mediaEng
 }
 
 
-bool Server::PauseTrackCommand::execute(const QStringList & parameters)
+bool Server::PauseMediaCommand::execute(const QStringList & parameters)
 {
    if (parameters.size() >= 1)
    {
