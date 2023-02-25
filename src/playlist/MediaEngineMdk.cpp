@@ -100,13 +100,29 @@ void MediaEngineMdk::checkPlatform()
 }
 
 
+void MediaEngineMdk::deletePixmap()
+{
+   m_displayWidget.setPixmap( QPixmap());
+
+   if (m_pixmap)
+   {
+      delete m_pixmap;
+      m_pixmap = nullptr;
+   }
+}
+
 void MediaEngineMdk::setCurrentSource( const AbstractMediaSource *source, bool dontStopFlag)
 {
    if (dontStopFlag == false)  /* default case */
    {
       int_stop();
       disableSubtitles();
-      m_videoTrackAvailable = false;
+      /* don't know if new source has a video track */
+//TODO ??      m_videoTrackAvailable = false;
+
+      /* when activating an item without 'dontStopFlag', we assume user
+       * wants it hidden (no display on screen) */
+      m_requestedState = MediaObject::StoppedState;
    }
 
    if (source != nullptr)
@@ -116,15 +132,10 @@ void MediaEngineMdk::setCurrentSource( const AbstractMediaSource *source, bool d
       if (filePath != m_currentMediaPath)
       {
          m_imageFileFlag = checkForImageFormat( QFileInfo(filePath).suffix());
+         deletePixmap();
 
          if (m_imageFileFlag)
          {
-            if (m_pixmap)
-            {
-               delete m_pixmap;
-               m_pixmap = nullptr;
-            }
-
             m_pixmap = new QPixmap( filePath);
             m_displayWidget.setPixmap( *m_pixmap);
          }
@@ -163,13 +174,10 @@ void MediaEngineMdk::setCurrentSource( const AbstractMediaSource *source, bool d
 
 void MediaEngineMdk::play()
 {
-   m_requestedState = MediaObject::PausedState;
+   m_requestedState = MediaObject::PlayingState;
 
    if (m_imageFileFlag)
    {
-      T_ASSERT( m_pixmap);
-      m_displayWidget.setPixmap( *m_pixmap);
-      m_displayWidget.showPicture();
       emit pictureShowChanged(true);
    }
    else
@@ -181,12 +189,9 @@ void MediaEngineMdk::play()
       }
 
       m_player.set( mdk::State::Playing);
-
-      if (m_videoTrackAvailable && (m_audioOnlyRequest == false))
-      {
-         m_displayWidget.showVideo();
-      }
    }
+
+   evaluateDisplayShow();
 }
 
 void MediaEngineMdk::pause()
@@ -195,13 +200,14 @@ void MediaEngineMdk::pause()
 
    if (m_imageFileFlag)
    {
-      m_displayWidget.hidePicture();
       emit pictureShowChanged(false);
    }
    else
    {
       m_player.set( mdk::State::Paused);
    }
+
+   evaluateDisplayShow();
 }
 
 void MediaEngineMdk::togglePlayPause()
@@ -234,10 +240,57 @@ void MediaEngineMdk::stop()
 
 void MediaEngineMdk::int_stop()
 {
-   m_displayWidget.hideAll();
+   deletePixmap();
+
    m_player.set(mdk::State::Stopped);
+   evaluateDisplayShow();
+
+   /* used by UI controls, not by screen */
    emit pictureShowChanged(false);
    emit tick(0);
+}
+
+void MediaEngineMdk::evaluateDisplayShow()
+{
+   qDebug() << "m_imageFileFlag:"<< m_imageFileFlag
+            << "  m_audioOnlyRequest:" << m_audioOnlyRequest
+            << "  m_videoTrackAvailable:" << m_videoTrackAvailable
+            << "  m_requestedState:"  <<  m_requestedState
+            << " m_pixmap" << (m_pixmap != nullptr);
+
+   if (m_imageFileFlag)
+   {
+      m_displayWidget.hideVideo();
+
+      if ((m_requestedState == MediaObject::PlayingState) &&
+          (m_pixmap != nullptr) )
+      {
+         qDebug() << "show picture";
+         m_displayWidget.showPicture();
+      }
+      else
+      {
+         qDebug() << "hide picture";
+         m_displayWidget.hidePicture();
+      }
+   }
+   else // audio-video
+   {
+      m_displayWidget.hidePicture();
+
+      if ((m_audioOnlyRequest == true) ||
+          (m_videoTrackAvailable == false) ||
+          (m_requestedState == MediaObject::StoppedState) )
+      {
+         qDebug() << "hide video";
+         m_displayWidget.hideVideo();
+      }
+      else
+      {
+         qDebug() << "show video";
+         m_displayWidget.showVideo();
+      }
+   }
 }
 
 
@@ -302,14 +355,7 @@ void MediaEngineMdk::setAudioOnly( bool audioOnly)
    m_audioOnlyRequest = audioOnly;
    emit audioOnlyChanged( audioOnly);
 
-   if ((m_audioOnlyRequest == true) || (m_videoTrackAvailable == false))
-   {
-      m_displayWidget.hideVideo();
-   }
-   else
-   {
-      m_displayWidget.showVideo();
-   }
+   evaluateDisplayShow();
 }
 
 void MediaEngineMdk::showOnTop(bool onTop)
@@ -425,11 +471,14 @@ void MediaEngineMdk::onPlayerStateChanged(mdk::State newState)
       if (m_requestedState != MediaObject::StoppedState)
       {
          /* guess: stop for end-of-file reached. */
+         qDebug() << "finished !!!!";
          emit finished();
       }
 
       break;
    }
+
+   evaluateDisplayShow();
 }
 
 
@@ -441,17 +490,7 @@ void MediaEngineMdk::onDurationChanged(int64_t duration_ms)
 void MediaEngineMdk::onVideoAvailable(bool available)
 {
    m_videoTrackAvailable = available;
-
-   /* It may happen that 'play' is issued just after 'setCurrentSource',
-    * before media is loaded. In this case, video widget must be shown now.
-    * Do not use "m_player.state()" due to the playing/pause glitch that happens
-    * when loading a file */
-   if (m_videoTrackAvailable &&
-       (m_requestedState == MediaObject::PlayingState) &&
-       (m_audioOnlyRequest == false))
-   {
-      m_displayWidget.showVideo();
-   }
+   evaluateDisplayShow();
 }
 
 

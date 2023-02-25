@@ -70,6 +70,8 @@ private slots:
 
 private:
    void int_stop();
+   void evaluateDisplayShow();
+   void deletePixmap();
 
 private:
    Fader & m_fader;
