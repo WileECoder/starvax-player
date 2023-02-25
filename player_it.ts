@@ -96,12 +96,12 @@
         <translation>vuoto</translation>
     </message>
     <message>
-        <location filename="src/dialogs/ActionTargetSelectorDialog.cpp" line="108"/>
+        <location filename="src/dialogs/ActionTargetSelectorDialog.cpp" line="110"/>
         <source>LINE A</source>
         <translation>LINEA A</translation>
     </message>
     <message>
-        <location filename="src/dialogs/ActionTargetSelectorDialog.cpp" line="115"/>
+        <location filename="src/dialogs/ActionTargetSelectorDialog.cpp" line="117"/>
         <source>LINE B</source>
         <translation>LINEA B</translation>
     </message>
@@ -311,32 +311,32 @@
         <translation>&amp;modalità di modifica</translation>
     </message>
     <message>
-        <location filename="src/application/ApplicationFactory.cpp" line="190"/>
+        <location filename="src/application/ApplicationFactory.cpp" line="188"/>
         <source>Playlist Line A</source>
         <translation>Lista media canale A</translation>
     </message>
     <message>
-        <location filename="src/application/ApplicationFactory.cpp" line="222"/>
+        <location filename="src/application/ApplicationFactory.cpp" line="220"/>
         <source>Playlist Line B</source>
         <translation>Lista media canale B</translation>
     </message>
     <message>
-        <location filename="src/application/ApplicationFactory.cpp" line="294"/>
+        <location filename="src/application/ApplicationFactory.cpp" line="272"/>
         <source>pause all</source>
         <translation>in pausa entrambe</translation>
     </message>
     <message>
-        <location filename="src/application/ApplicationFactory.cpp" line="300"/>
+        <location filename="src/application/ApplicationFactory.cpp" line="278"/>
         <source>play all</source>
         <translation>suona entrambe</translation>
     </message>
     <message>
-        <location filename="src/application/ApplicationFactory.cpp" line="307"/>
+        <location filename="src/application/ApplicationFactory.cpp" line="285"/>
         <source>rewind all</source>
         <translation>riavvolgi entrambe</translation>
     </message>
     <message>
-        <location filename="src/application/ApplicationFactory.cpp" line="313"/>
+        <location filename="src/application/ApplicationFactory.cpp" line="291"/>
         <source>stop all</source>
         <translation>spegni entrambe</translation>
     </message>
@@ -380,17 +380,17 @@
         <translation>Riquadro</translation>
     </message>
     <message>
-        <location filename="src/dialogs/AudioVideoPlayBar.ui" line="115"/>
+        <location filename="src/dialogs/AudioVideoPlayBar.ui" line="82"/>
         <source>play audio only without video</source>
         <translation>riproduci audio senza video</translation>
     </message>
     <message>
-        <location filename="src/dialogs/AudioVideoPlayBar.ui" line="143"/>
+        <location filename="src/dialogs/AudioVideoPlayBar.ui" line="142"/>
         <source>fade in when play</source>
         <translation>dissolvenza audio iniziale</translation>
     </message>
     <message>
-        <location filename="src/dialogs/AudioVideoPlayBar.ui" line="100"/>
+        <location filename="src/dialogs/AudioVideoPlayBar.ui" line="258"/>
         <source>0:00:00</source>
         <translation>0:00:00</translation>
     </message>
@@ -1074,23 +1074,26 @@ Load (uncomplete) show anyway?</source>
         <translation>Musica</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="246"/>
+        <location filename="src/dialogs/mainwindow.ui" line="243"/>
         <source>Playlist LINE A</source>
         <translation>Lista tracce LINEA A</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="309"/>
+        <location filename="src/dialogs/mainwindow.ui" line="300"/>
         <source>Light Control</source>
         <translation>Pannello Luci</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="586"/>
-        <location filename="src/dialogs/mainwindow.cpp" line="651"/>
-        <source>About VLC library</source>
-        <translation>Informazioni su VLC</translation>
+        <location filename="src/dialogs/mainwindow.ui" line="567"/>
+        <source>About multimedia library</source>
+        <translation>Informazioni sulla libreria multimediale</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="594"/>
+        <source>About VLC library</source>
+        <translation type="vanished">Informazioni su VLC</translation>
+    </message>
+    <message>
+        <location filename="src/dialogs/mainwindow.ui" line="576"/>
         <source>About Qt</source>
         <translation>Informazioni su Qt</translation>
     </message>
@@ -1099,7 +1102,7 @@ Load (uncomplete) show anyway?</source>
         <translation type="vanished">Pannello Sequenza</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="354"/>
+        <location filename="src/dialogs/mainwindow.ui" line="345"/>
         <source>toolBar</source>
         <translation>barra degli strumenti</translation>
     </message>
@@ -1112,68 +1115,68 @@ Load (uncomplete) show anyway?</source>
         <translation type="vanished">Informazioni su FFMPEG</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="279"/>
+        <location filename="src/dialogs/mainwindow.ui" line="273"/>
         <source>[TOP] Playlist LINE B</source>
         <oldsource>Playlist LINE B</oldsource>
         <translation>[TOP] Lista tracce LINEA B</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="382"/>
+        <location filename="src/dialogs/mainwindow.ui" line="367"/>
         <source>Sequencer</source>
         <translation>Sequenze</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="391"/>
+        <location filename="src/dialogs/mainwindow.ui" line="376"/>
         <source>&amp;open script</source>
         <translation>&amp;Apri copione</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="394"/>
+        <location filename="src/dialogs/mainwindow.ui" line="379"/>
         <source>o</source>
         <translation>o</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="397"/>
+        <location filename="src/dialogs/mainwindow.ui" line="382"/>
         <source>Ctrl+O</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="402"/>
+        <location filename="src/dialogs/mainwindow.ui" line="387"/>
         <source>open music line &amp;A</source>
         <translation>apri file multimedia linea &amp;A</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="516"/>
+        <location filename="src/dialogs/mainwindow.ui" line="501"/>
         <source>open music line &amp;B</source>
         <translation>apri file multimedia linea &amp;B</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="530"/>
+        <location filename="src/dialogs/mainwindow.ui" line="515"/>
         <source>playlist line A</source>
         <translation>lista tracce Linea A</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="533"/>
+        <location filename="src/dialogs/mainwindow.ui" line="518"/>
         <source>view playlist line A</source>
         <translation>visualizza lista traccie linea A</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="544"/>
+        <location filename="src/dialogs/mainwindow.ui" line="529"/>
         <source>playlist line B</source>
         <translation>lista tracce linea B</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="555"/>
+        <location filename="src/dialogs/mainwindow.ui" line="540"/>
         <source>light preset</source>
         <translation>luci spettacolo</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="566"/>
+        <location filename="src/dialogs/mainwindow.ui" line="551"/>
         <source>open web net</source>
         <translation>Open Web Net</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="577"/>
+        <location filename="src/dialogs/mainwindow.ui" line="562"/>
         <source>sequencer</source>
         <translation>sequenze</translation>
     </message>
@@ -1190,32 +1193,32 @@ Load (uncomplete) show anyway?</source>
         <translation type="vanished">apri &amp;musica</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="405"/>
+        <location filename="src/dialogs/mainwindow.ui" line="390"/>
         <source>Ctrl+M</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="495"/>
+        <location filename="src/dialogs/mainwindow.ui" line="480"/>
         <source>&amp;play</source>
         <translation>&amp;attiva</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="498"/>
+        <location filename="src/dialogs/mainwindow.ui" line="483"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="503"/>
+        <location filename="src/dialogs/mainwindow.ui" line="488"/>
         <source>p&amp;ause</source>
         <translation>&amp;pausa</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="506"/>
+        <location filename="src/dialogs/mainwindow.ui" line="491"/>
         <source>F6</source>
         <translation>F6</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="511"/>
+        <location filename="src/dialogs/mainwindow.ui" line="496"/>
         <source>&amp;Options ...</source>
         <translation>&amp;Opzioni ...</translation>
     </message>
@@ -1228,22 +1231,22 @@ Load (uncomplete) show anyway?</source>
         <translation type="obsolete">&amp;Pausa animazione</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="410"/>
+        <location filename="src/dialogs/mainwindow.ui" line="395"/>
         <source>&amp;Open Show</source>
         <translation>Apri &amp;spettacolo</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="413"/>
+        <location filename="src/dialogs/mainwindow.ui" line="398"/>
         <source>Ctrl+Shift+O</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="418"/>
+        <location filename="src/dialogs/mainwindow.ui" line="403"/>
         <source>&amp;Save Show</source>
         <translation>&amp;Salva spettacolo</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="421"/>
+        <location filename="src/dialogs/mainwindow.ui" line="406"/>
         <source>Ctrl+S</source>
         <translation></translation>
     </message>
@@ -1252,12 +1255,12 @@ Load (uncomplete) show anyway?</source>
         <translation type="obsolete">volDefault</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="450"/>
+        <location filename="src/dialogs/mainwindow.ui" line="435"/>
         <source>&amp;Dark Mode</source>
         <translation>&amp;Modalità buia</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="453"/>
+        <location filename="src/dialogs/mainwindow.ui" line="438"/>
         <source>Ctrl+D</source>
         <translation></translation>
     </message>
@@ -1270,42 +1273,42 @@ Load (uncomplete) show anyway?</source>
         <translation type="obsolete">nuovo evento &amp;luce</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="458"/>
+        <location filename="src/dialogs/mainwindow.ui" line="443"/>
         <source>Save Show &amp;As</source>
         <translation>Salva lo show &amp;con nome</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="463"/>
+        <location filename="src/dialogs/mainwindow.ui" line="448"/>
         <source>openCurtain</source>
         <translation>apri il sipario</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="466"/>
+        <location filename="src/dialogs/mainwindow.ui" line="451"/>
         <source>open curtain</source>
         <translation>apri il sipario</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="471"/>
+        <location filename="src/dialogs/mainwindow.ui" line="456"/>
         <source>closeCurtain</source>
         <translation>chiudi il sipario</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="474"/>
+        <location filename="src/dialogs/mainwindow.ui" line="459"/>
         <source>close the curtain</source>
         <translation>chiudi il siaprio</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="479"/>
+        <location filename="src/dialogs/mainwindow.ui" line="464"/>
         <source>&amp;load last show</source>
         <translation>&amp;Ricarica ultimo spettacolo</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="484"/>
+        <location filename="src/dialogs/mainwindow.ui" line="469"/>
         <source>&amp;Trigger transition</source>
         <translation>&amp;Avvia transizione</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="487"/>
+        <location filename="src/dialogs/mainwindow.ui" line="472"/>
         <source>Trigger light transition</source>
         <translation>Avvia transizione di luci</translation>
     </message>
@@ -1322,7 +1325,7 @@ Load (uncomplete) show anyway?</source>
         <translation type="obsolete">barra dello &amp;spettacolo</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="445"/>
+        <location filename="src/dialogs/mainwindow.ui" line="430"/>
         <source>locale</source>
         <translation>locale</translation>
     </message>
@@ -1331,12 +1334,12 @@ Load (uncomplete) show anyway?</source>
         <translation type="obsolete">&amp;rimuovi traccia</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="426"/>
+        <location filename="src/dialogs/mainwindow.ui" line="411"/>
         <source>Play/Pause</source>
         <translation>suona/interrompi</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="429"/>
+        <location filename="src/dialogs/mainwindow.ui" line="414"/>
         <source>Space</source>
         <translation></translation>
     </message>
@@ -1373,7 +1376,7 @@ Load (uncomplete) show anyway?</source>
         <translation type="obsolete">volume predefinito</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.ui" line="434"/>
+        <location filename="src/dialogs/mainwindow.ui" line="419"/>
         <source>&amp;About Me.Te.Or. Player</source>
         <translation>&amp;Informazioni su Me.Te.Or. Player</translation>
     </message>
@@ -1398,18 +1401,18 @@ Load (uncomplete) show anyway?</source>
         <translation type="vanished">Me.Te.Or player- senza titolo[*]</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.cpp" line="97"/>
+        <location filename="src/dialogs/mainwindow.cpp" line="98"/>
         <source>save before exit</source>
         <translation>salva prima di uscire</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.cpp" line="98"/>
+        <location filename="src/dialogs/mainwindow.cpp" line="99"/>
         <source>The show has changed. Do you want to save it?</source>
         <oldsource>The show has changed. Do you want to save it</oldsource>
         <translation>Lo spettacolo è stato modificato. Salvare i cambiamenti?</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.cpp" line="633"/>
+        <location filename="src/dialogs/mainwindow.cpp" line="634"/>
         <source>About Starvax Me.Te.Or. Player</source>
         <oldsource>About Starvax media Player</oldsource>
         <translation>Informazioni su Starvax Me.Te.Or. player</translation>
@@ -1425,54 +1428,58 @@ Powered by QT4.</oldsource>
         <translation type="vanished">Gestione del copione, musiche ed effetti luce per gli spettacoli Me.Te.Or</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.cpp" line="39"/>
+        <location filename="src/dialogs/mainwindow.cpp" line="40"/>
         <source>Me.te.or. Player %1.%2.%3 - untitled[*]</source>
         <translation>Lettore Me.te.or. %1.%2.%3 - untitled[*]</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.cpp" line="638"/>
+        <location filename="src/dialogs/mainwindow.cpp" line="639"/>
         <source>&lt;p&gt;Custom script, music and light animation for Me.Te.Or Shows.&lt;br/&gt;</source>
         <translation>&lt;p&gt;Gestione copione, musiche, luci per spettacoli teatrali&lt;br/&gt;</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.cpp" line="455"/>
+        <location filename="src/dialogs/mainwindow.cpp" line="456"/>
         <source>WARNING: can&apos;t open %1</source>
         <translation>ATTENZIONE: impossibile aprire %1</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.cpp" line="473"/>
+        <location filename="src/dialogs/mainwindow.cpp" line="474"/>
         <source>&amp;%1 %2</source>
         <translation>&amp;%1 %2</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.cpp" line="506"/>
+        <location filename="src/dialogs/mainwindow.cpp" line="507"/>
         <source>OPEN CURTAIN - Not yet implemented</source>
         <translation>APRI IL SIPARIO - Non ancora disponibile</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.cpp" line="507"/>
+        <location filename="src/dialogs/mainwindow.cpp" line="508"/>
         <source>In order to open the curtain a motor is needed.
 This action is not yet possible</source>
         <translation>Per aprire il sipario è necessario un motore.
 Questa azione non è ancora disponibile</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.cpp" line="516"/>
+        <location filename="src/dialogs/mainwindow.cpp" line="517"/>
         <source>CLOSE CURTAIN - Not yet implemented</source>
         <translation>CHIUDI IL SIPARIO - Non ancora disponibile</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.cpp" line="517"/>
+        <location filename="src/dialogs/mainwindow.cpp" line="518"/>
         <source>In order to close the curtain a motor is needed.
 This action is not yet possible</source>
         <translation>Per chiudere il sipario è necessario un motore.
 Questa azione non è ancora disponibile</translation>
     </message>
     <message>
-        <location filename="src/dialogs/mainwindow.cpp" line="652"/>
+        <location filename="src/dialogs/mainwindow.cpp" line="656"/>
+        <source>About Multimedia engine</source>
+        <translation>Informazioni sulla libreria multimediale</translation>
+    </message>
+    <message>
         <source>&lt;p&gt;Starvax player media capability is based 
 on VLC library version: %1.%2.%3&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Le funzioni multimediali di Starvax player si basano sulla 
+        <translation type="vanished">&lt;p&gt;Le funzioni multimediali di Starvax player si basano sulla 
 libreria VLC, versione: %1.%2.%3&lt;/p&gt;</translation>
     </message>
     <message>
@@ -1529,20 +1536,19 @@ sulla libreria VLC versione: %1.%2.%3</translation>
         <translation type="vanished">&lt;p&gt;&lt;b&gt;Sembra che non siano installati i plugin di VLC.&lt;/b&gt;&lt;/p&gt;Per usare file multimediali, scaricare &lt;a href=&gt;&lt;/a&gt; e copiare i contenuti nella cartella &apos;plugins&apos; (nella cartella dell&apos;applicazione).</translation>
     </message>
     <message>
-        <location filename="src/playlist/MediaEngine.cpp" line="119"/>
         <source>&lt;p&gt;&lt;b&gt;Looks like you don&apos;t have VLC plugins installed.&lt;/b&gt;&lt;/p&gt;To use audio and video files, you need to download &lt;a href=&quot;https://sourceforge.net/projects/starvaxplayer/files/plugins_v3.0.8_win64.zip/download&quot;&gt;https://sourceforge.net/projects/starvaxplayer/files/plugins_v3.0.8_win64.zip/download&lt;/a&gt; and copy the contents in &apos;plugins&apos; folder (under application folder).</source>
-        <translation>&lt;p&gt;&lt;b&gt;Sembra che non siano installati i plugin di VLC.&lt;/b&gt;&lt;/p&gt;Per usare i file multimediali, occorre scaricare &lt;a href=&quot;https://sourceforge.net/projects/starvaxplayer/files/plugins_v3.0.8_win64.zip/download&quot;&gt;https://sourceforge.net/projects/starvaxplayer/files/plugins_v3.0.8_win64.zip/download&lt;/a&gt; e copiare tutti i file nella cartella &apos;plugins&apos; (dentro la cartella dell&apos;applicazione).</translation>
+        <translation type="vanished">&lt;p&gt;&lt;b&gt;Sembra che non siano installati i plugin di VLC.&lt;/b&gt;&lt;/p&gt;Per usare i file multimediali, occorre scaricare &lt;a href=&quot;https://sourceforge.net/projects/starvaxplayer/files/plugins_v3.0.8_win64.zip/download&quot;&gt;https://sourceforge.net/projects/starvaxplayer/files/plugins_v3.0.8_win64.zip/download&lt;/a&gt; e copiare tutti i file nella cartella &apos;plugins&apos; (dentro la cartella dell&apos;applicazione).</translation>
     </message>
 </context>
 <context>
     <name>MediaListView</name>
     <message>
-        <location filename="src/playlist/mediaWidgets/MediaListView.cpp" line="97"/>
+        <location filename="src/playlist/mediaWidgets/MediaListView.cpp" line="96"/>
         <source>Enter &lt;b&gt;edit mode&lt;/b&gt; to drop media.</source>
         <translation>Passa alla &lt;b&gt;modalità di modifica&lt;/b&gt; per modificare il copione.</translation>
     </message>
     <message>
-        <location filename="src/playlist/mediaWidgets/MediaListView.cpp" line="155"/>
+        <location filename="src/playlist/mediaWidgets/MediaListView.cpp" line="154"/>
         <source>Copying items. Hold SHIFT to move.</source>
         <translation>Copia degli elementi. Tieni premuto SHIFT per spostarli.</translation>
     </message>
@@ -1706,8 +1712,6 @@ sulla libreria VLC versione: %1.%2.%3</translation>
 <context>
     <name>PlaylistFunctionFactory</name>
     <message>
-        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="48"/>
-        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="49"/>
         <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="50"/>
         <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="51"/>
         <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="52"/>
@@ -1716,12 +1720,12 @@ sulla libreria VLC versione: %1.%2.%3</translation>
         <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="55"/>
         <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="56"/>
         <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="57"/>
+        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="58"/>
+        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="59"/>
         <source> Line A</source>
         <translation> Linea A</translation>
     </message>
     <message>
-        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="59"/>
-        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="60"/>
         <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="61"/>
         <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="62"/>
         <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="63"/>
@@ -1730,64 +1734,66 @@ sulla libreria VLC versione: %1.%2.%3</translation>
         <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="66"/>
         <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="67"/>
         <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="68"/>
+        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="69"/>
+        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="70"/>
         <source> Line B</source>
         <translation> Linea B</translation>
     </message>
     <message>
-        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="116"/>
+        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="122"/>
         <source>play media %1</source>
         <oldsource>play media</oldsource>
         <translation>riproduci %1</translation>
     </message>
     <message>
-        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="123"/>
+        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="129"/>
         <source>pause media %1</source>
         <oldsource>pause media</oldsource>
         <translation>in pausa %1</translation>
     </message>
     <message>
-        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="130"/>
+        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="136"/>
         <source>play/pause media %1</source>
         <oldsource>play/pause media</oldsource>
         <translation>riproduci/pausa %1</translation>
     </message>
     <message>
-        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="136"/>
+        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="142"/>
         <source>toggle Mute %1</source>
         <oldsource>toggle Mute</oldsource>
         <translation>attiva/disattiva muto %1</translation>
     </message>
     <message>
-        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="145"/>
+        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="151"/>
         <source>rewind %1</source>
         <oldsource>rewind</oldsource>
         <translation>torna all&apos;inizio %1</translation>
     </message>
     <message>
-        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="152"/>
+        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="158"/>
         <source>stop %1</source>
         <oldsource>stop</oldsource>
         <translation>spegni %1</translation>
     </message>
     <message>
-        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="159"/>
+        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="165"/>
         <source>run/stop fading %1</source>
         <oldsource>run/stop fading</oldsource>
         <translation>attiva/ferma dissolvenza audio %1</translation>
     </message>
     <message>
-        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="165"/>
+        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="171"/>
         <source>apply default volume %1</source>
         <oldsource>apply default volume</oldsource>
         <translation>applica volume preferito %1</translation>
     </message>
     <message>
-        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="171"/>
+        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="177"/>
         <source>move forward a step %1</source>
         <translation>avanti un passo %1</translation>
     </message>
     <message>
-        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="176"/>
+        <location filename="src/playlist/PlaylistFunctionFactory.cpp" line="182"/>
         <source>move backward a step %1</source>
         <translation>indietro un passo %1</translation>
     </message>
@@ -1795,47 +1801,52 @@ sulla libreria VLC versione: %1.%2.%3</translation>
 <context>
     <name>PlaylistGuiFactory</name>
     <message>
-        <location filename="src/playlist/mediaWidgets/PlaylistGuiFactory.cpp" line="150"/>
+        <location filename="src/playlist/mediaWidgets/PlaylistGuiFactory.cpp" line="151"/>
         <source>start/stop volume fading</source>
         <translation>inizia/ferma dissolvenza volume</translation>
     </message>
     <message>
-        <location filename="src/playlist/mediaWidgets/PlaylistGuiFactory.cpp" line="159"/>
+        <location filename="src/playlist/mediaWidgets/PlaylistGuiFactory.cpp" line="160"/>
         <source>apply default volume</source>
         <translation>applica volume preferito</translation>
     </message>
     <message>
-        <location filename="src/playlist/mediaWidgets/PlaylistGuiFactory.cpp" line="167"/>
+        <location filename="src/playlist/mediaWidgets/PlaylistGuiFactory.cpp" line="168"/>
         <source>activate nothing</source>
         <translation>disattiva</translation>
     </message>
     <message>
-        <location filename="src/playlist/mediaWidgets/PlaylistGuiFactory.cpp" line="177"/>
+        <location filename="src/playlist/mediaWidgets/PlaylistGuiFactory.cpp" line="174"/>
+        <source>video on top</source>
+        <translation>davanti alle altre tracce</translation>
+    </message>
+    <message>
+        <location filename="src/playlist/mediaWidgets/PlaylistGuiFactory.cpp" line="194"/>
         <source>open a dialog to load new media files</source>
         <translation>apre una finestra di dialogo per caricare file multimediali</translation>
     </message>
     <message>
-        <location filename="src/playlist/mediaWidgets/PlaylistGuiFactory.cpp" line="186"/>
+        <location filename="src/playlist/mediaWidgets/PlaylistGuiFactory.cpp" line="203"/>
         <source>bring focused element one position above</source>
         <translation>sposta in sù l&apos;elemento selezionato</translation>
     </message>
     <message>
-        <location filename="src/playlist/mediaWidgets/PlaylistGuiFactory.cpp" line="195"/>
+        <location filename="src/playlist/mediaWidgets/PlaylistGuiFactory.cpp" line="212"/>
         <source>bring focused element one position below</source>
         <translation>sposta in giù l&apos;elemento selezionato</translation>
     </message>
     <message>
-        <location filename="src/playlist/mediaWidgets/PlaylistGuiFactory.cpp" line="204"/>
+        <location filename="src/playlist/mediaWidgets/PlaylistGuiFactory.cpp" line="221"/>
         <source>delete selected items</source>
         <translation>cancella gli elementi selezionati</translation>
     </message>
     <message>
-        <location filename="src/playlist/mediaWidgets/PlaylistGuiFactory.cpp" line="212"/>
+        <location filename="src/playlist/mediaWidgets/PlaylistGuiFactory.cpp" line="229"/>
         <source>undo</source>
         <translation>annulla</translation>
     </message>
     <message>
-        <location filename="src/playlist/mediaWidgets/PlaylistGuiFactory.cpp" line="221"/>
+        <location filename="src/playlist/mediaWidgets/PlaylistGuiFactory.cpp" line="238"/>
         <source>redo</source>
         <translation>ripeti</translation>
     </message>
@@ -2013,14 +2024,12 @@ Attenzione: il file originale verrà sovrascritto</translation>
         <translation type="vanished">Regolabile</translation>
     </message>
     <message>
-        <location filename="src/playlist/Mp3TagFix.cpp" line="80"/>
         <source>ID3 tags found</source>
-        <translation>Trovate tag ID3</translation>
+        <translation type="vanished">Trovate tag ID3</translation>
     </message>
     <message>
-        <location filename="src/playlist/Mp3TagFix.cpp" line="81"/>
         <source>It seems that file &lt;p&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/p&gt;has ID3 tags and may not work properly. If this file ismainly used by Starvax Player you should better remove them.Would you like to strip tags from file?</source>
-        <translation>Sembra che il file &lt;p&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/p&gt; abbia una o più tag ID3 e potrebbe non funzionare correttamente. Se questo file è usato solo da Starvax Player è consigliato rimuoverli. Vuoi rimuovere le tag dal file?</translation>
+        <translation type="vanished">Sembra che il file &lt;p&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/p&gt; abbia una o più tag ID3 e potrebbe non funzionare correttamente. Se questo file è usato solo da Starvax Player è consigliato rimuoverli. Vuoi rimuovere le tag dal file?</translation>
     </message>
     <message>
         <location filename="src/server/ServerFactory.cpp" line="37"/>
@@ -2201,27 +2210,27 @@ Se non è presente, viene utilizzato il default</translation>
         <translation>Riquadro</translation>
     </message>
     <message>
-        <location filename="src/dialogs/ScriptActionLauncher.ui" line="33"/>
+        <location filename="src/dialogs/ScriptActionLauncher.ui" line="62"/>
         <source>&amp;Activate</source>
         <translation>&amp;Attiva</translation>
     </message>
     <message>
-        <location filename="src/dialogs/ScriptActionLauncher.ui" line="60"/>
+        <location filename="src/dialogs/ScriptActionLauncher.ui" line="75"/>
         <source>TextLabel</source>
         <translation>#TextLabel</translation>
     </message>
     <message>
-        <location filename="src/dialogs/ScriptActionLauncher.ui" line="67"/>
+        <location filename="src/dialogs/ScriptActionLauncher.ui" line="82"/>
         <source>&amp;Play</source>
         <translation>&amp;Aziona</translation>
     </message>
     <message>
-        <location filename="src/dialogs/ScriptActionLauncher.cpp" line="123"/>
+        <location filename="src/dialogs/ScriptActionLauncher.cpp" line="134"/>
         <source>Error executin script action</source>
         <translation>Errore nell&apos;esecuzione dell&apos;azione</translation>
     </message>
     <message>
-        <location filename="src/dialogs/ScriptActionLauncher.cpp" line="124"/>
+        <location filename="src/dialogs/ScriptActionLauncher.cpp" line="135"/>
         <source>Error executing %1 action:
   %2</source>
         <translation>Errore nell&apos;esecuzione dell&apos;azione &quot;%1&quot;: 
