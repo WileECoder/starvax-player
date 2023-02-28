@@ -72,6 +72,8 @@ LineParser::LineParser() :
    PlaylistSubcommandTable.insert("stop", PLAYLIST_STOP);
    PlaylistSubcommandTable.insert("show", PLAYLIST_SHOW);
    PlaylistSubcommandTable.insert("hide", PLAYLIST_HIDE);
+   PlaylistSubcommandTable.insert("top", PLAYLIST_SET_TOP);
+   PlaylistSubcommandTable.insert("bottom", PLAYLIST_SET_BOTTOM);
    PlaylistSubcommandTable.insert("rewind", PLAYLIST_REWIND);
    PlaylistSubcommandTable.insert("fadeout", PLAYLIST_FADEOUT);
    PlaylistSubcommandTable.insert("volume", PLAYLIST_VOLUME);

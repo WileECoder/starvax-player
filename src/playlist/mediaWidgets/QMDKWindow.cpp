@@ -5,7 +5,6 @@
 #include "QMDKWindow.h"
 
 #include <QCoreApplication>
-#include <QDebug>
 #include <QDir>
 #include <QKeyEvent>
 #include <QStringList>

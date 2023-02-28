@@ -169,6 +169,11 @@ void MediaAutomation::fadeout()
    m_fader->fadeOutFrom( m_engine->volume());
 }
 
+void MediaAutomation::setOnTop(bool onTop)
+{
+   m_engine->showOnTop( onTop);
+}
+
 void MediaAutomation::setVolume(int volume)
 {
    m_fader->stop();

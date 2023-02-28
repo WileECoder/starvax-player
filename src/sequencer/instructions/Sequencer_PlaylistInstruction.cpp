@@ -44,6 +44,14 @@ void PlaylistInstruction::execute( const Instruction * /*previousInstruction*/)
       m_automation.stop();
       break;
 
+   case PLAYLIST_SET_TOP:
+      m_automation.setOnTop( true);
+      break;
+
+   case PLAYLIST_SET_BOTTOM:
+      m_automation.setOnTop( false);
+      break;
+
    case PLAYLIST_REWIND:
       m_automation.rewind();
       break;

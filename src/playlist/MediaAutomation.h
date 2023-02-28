@@ -55,6 +55,7 @@ public:
    void stop();
    void rewind();
    void fadeout();
+   void setOnTop( bool onTop);
 
    void setVolume( int volume);
 

@@ -182,7 +182,10 @@ void PlaylistGuiFactory::buildPlaylistPanel( IF_MediaEngineInterface *engine,
                           "    image: url( :/images/HardCodedIcons/onTop_on.png); }" );
    onTopButton->setCheckable( true);
    onTopButton->setChecked( false);
+   /* UI operation on button */
    connect( onTopButton, & QPushButton::clicked, engine, & IF_MediaEngineInterface::showOnTop);
+   /* 'onTop' changed by automation */
+   connect( engine, & IF_MediaEngineInterface::onTopChanged, onTopButton, & QPushButton::setChecked);
    toolbar->layout()->addWidget( onTopButton);
    onTopButton->setMaximumSize(iconSize);
 

@@ -11,7 +11,11 @@
 #include "supported_files.h"
 
 #include <qdebug.h>
+#include <QTime>
+
 #include <string>
+
+//#define  DEBUG_VIDEO
 
 namespace {
 NullMediaSource NullObject;
@@ -74,10 +78,12 @@ MediaEngineMdk::MediaEngineMdk( Fader & fader,
                            "FFmpeg"});
 
    m_player.onStateChanged([this](mdk::State s){
+      // qDebug() << "player: " << (int8_t)s << "  at " << QTime::currentTime().toString("mm:ss:zz");
       emit int_playerStateChanged( s);
    });
 
    m_player.onMediaStatusChanged([this](mdk::MediaStatus s){
+      // qDebug() << "media: " << Qt::hex << (int)s << "  at " << QTime::currentTime().toString("mm:ss:zz") << Qt::dec;
       emit int_mediaStatusChanged( s);
       return true;
    });
@@ -113,24 +119,21 @@ void MediaEngineMdk::deletePixmap()
 
 void MediaEngineMdk::setCurrentSource( const AbstractMediaSource *source, bool dontStopFlag)
 {
-   if (dontStopFlag == false)  /* default case */
-   {
-      int_stop();
-      disableSubtitles();
-      /* don't know if new source has a video track */
-//TODO ??      m_videoTrackAvailable = false;
-
-      /* when activating an item without 'dontStopFlag', we assume user
-       * wants it hidden (no display on screen) */
-      m_requestedState = MediaObject::StoppedState;
-   }
-
    if (source != nullptr)
    {
       const QString & filePath = source->fileName();
 
       if (filePath != m_currentMediaPath)
       {
+         if (dontStopFlag == false)  /* default case */
+         {
+            int_stop();
+            /* when activating an item without 'dontStopFlag', we assume user
+             * wants it hidden (no display on screen).
+             * MDK library stops on media change automatically */
+            m_requestedState = MediaObject::StoppedState;
+         }
+
          m_imageFileFlag = checkForImageFormat( QFileInfo(filePath).suffix());
          deletePixmap();
 
@@ -240,9 +243,10 @@ void MediaEngineMdk::stop()
 
 void MediaEngineMdk::int_stop()
 {
-   deletePixmap();
-
    m_player.set(mdk::State::Stopped);
+   m_player.waitFor( mdk::State::Stopped, 5000 /*ms*/); /* timeout prevents blocking but
+                                                         * we don't check for success. */
+
    evaluateDisplayShow();
 
    /* used by UI controls, not by screen */
@@ -252,11 +256,9 @@ void MediaEngineMdk::int_stop()
 
 void MediaEngineMdk::evaluateDisplayShow()
 {
-   qDebug() << "m_imageFileFlag:"<< m_imageFileFlag
-            << "  m_audioOnlyRequest:" << m_audioOnlyRequest
-            << "  m_videoTrackAvailable:" << m_videoTrackAvailable
-            << "  m_requestedState:"  <<  m_requestedState
-            << " m_pixmap" << (m_pixmap != nullptr);
+#ifdef DEBUG_VIDEO
+   QString action;
+#endif
 
    if (m_imageFileFlag)
    {
@@ -265,12 +267,16 @@ void MediaEngineMdk::evaluateDisplayShow()
       if ((m_requestedState == MediaObject::PlayingState) &&
           (m_pixmap != nullptr) )
       {
-         qDebug() << "show picture";
+#ifdef DEBUG_VIDEO
+         action = "show picture";
+#endif
          m_displayWidget.showPicture();
       }
       else
       {
-         qDebug() << "hide picture";
+#ifdef DEBUG_VIDEO
+         action = "hide picture";
+#endif
          m_displayWidget.hidePicture();
       }
    }
@@ -282,15 +288,29 @@ void MediaEngineMdk::evaluateDisplayShow()
           (m_videoTrackAvailable == false) ||
           (m_requestedState == MediaObject::StoppedState) )
       {
-         qDebug() << "hide video";
+#ifdef DEBUG_VIDEO
+         action = "hide video";
+#endif
          m_displayWidget.hideVideo();
       }
       else
       {
-         qDebug() << "show video";
+#ifdef DEBUG_VIDEO
+         action = "show video";
+#endif
          m_displayWidget.showVideo();
       }
    }
+
+#ifdef DEBUG_VIDEO
+   qDebug() << (uint64_t)this
+            << ":" << action << "  "
+            << "  image:"<< m_imageFileFlag
+            << "  audio_only:" << m_audioOnlyRequest
+            << "  video_available:" << m_videoTrackAvailable
+            << "  m_requested:"  <<  m_requestedState
+            << "  pixmap_null" << (m_pixmap == nullptr);
+#endif
 }
 
 
@@ -361,6 +381,7 @@ void MediaEngineMdk::setAudioOnly( bool audioOnly)
 void MediaEngineMdk::showOnTop(bool onTop)
 {
    m_displayWidget.setOnTop( onTop);
+   emit onTopChanged( onTop);
 }
 
 
@@ -400,18 +421,21 @@ void MediaEngineMdk::setTickInterval( qint32 tick_ms )
 void MediaEngineMdk::enableSubtitles()
 {
    // TODO
-
+#if 0
    static const QStringList subtitleExtention = QStringList() << "srt" << "ass" << "ssa" << "sub" << "lrc";
    QString sub_path = m_currentMediaPath + ".ass";
 
    m_player.setMedia(sub_path.toLatin1().constData(), mdk::MediaType::Subtitle);
    m_player.setActiveTracks( mdk::MediaType::Subtitle, {0});
+#endif
 }
 
 
 void MediaEngineMdk::disableSubtitles()
 {
+#if 0
    m_player.setMedia( nullptr, mdk::MediaType::Subtitle);
+#endif
 }
 
 
@@ -471,7 +495,6 @@ void MediaEngineMdk::onPlayerStateChanged(mdk::State newState)
       if (m_requestedState != MediaObject::StoppedState)
       {
          /* guess: stop for end-of-file reached. */
-         qDebug() << "finished !!!!";
          emit finished();
       }
 

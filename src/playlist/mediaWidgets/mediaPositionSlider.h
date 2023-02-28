@@ -2,7 +2,7 @@
 #define MEDIA_POSITION_SLIDER_H
 
 #include "swiftslider.h"
-
+#include <QDebug>
 
 #define TWO_DIGIT_ZERO_PAD(val)    val, 2, 10, QLatin1Char('0')
 #define ONE_DIGIT(val)    val, 1, 10
@@ -17,7 +17,7 @@ class MediaPositionSlider : public SwiftSlider
 {
    Q_OBJECT
 public:
-   MediaPositionSlider( QWidget *parent = 0) : SwiftSlider(Qt::Horizontal, parent)
+   MediaPositionSlider( QWidget *parent = nullptr) : SwiftSlider(Qt::Horizontal, parent)
    {
       m_changingTick = false;
       setOrientation( Qt::Horizontal);
@@ -44,11 +44,11 @@ protected:
     * @retval formatted string to be shown as tooltip
     *
     */
-   virtual QString formatTip( qint64 value)
+   virtual QString formatTip( qint64 value) override
    {
       int dec = (value % 10);
       int sec = (value / 10) % 60;
-      int min = ((value / 10) / 60);
+      int min = (int)((value / 10) / 60);
 
       return QString("<b>%1:%2</b> .%3")
             .arg(min).arg(TWO_DIGIT_ZERO_PAD(sec)).arg(ONE_DIGIT(dec));
@@ -70,6 +70,7 @@ public slots:
 
    void setDurationMs(qint64 durationMs)
    {
+      qDebug() << "slider total: " << (double)durationMs/1000. << " s";
       /* define one positon every 100 ms */
       int ticks = (int)( durationMs / 100LL);
       setRange( 0, ticks);

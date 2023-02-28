@@ -270,7 +270,7 @@
     <string notr="true"/>
    </property>
    <property name="windowTitle">
-    <string>[TOP] Playlist LINE B</string>
+    <string>Playlist LINE B</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>2</number>

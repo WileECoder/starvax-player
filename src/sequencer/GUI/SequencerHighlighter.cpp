@@ -23,6 +23,8 @@ SequencerHighlighter::SequencerHighlighter( const ApplicationSettings & settings
                                                   << "stop"
                                                   << "show"
                                                   << "hide"
+                                                  << "top"
+                                                  << "bottom"
                                                   << "pause"
                                                   << "rewind"
                                                   << "fadeout"

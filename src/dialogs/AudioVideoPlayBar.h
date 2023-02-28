@@ -55,8 +55,10 @@ private:
    void setPaused();
    void setStopped();
 
+#if 0
    void showButtons();
    void hideButtons();
+#endif
 };
 
 #endif // AV_PLAYBAR_H

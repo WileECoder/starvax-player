@@ -94,6 +94,7 @@ signals:
    void totalTimeChanged(qint64);
    void audioOnlyChanged( bool);
    void currentMediaChanged( const AbstractMediaSource & picture);
+   void onTopChanged( bool onTop);
 };
 
 #endif // IF_MEDIAENGINEINTERFACE_H

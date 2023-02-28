@@ -125,6 +125,7 @@ void  AudioVideoPlayBar::updateTime(qint64 timeMs )
  */
 void AudioVideoPlayBar::onTotalTimeChanged(qint64 timeMs)
 {
+   qDebug() << "total time: " << (double)timeMs/1000. << " s";
    if (timeMs > 0)
    {
       updateTotalTime( timeMs);
@@ -139,6 +140,8 @@ void  AudioVideoPlayBar::updateTotalTime(qint64 timeMs )
 {
    // update total time label
    QTime displayTime( 0, (timeMs / 60000) % 60, (timeMs / 1000) % 60 );
+
+   qDebug() << "total: " << displayTime;
 
    ui->lbTotalTime->setText( displayTime.toString("mm:ss") );
 }
@@ -176,6 +179,7 @@ void AudioVideoPlayBar::onAudioOnlyChanged( bool audioOnly)
    ui->audioOnlyButton->setChecked( audioOnly);
 }
 
+#if 0  // TODO remove
 /************************************************/
 /* setPlaying                                  */
 /*  update graphic elements according to        */
@@ -214,6 +218,7 @@ void AudioVideoPlayBar::setStopped()
    ui->audioOnlyButton->setEnabled( true);
 }
 
+
 void AudioVideoPlayBar::showButtons()
 {
    ui->playButton->setVisible( true);
@@ -241,7 +246,7 @@ void AudioVideoPlayBar::hideButtons()
    ui->frameForwardButton->setVisible( false);
    ui->secondaryButtons->setVisible( false);
 }
-
+#endif
 
 void AudioVideoPlayBar::on_playButton_clicked()
 {
@@ -303,5 +308,10 @@ void AudioVideoPlayBar::on_secondaryButtons_clicked(bool checked)
    ui->repeatCheckBox->setVisible( checked);
    ui->fadeInCheckbox->setVisible( checked);
    ui->frameForwardButton->setVisible( checked);
+
+   if (checked)
+   {
+      qDebug() << m_currentTimeMs;
+   }
 }
 
