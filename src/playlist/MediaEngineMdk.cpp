@@ -15,7 +15,9 @@
 
 #include <string>
 
-//#define  DEBUG_VIDEO
+#define  DEBUG_VIDEO
+
+#define PLAYER_STATE_TIMEOUT_ms   4000
 
 namespace {
 NullMediaSource NullObject;
@@ -59,9 +61,10 @@ MediaEngineMdk::MediaEngineMdk( Fader & fader,
 
    connect( & m_tickTimer, & QTimer::timeout, this, & MediaEngineMdk::onTimerTick);
    connect( & m_fader, & Fader::changeVolume, this, & MediaEngineMdk::setVolume);
-   connect( this, & MediaEngineMdk::int_mediaStatusChanged, this, & MediaEngineMdk::onMediaStatusChanged);
-   connect( this, & MediaEngineMdk::int_playerStateChanged, this, & MediaEngineMdk::onPlayerStateChanged);
-   connect( this, & MediaEngineMdk::int_videoAvailableChanged, this, & MediaEngineMdk::onVideoAvailable);
+   connect( this, & MediaEngineMdk::int_mediaStatusChanged, this, & MediaEngineMdk::onMediaStatusChanged, Qt::QueuedConnection);
+   connect( this, & MediaEngineMdk::int_playerStateChanged, this, & MediaEngineMdk::onPlayerStateChanged, Qt::QueuedConnection);
+   connect( this, & MediaEngineMdk::int_videoAvailableChanged, this, & MediaEngineMdk::onVideoAvailable, Qt::QueuedConnection);
+   connect( this, & MediaEngineMdk::int_mediaError, this, & MediaEngineMdk::onMediaError, Qt::QueuedConnection);
 
    m_player.setDecoders(mdk::MediaType::Video, {
                         #if (_WIN32+0)
@@ -78,7 +81,7 @@ MediaEngineMdk::MediaEngineMdk( Fader & fader,
                            "FFmpeg"});
 
    m_player.onStateChanged([this](mdk::State s){
-      // qDebug() << "player: " << (int8_t)s << "  at " << QTime::currentTime().toString("mm:ss:zz");
+      qDebug() << "player: " << (int8_t)s << "  at " << QTime::currentTime().toString("hh:mm:ss:zz");
       emit int_playerStateChanged( s);
    });
 
@@ -144,25 +147,37 @@ void MediaEngineMdk::setCurrentSource( const AbstractMediaSource *source, bool d
          }
          else
          {
+            emit AvMediaStateChanged( MediaObject::LoadingState);
+
             m_player.setMedia( filePath.toUtf8().constData());
+            emit tick(0);
 
             /* buffer data immediately */
             m_player.prepare( 0, [this](int64_t /*time*/, bool*) {
                /* read media length and video availability and propagate these info */
                const mdk::MediaInfo & info = m_player.mediaInfo();
 
-               onDurationChanged( info.duration);
+               if (m_player.mediaStatus() & (mdk::MediaStatus::Invalid))
+               {
+                  emit int_mediaError();
+                  return false;
+               }
+               else
+               {
+                  onDurationChanged( info.duration);
 
-               /* MDK bug: 'mediaInfo' can not be called at any time. Sometimes results are wrong. */
-               m_videoTrackAvailable = (info.video.size() > 0);
-               emit int_videoAvailableChanged( m_videoTrackAvailable);
-               return true;
+                  /* MDK bug: 'mediaInfo' can not be called at any time. Sometimes results are wrong. */
+                  m_videoTrackAvailable = (info.video.size() > 0);
+                  emit int_videoAvailableChanged( m_videoTrackAvailable);
+                  return true;
+               }
             });
          }
 
+         m_player.waitFor( mdk::State::Paused, PLAYER_STATE_TIMEOUT_ms);
+
          m_currentMediaPath = filePath;
          emit currentMediaChanged( *source);
-         emit tick(0);
       }
    }
    else
@@ -192,6 +207,7 @@ void MediaEngineMdk::play()
       }
 
       m_player.set( mdk::State::Playing);
+      m_player.waitFor( mdk::State::Playing, PLAYER_STATE_TIMEOUT_ms);
    }
 
    evaluateDisplayShow();
@@ -208,6 +224,7 @@ void MediaEngineMdk::pause()
    else
    {
       m_player.set( mdk::State::Paused);
+      m_player.waitFor( mdk::State::Paused, PLAYER_STATE_TIMEOUT_ms);
    }
 
    evaluateDisplayShow();
@@ -244,8 +261,7 @@ void MediaEngineMdk::stop()
 void MediaEngineMdk::int_stop()
 {
    m_player.set(mdk::State::Stopped);
-   m_player.waitFor( mdk::State::Stopped, 5000 /*ms*/); /* timeout prevents blocking but
-                                                         * we don't check for success. */
+   m_player.waitFor( mdk::State::Stopped, PLAYER_STATE_TIMEOUT_ms);
 
    evaluateDisplayShow();
 
@@ -520,6 +536,13 @@ void MediaEngineMdk::onVideoAvailable(bool available)
 void MediaEngineMdk::onAudioOnlyRequest()
 {
    emit audioOnlyChanged( true);
+}
+
+void MediaEngineMdk::onMediaError()
+{
+   m_logger.showMessage(tr("Media Error"), StatusDisplay::WARNING);
+//   m_player.set(mdk::State::Stopped);
+   emit AvMediaStateChanged( MediaObject::ErrorState);
 }
 
 

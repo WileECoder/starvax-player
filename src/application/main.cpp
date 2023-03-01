@@ -14,8 +14,8 @@ int main(int argc, char *argv[])
 
    QSplashScreen splash(QPixmap(IconPath("splash.png")));
    splash.show();
-   splash.showMessage(QString("loading version %1.%2.%3...").
-                      arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(VERSION_BUILD),
+   splash.showMessage(QString("loading version %1.%2.%3 %4 ...").
+                      arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(VERSION_BUILD).arg(VERSION_STAGE),
                       Qt::AlignBottom);
    a.processEvents();
 

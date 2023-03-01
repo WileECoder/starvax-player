@@ -61,6 +61,9 @@ private slots:
    void onAddPlaylistPauseCommand();
    void onAddPlaylistShowCommand();
    void onAddPlaylistHideCommand();
+   void onAddPlaylistTopCommand();
+   void onAddPlaylistBottomCommand();
+
    void onAddPlaylistStopCommand();
    void onAddPlaylistRewindCommand();
    void onAddPlaylistFadeoutCommand();

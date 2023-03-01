@@ -37,8 +37,8 @@ MainWindow::MainWindow( FileInport &fileInport,
    setDockNestingEnabled( true);
 
    setWindowIcon( ApplicationIcon("starvax.png") );
-   setWindowTitle( tr("Me.te.or. Player %1.%2.%3 - untitled[*]").
-                   arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(VERSION_BUILD));
+   setWindowTitle( tr("Me.te.or. Player %1.%2.%3 %4 - untitled[*]").
+                   arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(VERSION_BUILD).arg(VERSION_STAGE));
 
    retrieve_gui_elements();
    setup_gui_elems();
@@ -360,8 +360,8 @@ void MainWindow::addServerActions(const QList<QAction *> & actions)
 
 void MainWindow::onShowNameChanged(const QString &filename)
 {
-   setWindowTitle( QString("Me.te.or. Player %2.%3.%4 - %1[*]").arg(filename)
-                   .arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(VERSION_BUILD));
+   setWindowTitle( QString("Me.te.or. Player %2.%3.%4 %5 - %1[*]").arg(filename)
+                   .arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(VERSION_BUILD).arg(VERSION_STAGE));
    ui->action_Save_Show->setEnabled( false );
    setWindowModified( false);
 }
@@ -633,8 +633,8 @@ void MainWindow::on_actionAbout_MeTeOr_Player_triggered()
 {
    QMessageBox::about( this, tr("About Starvax Me.Te.Or. Player"),
                        QString("<h2>Starvax Me.Te.Or. Player</h2>") +
-                       QString("<h3><i>Build %1.%2.%3</i></h3>  %4").
-                       arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(VERSION_BUILD)
+                       QString("<h3><i>Build %1.%2.%3 %4</i></h3>  %5").
+                       arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(VERSION_BUILD).arg(VERSION_STAGE)
                        .arg(qApp->applicationVersion()) +
                        tr("<p>Custom script, music and light animation for Me.Te.Or Shows.<br/>") +
                        QString("Powered by <b><a href=\"http://qt-project.org/\">QT5</b> and "

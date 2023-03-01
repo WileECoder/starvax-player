@@ -59,6 +59,7 @@ signals:
    void int_mediaStatusChanged( mdk::MediaStatus newStatus);
    void int_playerStateChanged( mdk::State newState);
    void int_videoAvailableChanged( bool available);
+   void int_mediaError();
 
 private slots:
    void onTimerTick();
@@ -67,6 +68,7 @@ private slots:
    void onDurationChanged( int64_t duration_ms);
    void onVideoAvailable( bool available);
    void onAudioOnlyRequest();
+   void onMediaError();
 
 private:
    void int_stop();

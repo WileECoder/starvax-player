@@ -47,6 +47,8 @@ CodeEditor::CodeEditor(QWidget *parent) :
    QAction * addPlaylistRewindCommand = new QAction("rewind");
    QAction * addPlaylistShowCommand = new QAction("show");
    QAction * addPlaylistHideCommand = new QAction("hide");
+   QAction * addPlaylistTopCommand = new QAction("top");
+   QAction * addPlaylistBottomCommand = new QAction("bottom");
    QAction * addPlaylistFadeoutCommand = new QAction("fadeout");
    QAction * addPlaylistVolumeCommand = new QAction("volume");
    QAction * addPlaylistWaitCommand = new QAction("wait");
@@ -56,6 +58,8 @@ CodeEditor::CodeEditor(QWidget *parent) :
    playlistMenu->addAction( addPlaylistStopCommand);
    playlistMenu->addAction( addPlaylistShowCommand);
    playlistMenu->addAction( addPlaylistHideCommand);
+   playlistMenu->addAction( addPlaylistTopCommand);
+   playlistMenu->addAction( addPlaylistBottomCommand);
    playlistMenu->addAction( addPlaylistRewindCommand);
    playlistMenu->addAction( addPlaylistFadeoutCommand);
    playlistMenu->addAction( addPlaylistVolumeCommand);
@@ -89,6 +93,8 @@ CodeEditor::CodeEditor(QWidget *parent) :
    connect( addPlaylistPauseCommand, & QAction::triggered, this, & CodeEditor::onAddPlaylistPauseCommand);
    connect( addPlaylistShowCommand, & QAction::triggered, this, & CodeEditor::onAddPlaylistShowCommand);
    connect( addPlaylistHideCommand, & QAction::triggered, this, & CodeEditor::onAddPlaylistHideCommand);
+   connect( addPlaylistTopCommand, & QAction::triggered, this, & CodeEditor::onAddPlaylistTopCommand);
+   connect( addPlaylistBottomCommand, & QAction::triggered, this, & CodeEditor::onAddPlaylistBottomCommand);
    connect( addPlaylistStopCommand, & QAction::triggered, this, & CodeEditor::onAddPlaylistStopCommand);
    connect( addPlaylistRewindCommand, & QAction::triggered, this, & CodeEditor::onAddPlaylistRewindCommand);
    connect( addPlaylistFadeoutCommand, & QAction::triggered, this, & CodeEditor::onAddPlaylistFadeoutCommand);
@@ -470,6 +476,16 @@ void CodeEditor::onAddPlaylistShowCommand()
 void CodeEditor::onAddPlaylistHideCommand()
 {
    textCursor().insertText("playlist A hide");
+}
+
+void CodeEditor::onAddPlaylistTopCommand()
+{
+   textCursor().insertText("playlist A top");
+}
+
+void CodeEditor::onAddPlaylistBottomCommand()
+{
+   textCursor().insertText("playlist A bottom");
 }
 
 void CodeEditor::onAddPlaylistStopCommand()

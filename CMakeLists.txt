@@ -18,6 +18,7 @@ add_compile_definitions(
 VERSION_MAJOR="2"
 VERSION_MINOR="5"
 VERSION_BUILD="0"
+VERSION_STAGE="alpha1"
 )
 
 add_compile_definitions(
