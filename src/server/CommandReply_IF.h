@@ -3,7 +3,6 @@
 
 #include <qglobal.h>
 class QString;
-class QStringList;
 
 namespace Server {
 

@@ -4,7 +4,6 @@
 #include <QFontDatabase>
 
 #include "Action.h"
-#include "QMDKWindow.h"
 #include "MediaEngineMdk.h"
 #include "MediaListModel.h"
 #include "MediaSourceFactory.h"

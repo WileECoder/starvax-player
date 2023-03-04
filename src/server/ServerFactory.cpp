@@ -35,13 +35,13 @@ QList<QAction *> Factory::buildActions()
 {
    Action * startServerAction = new Action( ApplicationIcon("serverStart.png"),
                                             QObject::tr("&Start server"), nullptr);
-   startServerAction->bindShortcut( Qt::ALT + Qt::Key_S);
+   startServerAction->bindShortcut( Qt::ALT | Qt::Key_S);
    startServerAction->setEnabled(true);
    startServerAction->setVisibleInModes( false, true);
 
    Action * stopServerAction = new Action( ApplicationIcon("serverStop.png"),
                                            QObject::tr("S&top server"), nullptr);
-   stopServerAction->bindShortcut( Qt::ALT + Qt::SHIFT + Qt::Key_S);
+   stopServerAction->bindShortcut( QKeySequence(Qt::ALT | Qt::SHIFT | Qt::Key_S));
    stopServerAction->setEnabled(false);
    stopServerAction->setVisibleInModes( false, true);
 

@@ -20,7 +20,7 @@ OwnActuatorWidget::OwnActuatorWidget( OpenWebNetEngine_IF & engine,
    setLayout( new QHBoxLayout(this));
    T_ASSERT( layout() != nullptr);
 
-   layout()->setMargin(0);
+   layout()->setContentsMargins( 0,0,0,0);
    layout()->setSpacing(2);
    layout()->addItem( new QSpacerItem(10,1, QSizePolicy::MinimumExpanding));
 

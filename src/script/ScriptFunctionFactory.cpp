@@ -102,7 +102,7 @@ QList<QAction *> ScriptFunctionFactory::createEngineActions( ScriptEngine *engin
 
    Action * findTextAction = new Action( QIcon(IconPath("find.png")), tr("&find text"), this);
    findTextAction->setEnabled( true);
-   findTextAction->bindShortcut( QKeySequence(Qt::CTRL + Qt::Key_F));
+   findTextAction->bindShortcut( QKeySequence(Qt::CTRL | Qt::Key_F));
    connect( findTextAction, SIGNAL(triggered()), engine, SIGNAL(findTextRequest()) );
 
    Action * scriptAddLightEvent = new Action( QIcon(IconPath("light.png")), tr("add &light event"), this);

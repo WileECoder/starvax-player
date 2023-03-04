@@ -5,7 +5,8 @@
 #include "AbstractMediaSource.h"
 
 #include <QTimer>
-#include <mdk/Player.h>
+#include <QMediaPlayer>
+
 
 class Fader;
 class FullScreenMediaWidget_IF;
@@ -50,21 +51,17 @@ public slots:
    void setAudioOnly(bool audioOnly) override;
    void showOnTop( bool onTop) override;
    void enableFadeIn( bool enabled) override;
-   void setLoopPlayback( bool enabled) override;
+   void setLoopPlayback(bool) override;
    void enableSubtitles() override;
    void disableSubtitles() override;
 
 /* internal signals */
 signals:
-   void int_mediaStatusChanged( mdk::MediaStatus newStatus);
-   void int_playerStateChanged( mdk::State newState);
    void int_videoAvailableChanged( bool available);
    void int_mediaError();
 
 private slots:
    void onTimerTick();
-   void onMediaStatusChanged( mdk::MediaStatus newStatus);
-   void onPlayerStateChanged( mdk::State newState);
    void onDurationChanged( int64_t duration_ms);
    void onVideoAvailable( bool available);
    void onAudioOnlyRequest();
@@ -78,9 +75,7 @@ private:
 private:
    Fader & m_fader;
    StatusDisplay & m_logger;
-   QTimer m_tickTimer;
    FullScreenMediaWidget_IF & m_displayWidget;
-   mdk::Player m_player;
    bool m_videoTrackAvailable;  /* current media has a video track */
    bool m_audioOnlyRequest;  /* user has requested to hide video */
    qint32 m_tickMs;
@@ -91,6 +86,7 @@ private:
    QString m_currentMediaPath;
    /* requested by GUI or user, not returned by player */
    MediaObject::AvPlayerState m_requestedState;
+   QMediaPlayer m_player;
 };
 
 

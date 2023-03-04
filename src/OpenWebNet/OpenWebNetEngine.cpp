@@ -38,8 +38,8 @@ OpenWebNetEngine::OpenWebNetEngine( const ApplicationSettings & settings,
    levelForStringMap.insert( "90%", "9");
    levelForStringMap.insert( "100%", "10");
 
-   connect( m_socket, SIGNAL(error(QAbstractSocket::SocketError)),
-            this, SLOT(onTcpError(QAbstractSocket::SocketError)) );
+   connect( m_socket, & QTcpSocket::errorOccurred,
+            this, & OpenWebNetEngine::onTcpError );
 }
 
 OpenWebNetEngine::~OpenWebNetEngine()

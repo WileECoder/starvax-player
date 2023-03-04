@@ -27,7 +27,6 @@
 #include "MediaAutomation.h"
 #include "PicturePlaybar.h"
 #include "FullScreenMediaWidget.h"
-#include "QMDKWindow.h"
 #include "StillPictureWidget.h"
 #include "PlaylistConstants.h"
 
@@ -133,14 +132,14 @@ ApplicationFactory::ApplicationFactory()
    playlistFactory = new PlaylistFunctionFactory( this);
 
    StillPictureWidget * pictureWidget_A = new StillPictureWidget( nullptr);  // parented to desktop
-   QMDKWindow * videoWidget_A = new QMDKWindow( m_mainWindow, nullptr);  // parented to desktop
+   QWidget * videoWidget_A = new QWidget( nullptr);  // parented to desktop
 
    FullScreenMediaWidget * mediaWidget_A = new FullScreenMediaWidget( videoWidget_A,
                                                                       pictureWidget_A,
                                                                       m_mainWindow);
 
    StillPictureWidget * pictureWidget_B = new StillPictureWidget( nullptr);
-   QMDKWindow * videoWidget_B = new QMDKWindow( m_mainWindow, nullptr);  // parented to desktop
+   QWidget * videoWidget_B = new QWidget( nullptr);  // parented to desktop
 
    FullScreenMediaWidget * mediaWidget_B = new FullScreenMediaWidget( videoWidget_B,
                                                                       pictureWidget_B,

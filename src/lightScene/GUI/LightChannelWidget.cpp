@@ -29,7 +29,7 @@ LightChannelWidget::LightChannelWidget(int maxValue, QWidget *parent) :
 
    setLayout( new QVBoxLayout(this));
    layout()->setSpacing(0);
-   layout()->setMargin( 1);
+   layout()->setContentsMargins( 1,1,1,1);
 
    layout()->addWidget( m_manualOnlyCheckbox);
    layout()->addWidget( m_slider);

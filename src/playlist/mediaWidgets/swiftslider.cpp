@@ -126,13 +126,13 @@ void SwiftSlider::mouseMoveEvent(QMouseEvent *ev)
       else
       {
          // hover without press
-         QToolTip::showText( ev->globalPos(), formatTip((qint64)rangeValue), this);
+         QToolTip::showText( ev->globalPosition().toPoint(), formatTip((qint64)rangeValue), this);
       }
    }
    else
    {
       /* this happens when mouse is over the handle */
-      QToolTip::showText( ev->globalPos(), formatHandleTip((qint64)value()), this);
+      QToolTip::showText( ev->globalPosition().toPoint(), formatHandleTip((qint64)value()), this);
    }
 }
 

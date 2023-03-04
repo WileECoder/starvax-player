@@ -1,5 +1,6 @@
 #include "HtmlOptimizer.h"
 #include <QRegularExpression>
+#include <QIODevice>
 
 #define TERMINATED(string)      (string + "\n")
 

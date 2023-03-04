@@ -10,8 +10,6 @@ set(STARVAX_SOURCES
    src/playlist/mediaWidgets/MediaToolbar.h
    src/playlist/mediaWidgets/PlaylistGuiFactory.cpp
    src/playlist/mediaWidgets/PlaylistGuiFactory.h
-   src/playlist/mediaWidgets/QMDKWindow.h
-   src/playlist/mediaWidgets/QMDKWindow.cpp
    src/playlist/mediaWidgets/StillPictureWidget.cpp
    src/playlist/mediaWidgets/StillPictureWidget.h
    src/playlist/mediaWidgets/swiftslider.cpp

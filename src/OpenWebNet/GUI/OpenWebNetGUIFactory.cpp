@@ -16,7 +16,7 @@ OpenWebNetPanel *OpenWebNetGUIFactory::buildPanel( QWidget * parent,
    OpenWebNetPanel * panel = new OpenWebNetPanel( parent, model, engine,
                                                   settings, display);
 
-   parent->layout()->setMargin(1);
+   parent->layout()->setContentsMargins( 1,1,1,1);
    parent->layout()->addWidget( panel);
    return panel;
 }

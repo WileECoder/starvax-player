@@ -2,7 +2,6 @@
 #define COMMAND_IF_H
 
 #include "qglobal.h"
-class QStringList;
 
 namespace Server {
 

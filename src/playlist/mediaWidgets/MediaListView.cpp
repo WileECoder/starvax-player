@@ -67,7 +67,7 @@ void MediaListView::dragMoveEvent( QDragMoveEvent * event)
 {
    if (isEditMode())
    {
-      m_insertPosition = indexAt( event->pos()).row();
+      m_insertPosition = indexAt( event->position().toPoint()).row();
       /* visual feedback */
       setInsertIndex( m_insertPosition);
 
@@ -112,7 +112,7 @@ void MediaListView::handleDropOperation(QDropEvent* event)
    {
       /* this is an internal move. Act on model's item instead
        * of destroying and creating new items */
-      m_insertPosition = indexAt( event->pos()).row();
+      m_insertPosition = indexAt( event->position().toPoint()).row();
 
       QModelIndexList selection = selectionModel()->selectedIndexes();
       m_actionListController.moveItemsRequest( selection, m_insertPosition);
@@ -138,7 +138,7 @@ void MediaListView::selectDropOperation(QDropEvent* event)
     * is selected because native 'move' operation creates the new elements
     * before removing the old ones, resulting in wrong labels */
 
-   bool shiftPressed = ((event->keyboardModifiers() & Qt::ShiftModifier) != 0);
+   bool shiftPressed = ((event->modifiers() & Qt::ShiftModifier) != 0);
 
    event->setDropAction( Qt::CopyAction);
 
