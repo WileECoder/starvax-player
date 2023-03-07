@@ -13,7 +13,7 @@ class FullScreenMediaWidget_IF;
 class ApplicationSettings;
 class StatusDisplay;
 class QPixmap;
-class QVideoWidget;
+class VideoWidget;
 class StillPictureWidget;
 
 
@@ -86,7 +86,7 @@ private:
    QMediaPlayer m_player;
    MediaObject::AvPlayerState m_requestedState;
    StillPictureWidget * m_pictureWidget;
-   QVideoWidget * m_videoWidget;
+   VideoWidget * m_videoWidget;
 };
 
 

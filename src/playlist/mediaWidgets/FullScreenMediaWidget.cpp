@@ -125,6 +125,6 @@ void FullScreenMediaWidget::showFullScreen( QWidget * widget, int screenId)
    T_ASSERT( screen != nullptr);
 
    widget->setGeometry( screen->geometry());
-   widget->show();
+   widget->showFullScreen();
 }
 

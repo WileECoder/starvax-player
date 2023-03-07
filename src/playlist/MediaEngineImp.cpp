@@ -4,9 +4,9 @@
 #include <QPixmap>
 #include <QMap>
 #include <QAudioOutput>
-#include <QVideoWidget>
 #include <QLayout>
 
+#include "VideoWidget.h"
 #include "StillPictureWidget.h"
 #include "Fader.h"
 #include "testableAssert.h"
@@ -14,9 +14,6 @@
 #include "FullScreenMediaWidget_IF.h"
 #include "supported_files.h"
 
-
-#define PLAYER_STATE_TIMEOUT_ms   4000
-#define SAFETY_DELAY_ms  1000
 
 namespace {
 NullMediaSource NullObject;
@@ -53,13 +50,15 @@ MediaEngineImp::MediaEngineImp( Fader & fader,
    m_pixmap( nullptr),
    m_requestedState( MediaObject::StoppedState),
    m_pictureWidget( new StillPictureWidget()),
-   m_videoWidget( new QVideoWidget())
+   m_videoWidget( new VideoWidget())
 {
    qRegisterMetaType<MediaObject::AvPlayerState>("MediaObject::AvPlayerState");
 
    QAudioOutput * audioOut = new QAudioOutput( this);
    m_player.setAudioOutput( audioOut);
    m_player.setVideoOutput( m_videoWidget);
+
+   m_videoWidget->setFullScreen( true);
 
    connect( & m_player, & QMediaPlayer::errorOccurred, this, & MediaEngineImp::onErrorOccurred );
    connect( & m_player, & QMediaPlayer::playbackStateChanged, this, & MediaEngineImp::onPlaybackStateChanged );
@@ -69,6 +68,12 @@ MediaEngineImp::MediaEngineImp( Fader & fader,
    connect( & m_player, & QMediaPlayer::hasVideoChanged, this, & MediaEngineImp::onHasVideoChanged );
 
    connect( m_pictureWidget, & StillPictureWidget::hideRequest, this, & IF_MediaEngineInterface::stop);
+
+   connect( m_videoWidget, & VideoWidget::playPauseRequest, this, & IF_MediaEngineInterface::togglePlayPause);
+   connect( m_videoWidget, & VideoWidget::stepForwardRequest, this, & IF_MediaEngineInterface::togglePlayPause);
+   connect( m_videoWidget, & VideoWidget::stepBackwardRequest, this, & IF_MediaEngineInterface::togglePlayPause);
+   connect( m_videoWidget, & VideoWidget::audioOnlyRequest, this, & IF_MediaEngineInterface::setAudioOnly);
+   connect( m_videoWidget, & VideoWidget::quitRequest, this, & IF_MediaEngineInterface::stop);
 
    m_displayWidget.attachWidgets( m_videoWidget, m_pictureWidget);
 }
@@ -256,13 +261,13 @@ void MediaEngineImp::setStepSizeMs(int stepMs)
 void MediaEngineImp::stepForward()
 {
    m_player.setPosition( m_player.position() + m_stepSizeMs);
-   tick( m_player.position());
+   emit tick( m_player.position());
 }
 
 void MediaEngineImp::stepBackward()
 {
    m_player.setPosition( m_player.position() - m_stepSizeMs);
-   tick( m_player.position());
+   emit tick( m_player.position());
 }
 
 

@@ -34,7 +34,7 @@ void LightsetListView::dragEnterEvent( QDragEnterEvent * event)
 {
    if (event->mimeData()->hasFormat("lightPreset-data"))
    {
-      m_insertPosition = indexAt( event->pos()).row(); // just in case of immediate drop
+      m_insertPosition = indexAt( event->position().toPoint()).row(); // just in case of immediate drop
       event->accept();
    }
 }
@@ -43,7 +43,7 @@ void LightsetListView::dragMoveEvent(QDragMoveEvent * event)
 {
    if (isEditMode())
    {
-      m_insertPosition = indexAt( event->pos()).row();
+      m_insertPosition = indexAt( event->position().toPoint()).row();
       /* visual feedback */
       setInsertIndex( m_insertPosition);
 
@@ -91,7 +91,7 @@ void LightsetListView::moveDroppedItems( QDropEvent * event)
 {
    /* this is an internal move. Act on model's item instead
     * of destroying and creating new items */
-   m_insertPosition = indexAt( event->pos()).row();
+   m_insertPosition = indexAt( event->position().toPoint()).row();
 
    QModelIndexList selection = selectionModel()->selectedIndexes();
    m_actionController.moveItemsRequest( selection, m_insertPosition);

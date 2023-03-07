@@ -393,14 +393,16 @@ void MainWindow::on_actionLocale_triggered(bool checked)
    if( checked )
    {
       // retranslate to local language
-      m_appTranslator.load( "player_it",
-                          qApp->applicationDirPath() + "/res/translations" );
+      bool res = m_appTranslator.load( "player_it",
+                                       qApp->applicationDirPath() + "/res/translations" );
+      T_ASSERT(res);
       m_applicationSettings.setLanguage( ApplicationSettings::LOCALE);
    }
    else
    {
       // retranslate to native language.
-      m_appTranslator.load( QString(), QString() );
+      bool res = m_appTranslator.load( QString(), QString() );
+      (void)res;
       m_applicationSettings.setLanguage( ApplicationSettings::NATIVE);
    }
 

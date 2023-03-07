@@ -12,6 +12,8 @@ set(STARVAX_SOURCES
    src/playlist/mediaWidgets/PlaylistGuiFactory.h
    src/playlist/mediaWidgets/StillPictureWidget.cpp
    src/playlist/mediaWidgets/StillPictureWidget.h
+   src/playlist/mediaWidgets/VideoWidget.cpp
+   src/playlist/mediaWidgets/VideoWidget.h
    src/playlist/mediaWidgets/swiftslider.cpp
    src/playlist/mediaWidgets/swiftslider.h
    src/playlist/mediaWidgets/volumeslider.h
