@@ -4,8 +4,6 @@
 #include "Command_IF.h"
 class IF_MediaEngineInterface;
 
-// TODO think about the great code duplication in all
-// commands related to playlist that have 'line' as parameter
 
 
 namespace Server {

@@ -4,6 +4,7 @@
 #include "FullScreenMediaWidget_IF.h"
 
 class QWidget;
+class QVideoWidget;
 class StillPictureWidget;
 class QMainWindow;
 
@@ -21,18 +22,16 @@ class FullScreenMediaWidget : public FullScreenMediaWidget_IF
 public:
    /**
     * @brief FullScreenMediaWidget
-    * @param videoWidget
-    * @param pictureWidget
     * @param owner - is activated after other widgets are shown to keep keyboard focus.
     * @param onTop - set 'always-on-top' flag to widgets
     */
-   explicit FullScreenMediaWidget( QWidget* videoWindow,
-                                   StillPictureWidget * pictureWidget,
-                                   QMainWindow * owner);
-   virtual ~FullScreenMediaWidget() override {}
+   explicit FullScreenMediaWidget( QMainWindow * owner);
+   virtual ~FullScreenMediaWidget() override;
 
    // FullScreenMediaWidget_IF interface
 public:
+   void attachWidgets(QVideoWidget *videoWidget, StillPictureWidget *pictureWidget) override;
+
    void setPixmap( const QPixmap & pixmap) override;
    void showVideo() override;
    void showPicture() override;
@@ -52,7 +51,7 @@ public:
    void setOnTop( bool onTop) override;
 
 private:
-   QWidget * m_videoWindow;
+   QVideoWidget * m_videoWidget;
    StillPictureWidget * m_pictureWidget;
    QMainWindow * m_owner;
 

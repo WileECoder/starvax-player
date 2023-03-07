@@ -3,50 +3,61 @@
 #include <QMainWindow>
 #include <QScreen>
 #include <QApplication>
+#include <QVideoWidget>
+#include <QLayout>
 #include "testableAssert.h"
 
 #include "StillPictureWidget.h"
 
 
-FullScreenMediaWidget::FullScreenMediaWidget( QWidget* videoWindow,
-                                              StillPictureWidget * pictureWidget,
-                                              QMainWindow * owner) :
-   m_videoWindow( videoWindow),
-   m_pictureWidget( pictureWidget),
+FullScreenMediaWidget::FullScreenMediaWidget( QMainWindow * owner) :
+   m_videoWidget( nullptr),
+   m_pictureWidget( nullptr),
    m_owner( owner)
 {
-   m_videoWindow->setWindowFlags( m_pictureWidget->windowFlags() |
-                                  Qt::SplashScreen);
-   m_pictureWidget->setWindowFlags( m_pictureWidget->windowFlags() |
-                                    Qt::SplashScreen);
+}
+
+FullScreenMediaWidget::~FullScreenMediaWidget()
+{
+}
+
+void FullScreenMediaWidget::attachWidgets(QVideoWidget *videoWidget, StillPictureWidget *pictureWidget)
+{
+   m_pictureWidget = pictureWidget;
+   m_videoWidget = videoWidget;
 
    hideAll();
 }
 
 void FullScreenMediaWidget::setPixmap( const QPixmap & pixmap)
 {
+   T_ASSERT(m_pictureWidget);
    m_pictureWidget->setPixmap( pixmap);
 }
 
 void FullScreenMediaWidget::showVideo()
 {
-   smartShow( m_videoWindow);
+   smartShow( m_videoWidget);
+   T_ASSERT(m_pictureWidget);
    m_pictureWidget->setVisible( false);
 }
 
 void FullScreenMediaWidget::showPicture()
 {
-   m_videoWindow->setVisible( false);
+   T_ASSERT(m_videoWidget);
+   m_videoWidget->setVisible( false);
    smartShow( m_pictureWidget);
 }
 
 void FullScreenMediaWidget::hidePicture()
 {
+   T_ASSERT(m_pictureWidget);
    m_pictureWidget->setVisible( false);
 }
 
 bool FullScreenMediaWidget::togglePictureVisibility()
 {
+   T_ASSERT(m_pictureWidget);
    m_pictureWidget->isVisible() ? m_pictureWidget->hide() : smartShow( m_pictureWidget);
 
    return m_pictureWidget->isVisible();
@@ -54,7 +65,8 @@ bool FullScreenMediaWidget::togglePictureVisibility()
 
 void FullScreenMediaWidget::hideVideo()
 {
-   m_videoWindow->setVisible( false);
+   T_ASSERT(m_videoWidget);
+   m_videoWidget->setVisible( false);
 }
 
 void FullScreenMediaWidget::hideAll()
@@ -66,21 +78,18 @@ void FullScreenMediaWidget::hideAll()
 
 void FullScreenMediaWidget::setOnTop(bool onTop)
 {
+   T_ASSERT(m_pictureWidget);
    bool pictVisible = m_pictureWidget->isVisible();
-   bool videoVisible = m_videoWindow->isVisible();
 
    if (onTop == true)
    {
-      m_videoWindow->setWindowFlags( m_videoWindow->windowFlags() | Qt::WindowStaysOnTopHint);
       m_pictureWidget->setWindowFlags( m_pictureWidget->windowFlags() | Qt::WindowStaysOnTopHint);
    }
    else
    {
-      m_videoWindow->setWindowFlags( m_videoWindow->windowFlags() & ( ~ Qt::WindowStaysOnTopHint));
       m_pictureWidget->setWindowFlags( m_pictureWidget->windowFlags() & ( ~ Qt::WindowStaysOnTopHint));
    }
 
-   m_videoWindow->setVisible( videoVisible);
    m_pictureWidget->setVisible( pictVisible);
 }
 

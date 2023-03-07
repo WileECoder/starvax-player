@@ -2,6 +2,8 @@
 #define FULLSCREENMEDIAWIDGET_IF_H
 
 class QPixmap;
+class QVideoWidget;
+class StillPictureWidget;
 
 
 /**
@@ -12,6 +14,9 @@ class FullScreenMediaWidget_IF
 {
 public:
    virtual ~FullScreenMediaWidget_IF() {}
+
+   virtual void attachWidgets( QVideoWidget *videoWidget,
+                               StillPictureWidget *pictureWidget) = 0;
 
    /** set the Pixmap that this widget can display.
     * There is no equivalent function for video because it is

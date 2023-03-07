@@ -1,5 +1,6 @@
 #include "ApplicationFactory.h"
 #include <QAction>
+#include <QVideoWidget>
 
 #include "Action.h"
 #include "LightPresetModel.h"
@@ -131,19 +132,9 @@ ApplicationFactory::ApplicationFactory()
    PlaylistFunctionFactory *playlistFactory;
    playlistFactory = new PlaylistFunctionFactory( this);
 
-   StillPictureWidget * pictureWidget_A = new StillPictureWidget( nullptr);  // parented to desktop
-   QWidget * videoWidget_A = new QWidget( nullptr);  // parented to desktop
+   FullScreenMediaWidget * mediaWidget_A = new FullScreenMediaWidget( m_mainWindow);
 
-   FullScreenMediaWidget * mediaWidget_A = new FullScreenMediaWidget( videoWidget_A,
-                                                                      pictureWidget_A,
-                                                                      m_mainWindow);
-
-   StillPictureWidget * pictureWidget_B = new StillPictureWidget( nullptr);
-   QWidget * videoWidget_B = new QWidget( nullptr);  // parented to desktop
-
-   FullScreenMediaWidget * mediaWidget_B = new FullScreenMediaWidget( videoWidget_B,
-                                                                      pictureWidget_B,
-                                                                      m_mainWindow);
+   FullScreenMediaWidget * mediaWidget_B = new FullScreenMediaWidget( m_mainWindow);
 
    ExponentialFader *expFader_A = new ExponentialFader( this);
    MediaListModel *playlistModel_A = playlistFactory->buildModel("PA");
@@ -246,13 +237,6 @@ ApplicationFactory::ApplicationFactory()
 
    connect( mediaActionController_A, & ActionListController::activeRowChanged,
             playlistBar_A, & PlaylistBar::onActiveRowChanged);
-
-   /* TBD make a calss for connection between media engine and display widgets */
-   connect( pictureWidget_A, & StillPictureWidget::hideRequest,
-            mediaEngine_A, & IF_MediaEngineInterface::stop);
-
-   connect( pictureWidget_B, & StillPictureWidget::hideRequest,
-            mediaEngine_B, & IF_MediaEngineInterface::stop);
 
    /* build media Actions. Use SHIFT modifier for lINE B */
    QList<QAction *> playlistActionsLineA =
