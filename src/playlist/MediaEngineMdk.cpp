@@ -10,14 +10,18 @@
 #include "FullScreenMediaWidget_IF.h"
 #include "supported_files.h"
 
+// TODO remove all 3
 #include <qdebug.h>
 #include <QTime>
+#include <QElapsedTimer>
+#include <QThread>
 
 #include <string>
 
-#define  DEBUG_VIDEO
+//#define  DEBUG_VIDEO
 
 #define PLAYER_STATE_TIMEOUT_ms   4000
+#define SAFETY_DELAY_ms  1000
 
 namespace {
 NullMediaSource NullObject;
@@ -81,12 +85,12 @@ MediaEngineMdk::MediaEngineMdk( Fader & fader,
                            "FFmpeg"});
 
    m_player.onStateChanged([this](mdk::State s){
-      qDebug() << "player: " << (int8_t)s << "  at " << QTime::currentTime().toString("hh:mm:ss:zz");
+      qDebug() << "player: " << (int8_t)s;
       emit int_playerStateChanged( s);
    });
 
    m_player.onMediaStatusChanged([this](mdk::MediaStatus s){
-      // qDebug() << "media: " << Qt::hex << (int)s << "  at " << QTime::currentTime().toString("mm:ss:zz") << Qt::dec;
+      qDebug() << "media: " << Qt::hex << (int)s;
       emit int_mediaStatusChanged( s);
       return true;
    });
@@ -125,16 +129,13 @@ void MediaEngineMdk::setCurrentSource( const AbstractMediaSource *source, bool d
    if (source != nullptr)
    {
       const QString & filePath = source->fileName();
+      qDebug() << "setting media: " << filePath;
 
       if (filePath != m_currentMediaPath)
       {
          if (dontStopFlag == false)  /* default case */
          {
-            int_stop();
-            /* when activating an item without 'dontStopFlag', we assume user
-             * wants it hidden (no display on screen).
-             * MDK library stops on media change automatically */
-            m_requestedState = MediaObject::StoppedState;
+            stop();
          }
 
          m_imageFileFlag = checkForImageFormat( QFileInfo(filePath).suffix());
@@ -147,15 +148,19 @@ void MediaEngineMdk::setCurrentSource( const AbstractMediaSource *source, bool d
          }
          else
          {
+            QElapsedTimer timer;
+            timer.start();
             emit AvMediaStateChanged( MediaObject::LoadingState);
 
             m_player.setMedia( filePath.toUtf8().constData());
             emit tick(0);
 
             /* buffer data immediately */
-            m_player.prepare( 0, [this](int64_t /*time*/, bool*) {
+            m_player.prepare( 0, [this, timer](int64_t /*time*/, bool*) {
                /* read media length and video availability and propagate these info */
                const mdk::MediaInfo & info = m_player.mediaInfo();
+
+               qDebug() << "loaded in " << timer.elapsed() << " ms.";
 
                if (m_player.mediaStatus() & (mdk::MediaStatus::Invalid))
                {
@@ -174,7 +179,12 @@ void MediaEngineMdk::setCurrentSource( const AbstractMediaSource *source, bool d
             });
          }
 
-         m_player.waitFor( mdk::State::Paused, PLAYER_STATE_TIMEOUT_ms);
+         QThread::msleep( SAFETY_DELAY_ms);
+
+//         QElapsedTimer timer;
+//         timer.start();
+//         bool ok = m_player.waitFor( mdk::State::Paused, PLAYER_STATE_TIMEOUT_ms);
+//         qDebug() << "load complete: " << ok << " in " << timer.elapsed();
 
          m_currentMediaPath = filePath;
          emit currentMediaChanged( *source);
@@ -192,6 +202,7 @@ void MediaEngineMdk::setCurrentSource( const AbstractMediaSource *source, bool d
 
 void MediaEngineMdk::play()
 {
+   qDebug() << "play requested. status: 0x" << Qt::hex << m_player.mediaStatus();
    m_requestedState = MediaObject::PlayingState;
 
    if (m_imageFileFlag)
@@ -207,7 +218,7 @@ void MediaEngineMdk::play()
       }
 
       m_player.set( mdk::State::Playing);
-      m_player.waitFor( mdk::State::Playing, PLAYER_STATE_TIMEOUT_ms);
+      QThread::msleep( SAFETY_DELAY_ms);
    }
 
    evaluateDisplayShow();
@@ -215,6 +226,7 @@ void MediaEngineMdk::play()
 
 void MediaEngineMdk::pause()
 {
+   qDebug() << "pause requested";
    m_requestedState = MediaObject::PausedState;
 
    if (m_imageFileFlag)
@@ -224,7 +236,7 @@ void MediaEngineMdk::pause()
    else
    {
       m_player.set( mdk::State::Paused);
-      m_player.waitFor( mdk::State::Paused, PLAYER_STATE_TIMEOUT_ms);
+      QThread::msleep( SAFETY_DELAY_ms);
    }
 
    evaluateDisplayShow();
@@ -253,6 +265,7 @@ void MediaEngineMdk::togglePlayPause()
 
 void MediaEngineMdk::stop()
 {
+   qDebug() << "stop requested";
    m_requestedState = MediaObject::StoppedState;
    int_stop();
 }
@@ -261,7 +274,7 @@ void MediaEngineMdk::stop()
 void MediaEngineMdk::int_stop()
 {
    m_player.set(mdk::State::Stopped);
-   m_player.waitFor( mdk::State::Stopped, PLAYER_STATE_TIMEOUT_ms);
+   QThread::msleep( SAFETY_DELAY_ms);
 
    evaluateDisplayShow();
 
@@ -540,8 +553,8 @@ void MediaEngineMdk::onAudioOnlyRequest()
 
 void MediaEngineMdk::onMediaError()
 {
+   qDebug() << "MEDIA ERROR";
    m_logger.showMessage(tr("Media Error"), StatusDisplay::WARNING);
-//   m_player.set(mdk::State::Stopped);
    emit AvMediaStateChanged( MediaObject::ErrorState);
 }
 

@@ -236,6 +236,9 @@ static inline void SetGlobalOption(const char* key, LogLevel value)
 /*
   keys:
   - "jvm", "JavaVM": JavaVM*. android only. Required if not loaded by System.loadLibrary()
+  - "X11Display": Display*
+  - "DRMDevice": drm device path, for vaapi
+  - "DRMFd": drm fd, for vaapi
  */
 static inline void SetGlobalOption(const char* key, void* value)
 {
@@ -268,6 +271,7 @@ static inline void javaVM(void* vm) {
   {progress 0~100, "reader.buffering"}: error is buffering progress
   {0/1, "thread.audio/video/subtitle", stream}: decoder thread is started (error = 1) and about to exit(error = 0)
   {error, "snapshot", saved_file if no error and error string if error < 0}
+  {0, "cc"}: the 1st closed caption data is decoded. can be used in ui to show CC button.
 */
 class MediaEvent {
 public:

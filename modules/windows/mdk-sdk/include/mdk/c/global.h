@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2022 WangBin <wbsecg1 at gmail.com>
+ * Copyright (c) 2019-2023 WangBin <wbsecg1 at gmail.com>
  * This file is part of MDK
  * MDK SDK: https://github.com/wang-bin/mdk-sdk
  * Free for opensource softwares or non-commercial use.
@@ -13,7 +13,7 @@
 #define MDK_VERSION_INT(major, minor, patch) \
     (((major&0xff)<<16) | ((minor&0xff)<<8) | (patch&0xff))
 #define MDK_MAJOR 0
-#define MDK_MINOR 19
+#define MDK_MINOR 20
 #define MDK_MICRO 0
 #define MDK_VERSION MDK_VERSION_INT(MDK_MAJOR, MDK_MINOR, MDK_MICRO)
 #define MDK_VERSION_CHECK(a, b, c) (MDK_VERSION >= MDK_VERSION_INT(a, b, c))
@@ -198,6 +198,7 @@ MDK_API bool MDK_getGlobalOptionPtr(const char* key, void** value);
   {progress 0~100, "reader.buffering"}: error is buffering progress
   {0/1, "thread.audio/video/subtitle", stream}: decoder thread is started (error = 1) and about to exit(error = 0)
   {error, "snapshot", saved_file if no error and error string if error < 0}
+  {0, "cc"}: the 1st closed caption data is decoded. can be used in ui to show CC button.
 */
 typedef struct mdkMediaEvent {
     int64_t error; /* result <0: error code(fourcc?). >=0: special value depending on event*/
