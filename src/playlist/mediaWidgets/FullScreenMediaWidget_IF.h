@@ -2,9 +2,9 @@
 #define FULLSCREENMEDIAWIDGET_IF_H
 
 class QPixmap;
-namespace mdk {
-  class Player;
-}
+class QVideoWidget;
+class StillPictureWidget;
+
 
 /**
  * This is the interface used by media engine to display in
@@ -14,6 +14,9 @@ class FullScreenMediaWidget_IF
 {
 public:
    virtual ~FullScreenMediaWidget_IF() {}
+
+   virtual void attachWidgets( QVideoWidget *videoWidget,
+                               StillPictureWidget *pictureWidget) = 0;
 
    /** set the Pixmap that this widget can display.
     * There is no equivalent function for video because it is
@@ -42,8 +45,6 @@ public:
    /** set or unset this window as 'Always on top'. This affects both picture and video */
    virtual void setOnTop( bool onTop) = 0;
 
-   /** attach specific video player */
-   virtual void attachPlayer( mdk::Player & player) = 0;
 };
 
 #endif // FULLSCREENMEDIAWIDGET_IF_H

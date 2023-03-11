@@ -12,7 +12,7 @@
  * Concrete subclesses will wrap the plugin specific media source.
  */
 
-class AbstractMediaSource : QObject
+class AbstractMediaSource : public QObject
 {
    Q_OBJECT
 public:

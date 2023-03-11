@@ -51,7 +51,7 @@ QtLightControlPanel::QtLightControlPanel( int numberOfChannels,
 
    QHBoxLayout *layout = new QHBoxLayout( this);
    setLayout( layout );
-   layout->setMargin( 2);
+   layout->setContentsMargins( 2,2,2,2);
    layout->addWidget( m_presetsView);
 
    m_presetsView->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding);

@@ -58,7 +58,7 @@ QtDmxSliderPanel::QtDmxSliderPanel(int numOfChannels,
    QHBoxLayout *layout = new QHBoxLayout( this);
    setLayout( layout );
    layout->setSpacing(0);
-   layout->setMargin( 1);
+   layout->setContentsMargins( 1,1,1,1);
 
    for (int i = 0; i < numOfChannels; i++)
    {

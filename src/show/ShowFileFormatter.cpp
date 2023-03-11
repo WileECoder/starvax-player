@@ -2,7 +2,7 @@
 
 #include <QStandardPaths>
 #include <QTextStream>
-#include <QTextCodec>
+//#include <QTextCodec>
 
 #include "MediaListModel.h"
 #include "LightPresetModel.h"
@@ -57,8 +57,7 @@ QString ShowFileFormatter::formatShowFile()
    QString outputString;
    QTextStream  output( &outputString);
 
-   QTextCodec *codec = QTextCodec::codecForName("UTF-8");
-   output.setCodec( codec);
+   output.setEncoding( QStringConverter::Utf8);
 
    output << PROJECT_FILE_HEADER;
 

@@ -29,7 +29,7 @@ IF_ScriptViewerInterface *ScriptGuiFactory::build( QWidget *container, ScriptAct
 {
    T_ASSERT(container->layout() == nullptr);
    container->setLayout( new QVBoxLayout());
-   container->layout()->setMargin(0);
+   container->layout()->setContentsMargins( 0,0,0,0);
 
    HighLightTextViewer *viewer = new HighLightTextViewer( *msgDisplay, settings, container);
    ActionTargetSelectorDialog *selectDialog = new ActionTargetSelectorDialog( mediaModelLineA, mediaModelLineB,

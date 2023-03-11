@@ -4,13 +4,10 @@
 #include "FullScreenMediaWidget_IF.h"
 
 class QWidget;
-class QMDKWindow;
+class QVideoWidget;
 class StillPictureWidget;
 class QMainWindow;
 
-namespace mdk {
-class Player;
-}
 
 /**
  * @brief a widget that hosts a video and still-picture canvas,
@@ -25,18 +22,16 @@ class FullScreenMediaWidget : public FullScreenMediaWidget_IF
 public:
    /**
     * @brief FullScreenMediaWidget
-    * @param videoWidget
-    * @param pictureWidget
     * @param owner - is activated after other widgets are shown to keep keyboard focus.
     * @param onTop - set 'always-on-top' flag to widgets
     */
-   explicit FullScreenMediaWidget( QMDKWindow* videoWindow,
-                                   StillPictureWidget * pictureWidget,
-                                   QMainWindow * owner);
-   virtual ~FullScreenMediaWidget() override {}
+   explicit FullScreenMediaWidget( QMainWindow * owner);
+   virtual ~FullScreenMediaWidget() override;
 
    // FullScreenMediaWidget_IF interface
 public:
+   void attachWidgets(QVideoWidget *videoWidget, StillPictureWidget *pictureWidget) override;
+
    void setPixmap( const QPixmap & pixmap) override;
    void showVideo() override;
    void showPicture() override;
@@ -55,19 +50,14 @@ public:
    /** set or unset this window as 'Always on top'. This affects both picture and video */
    void setOnTop( bool onTop) override;
 
-   /** attach specific video player */
-   void attachPlayer( mdk::Player & player) override;
-
 private:
-   QMDKWindow * m_videoWindow;
+   QVideoWidget * m_videoWidget;
    StillPictureWidget * m_pictureWidget;
    QMainWindow * m_owner;
 
 private:
-   void smartShow( QWidget * widget);
-   void smartShow( QMDKWindow * window);
+   void smartShow(QWidget* window);
    void showFullScreen( QWidget * widget, int screenId);
-   void showFullScreen(QMDKWindow * window, int screenId);
    int selectScreen();
 };
 

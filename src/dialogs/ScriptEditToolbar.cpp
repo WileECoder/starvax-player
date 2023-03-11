@@ -7,6 +7,7 @@
 #include <QTextCharFormat>
 #include <QSignalBlocker>
 #include <QAction>
+#include <QActionGroup>
 #include <QToolBar>
 
 
@@ -114,7 +115,11 @@ void ScriptEditToolbar::onEditorCurrentCharFormatChanged(const QTextCharFormat &
    m_italicAction->setChecked( format.fontItalic());
    m_underlineAction->setChecked( format.fontUnderline());
 
-   ui->fontComboBox->setCurrentFont( format.fontFamily());
+   const QStringList & fonts = format.fontFamilies().toStringList();
+   if ( ! fonts.isEmpty())
+   {
+      ui->fontComboBox->setCurrentFont( fonts.first());
+   }
    ui->fontSizeSpinbox->setValue( format.font().pointSize());
 
    QString style = "QPushButton#colorButton { background:%1}";

@@ -1,6 +1,6 @@
 #include "Sequencer_LineParser.h"
 
-#include <QStringRef>
+//#include <QStringView>
 #include <QStringList>
 #include <QMap>
 #include <QRegularExpression>
@@ -100,7 +100,7 @@ bool LineParser::parseLine(const QString &line)
    bool validCommand = false;  // flag for main command found
    bool found = false;
 
-   QStringRef stringRef( & line, 0, line.size());
+   QStringView stringRef( line);
 
    stringRef = stringRef.trimmed();
 

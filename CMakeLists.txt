@@ -18,7 +18,7 @@ add_compile_definitions(
 VERSION_MAJOR="2"
 VERSION_MINOR="5"
 VERSION_BUILD="0"
-VERSION_STAGE="alpha1"
+VERSION_STAGE="alpha2"
 )
 
 add_compile_definitions(
@@ -45,6 +45,8 @@ set(QT_LIBRARIES
   Widgets
   OpenGL
   Network
+  Multimedia
+  MultimediaWidgets
 )
 
 
@@ -55,6 +57,8 @@ find_package(QT NAMES Qt6 Qt5 COMPONENTS
    Widgets
    OpenGL
    Network
+   Multimedia
+   MultimediaWidgets
    REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS
    Core
@@ -62,9 +66,11 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS
    Widgets
    OpenGL
    Network
+   Multimedia
+   MultimediaWidgets
    REQUIRED)
 
-find_package(mdk REQUIRED)
+
 find_package(usb REQUIRED)
 
 
@@ -74,6 +80,8 @@ list(APPEND OLIVE_LIBRARIES
   Qt${QT_VERSION_MAJOR}::Widgets
   Qt${QT_VERSION_MAJOR}::OpenGL
   Qt${QT_VERSION_MAJOR}::Network
+  Qt${QT_VERSION_MAJOR}::Multimedia
+  Qt${QT_VERSION_MAJOR}::MultimediaWidgets
 )
 
 set(STARVAX_SOURCES
@@ -109,7 +117,9 @@ target_link_libraries(starvax_player PRIVATE
    Qt${QT_VERSION_MAJOR}::Widgets
    Qt${QT_VERSION_MAJOR}::OpenGL
    Qt${QT_VERSION_MAJOR}::Network
-   ${MDK_LIBRARY}
+   Qt${QT_VERSION_MAJOR}::Multimedia
+   Qt${QT_VERSION_MAJOR}::MultimediaWidgets
+
    ${USB_LIBRARY}
    )
 

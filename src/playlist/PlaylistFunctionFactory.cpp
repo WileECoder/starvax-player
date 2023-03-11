@@ -4,8 +4,7 @@
 #include <QFontDatabase>
 
 #include "Action.h"
-#include "QMDKWindow.h"
-#include "MediaEngineMdk.h"
+#include "MediaEngineImp.h"
 #include "MediaListModel.h"
 #include "MediaSourceFactory.h"
 #include "MediaAutomation.h"
@@ -88,7 +87,7 @@ IF_MediaEngineInterface *PlaylistFunctionFactory::buildMediaEngine(Fader & aFade
                                                                     StatusDisplay & logger,
                                                                    ApplicationSettings *settings)
 {
-   IF_MediaEngineInterface *engine = new MediaEngineMdk( aFader, displayWidget, logger, this);
+   IF_MediaEngineInterface *engine = new MediaEngineImp( aFader, displayWidget, logger, this);
    engine->setStepSizeMs( settings->playbackStep());
    connect( settings, & ApplicationSettings::playbackStepChanged, engine, & IF_MediaEngineInterface::setStepSizeMs);
 

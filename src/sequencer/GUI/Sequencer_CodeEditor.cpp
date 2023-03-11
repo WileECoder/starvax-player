@@ -347,7 +347,7 @@ void CodeEditor::handleDropOperationForMedia(QDropEvent *event)
    QString line;
 
    /* according to drop point, use play or playAll */
-   if (event->pos().x() < viewport()->width()/2)
+   if (event->position().x() < viewport()->width()/2)
    {
       command = "play";
    }

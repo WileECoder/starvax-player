@@ -1,9 +1,7 @@
 #include "showfileparser.h"
 
 #include <QFileDialog>
-#include <QRegExp>
 #include <QTextStream>
-#include <QTextCodec>
 #include <QStringList>
 
 #include "ShowFileStrings.h"
@@ -31,7 +29,7 @@ ShowFileParser::ShowFileParser(QTextStream &input, const QDir & basePath,
    T_ASSERT( input.device() != nullptr);
 
    m_source = new QTextStream(input.device());
-   m_source->setCodec( QTextCodec::codecForName("UTF-8"));
+   m_source->setEncoding( QStringConverter::Utf8);
 }
 
 ShowFileParser::~ShowFileParser()

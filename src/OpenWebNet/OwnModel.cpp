@@ -3,6 +3,7 @@
 #include <QStringList>
 #include <QMimeData>
 #include <QDataStream>
+#include <QIODevice>
 
 #include "testableAssert.h"
 

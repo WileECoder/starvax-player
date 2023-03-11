@@ -68,7 +68,7 @@ void SequencerErrorTableWidget::mousePressEvent(QMouseEvent *event)
 
    /* emit a signal that a line has been clicked */
    bool convOk = false;
-   QTableWidgetItem * cleckedItem = item( rowAt( event->y()), 0);
+   QTableWidgetItem * cleckedItem = item( rowAt( event->position().y()), 0);
 
    /* check if double clicked on a valid event */
    if( cleckedItem != nullptr)

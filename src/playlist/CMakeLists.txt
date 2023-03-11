@@ -13,8 +13,8 @@ set(STARVAX_SOURCES
    src/playlist/IF_MediaEngineInterface.h
    src/playlist/MediaAutomation.cpp
    src/playlist/MediaAutomation.h
-   src/playlist/MediaEngineMdk.cpp
-   src/playlist/MediaEngineMdk.h
+   src/playlist/MediaEngineImp.cpp
+   src/playlist/MediaEngineImp.h
    src/playlist/MediaListModel.cpp
    src/playlist/MediaListModel.h
    src/playlist/MediaSourceFactory.cpp

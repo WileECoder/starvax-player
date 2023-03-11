@@ -16,8 +16,6 @@
 #include "LightEngine.h"
 #include "lightControlGuiFactory.h"
 
-#include "mdk/global.h"
-
 
 
 MainWindow::MainWindow( FileInport &fileInport,
@@ -395,14 +393,16 @@ void MainWindow::on_actionLocale_triggered(bool checked)
    if( checked )
    {
       // retranslate to local language
-      m_appTranslator.load( "player_it",
-                          qApp->applicationDirPath() + "/res/translations" );
+      bool res = m_appTranslator.load( "player_it",
+                                       qApp->applicationDirPath() + "/res/translations" );
+      T_ASSERT(res);
       m_applicationSettings.setLanguage( ApplicationSettings::LOCALE);
    }
    else
    {
       // retranslate to native language.
-      m_appTranslator.load( QString(), QString() );
+      bool res = m_appTranslator.load( QString(), QString() );
+      (void)res;
       m_applicationSettings.setLanguage( ApplicationSettings::NATIVE);
    }
 
@@ -653,8 +653,6 @@ void MainWindow::on_actionAbout_Qt_triggered()
 
 void MainWindow::on_actionAbout_mmedia_library_triggered()
 {
-   QMessageBox::about( this, tr("About Multimedia engine"),
-                       QString("<b><a href=\"https://github.com/wang-bin/mdk-sdk\">MTK SDK by Wang Bin</a></b>. \n"
-                               "Version %1.%2.%3").arg(MDK_MAJOR).arg(MDK_MINOR).arg(MDK_MICRO));
+
 }
 

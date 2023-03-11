@@ -2,7 +2,6 @@
 #define SEQUENCEEDITORGUI_H
 
 #include <QObject>
-class QStringList;
 
 
 /**

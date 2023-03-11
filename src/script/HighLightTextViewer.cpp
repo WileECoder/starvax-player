@@ -7,6 +7,7 @@
 #include <QTextStream>
 #include <QMenu>
 #include <QRegularExpression>
+#include <QStringList>
 
 #include "supported_files.h"
 #include "StatusDisplay.h"
@@ -128,7 +129,7 @@ void HighLightTextViewer::setCursorUnderline(bool underline)
 void HighLightTextViewer::setCursorFontFamily(QString family)
 {
    QTextCharFormat fmt;
-   fmt.setFontFamily( family);
+   fmt.setFontFamilies( QStringList(family));
    mergeFormatOnWordOrSelection(fmt);
 }
 
@@ -513,7 +514,7 @@ void HighLightTextViewer::dragEnterEvent(QDragEnterEvent * event)
 
 void HighLightTextViewer::dropEvent(QDropEvent * event)
 {
-   setTextCursor( cursorForPosition( event->pos()) );
+   setTextCursor( cursorForPosition( event->position().toPoint()) );
 
    if (event->mimeData()->hasUrls())
    {

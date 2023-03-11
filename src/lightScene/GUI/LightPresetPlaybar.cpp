@@ -14,7 +14,7 @@ LightPresetPlaybar::LightPresetPlaybar(QWidget *parent) :
    m_levelView = ui->levelWidget;
 
    setContentsMargins( 2,2,2,2);
-   layout()->setMargin(2);
+   layout()->setContentsMargins(2,2,2,2);
 
    T_ASSERT( m_levelView != nullptr);
 

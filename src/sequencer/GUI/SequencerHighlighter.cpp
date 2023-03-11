@@ -56,7 +56,7 @@ SequencerHighlighter::SequencerHighlighter( const ApplicationSettings & settings
    m_stringRegExp = new QRegularExpression( literalStringPatter);
 
    QTextCharFormat baseFormat;
-   baseFormat.setFontFamily( "courier new");
+   baseFormat.setFontFamilies( QStringList("courier new"));
    baseFormat.setFontPointSize( m_settings.getSidePanelsFontSize());
 
    m_commentFormat = new QTextCharFormat( baseFormat);
