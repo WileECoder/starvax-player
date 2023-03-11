@@ -1,33 +1,35 @@
-#ifndef MEDIAENGINE_MDK_H
-#define MEDIAENGINE_MDK_H
+#ifndef MEDIAENGINE_IMP_H
+#define MEDIAENGINE_IMP_H
 
 #include "IF_MediaEngineInterface.h"
 #include "AbstractMediaSource.h"
 
 #include <QTimer>
-#include <mdk/Player.h>
+#include <QMediaPlayer>
+
 
 class Fader;
 class FullScreenMediaWidget_IF;
 class ApplicationSettings;
 class StatusDisplay;
 class QPixmap;
+class VideoWidget;
+class StillPictureWidget;
 
 
 /** this class will aggregate specific objects for plugin used
  *  in implementation. As it is not easily testable, implementation
  *  should be simple and with as few logic as possible.
  */
-class MediaEngineMdk : public IF_MediaEngineInterface
+class MediaEngineImp : public IF_MediaEngineInterface
 {
    Q_OBJECT
 public:
-   explicit MediaEngineMdk(Fader & fader,
+   explicit MediaEngineImp(Fader & fader,
                            FullScreenMediaWidget_IF & displayWidget,
                            StatusDisplay & logger,
                            QObject *parent = nullptr);
-   ~MediaEngineMdk() override;
-
+   ~MediaEngineImp() override;
 
 public slots:
    void checkPlatform() override;
@@ -50,37 +52,29 @@ public slots:
    void setAudioOnly(bool audioOnly) override;
    void showOnTop( bool onTop) override;
    void enableFadeIn( bool enabled) override;
-   void setLoopPlayback( bool enabled) override;
+   void setLoopPlayback(bool) override;
    void enableSubtitles() override;
    void disableSubtitles() override;
 
-/* internal signals */
-signals:
-   void int_mediaStatusChanged( mdk::MediaStatus newStatus);
-   void int_playerStateChanged( mdk::State newState);
-   void int_videoAvailableChanged( bool available);
-   void int_mediaError();
 
 private slots:
-   void onTimerTick();
-   void onMediaStatusChanged( mdk::MediaStatus newStatus);
-   void onPlayerStateChanged( mdk::State newState);
-   void onDurationChanged( int64_t duration_ms);
-   void onVideoAvailable( bool available);
    void onAudioOnlyRequest();
-   void onMediaError();
+   void onErrorOccurred( QMediaPlayer::Error error, const QString &errorString);
+   void onPlaybackStateChanged( QMediaPlayer::PlaybackState newState);
+   void onMediaStatusChanged( QMediaPlayer::MediaStatus status);
+   void onDurationChanged( qint64 duration);
+   void onPositionChanged( qint64 position);
+   void onHasVideoChanged( bool videoAvailable);
+
 
 private:
-   void int_stop();
    void evaluateDisplayShow();
    void deletePixmap();
 
 private:
    Fader & m_fader;
    StatusDisplay & m_logger;
-   QTimer m_tickTimer;
    FullScreenMediaWidget_IF & m_displayWidget;
-   mdk::Player m_player;
    bool m_videoTrackAvailable;  /* current media has a video track */
    bool m_audioOnlyRequest;  /* user has requested to hide video */
    qint32 m_tickMs;
@@ -89,9 +83,11 @@ private:
    bool m_imageFileFlag;
    QPixmap * m_pixmap;
    QString m_currentMediaPath;
-   /* requested by GUI or user, not returned by player */
+   QMediaPlayer m_player;
    MediaObject::AvPlayerState m_requestedState;
+   StillPictureWidget * m_pictureWidget;
+   VideoWidget * m_videoWidget;
 };
 
 
-#endif // MEDIAENGINE_MDK_H
+#endif // MEDIAENGINE_IMP_H
